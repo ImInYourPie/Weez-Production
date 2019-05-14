@@ -1,0 +1,39 @@
+1. Acabar página de perfil:
+    1.1 Formulário de atualização de dados de utilizador
+    1.2 Atualizar foto ( url ou outro)
+    1.3 Visualização de conquistas
+    1.4 Adicionar tab de visualização de perguntas feitas pelo utilizador (!maybe)
+
+2. Notificações
+    1.1 Definir tipo de Notificações
+
+3. Melhorar Ranking/Top
+
+4. Melhorar forum
+    4.1 Acabar filtragem (barra laterar)
+    4.2 Colorar barra de pesquisa a funcionar
+    4.3 Redefinir/alterar ordenação de perguntas
+
+5. Melhorar Home Page quando usar está autenticado
+
+6. Melhorar segurança/route guarding
+
+7. Por conquistas a funcionar
+    7.1 Pensar em novas conquistas/ conquistas mais complexas
+    7.2 Progress bar em cada conquista (perfil do utilizador)
+
+8. Melhorar página de pergunta
+    8.1 Definir melhor layout
+    8.2 Deixar apenas um utilizador pontuar uma vez (pergunta ou resposta)
+    8.3 Se o utilizador não estiver autenticado, colocar no local de inserção de resposta um baner a disser para se registar
+
+9. Melhorar registo de utilizadores
+    9.1 Mais campos de formulário de inscrição (após registo redirecionar para página de perfil para finalização de dados)
+
+10. Melhorar página de nova pergunta
+    10.1 Melhorar layout
+    10.2 Melhorar autenticação de pergunta(ex: tendo em conta o titulo, pesquisar se alguma pergunta parecida já existe e mostrar ao utilizador)
+
+11. Implementar moderador/administrador
+
+12. Implementar funcção de remover perguntas/respostas(próprio utilizador)
