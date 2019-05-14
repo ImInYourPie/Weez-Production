@@ -29,10 +29,12 @@ global.usertestSchema = require('./model/schemas/userTest.schema.js');
 //Controller
 global.registerUserController = require('./controller/user.controller.js');
 
+//global.registerUserController.registerUser(req, res);
+
 
 
 // PORT
 const port = process.env.PORT;
 global.app.listen(port, function(){
-    console.log(`Listenning on https://weez-backend-dev-iminyourcode.c9users.io`)
+    console.log(`Listening on https://weez-api-iminyourcode.c9users.io`)
 });

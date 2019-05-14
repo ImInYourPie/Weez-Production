@@ -1,10 +1,17 @@
 function registerUser(req, res) {
     var newUser = {
-        email: "di@mai.com",
-        password: "123"
+        username: req.body.username,
+        email: req.body.email,
+        profilePicture: req.body.profilePicture,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword
     };
-    console.log("Register:" + newUser)
+    
+    var newUserString = JSON.stringify(newUser)
+    console.log("User:" + newUserString)
+
 }
+
 
 module.exports = {
     registerUser: registerUser

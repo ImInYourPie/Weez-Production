@@ -5,12 +5,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "cloud": "NODE_ENV=DEVELOPMENT vue-cli-service serve --open --inline --host $IP --port PORT --public $C9_HOSTNAME --config vue.config.js"
+    "cloud": "NODE_ENV=DEVELOPMENT vue-cli-service serve --open --inline --host $IP --port $PORT --public $C9_HOSTNAME --config vue.config.js"
   },
   "dependencies": {
     "buefy": "^0.7.1",
     "bulma-extensions": "^4.0.1",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
@@ -24,9 +24,6 @@
     "bulma": "^0.7.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
-    "express": "^4.16.4",
-    "mongodb": "^3.2.4",
-    "mongoose": "^5.5.8",
     "vue-cli-plugin-buefy": "^0.3.3",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.28.4"

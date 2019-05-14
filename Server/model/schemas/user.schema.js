@@ -2,6 +2,7 @@
 var Schema = global.mongoose.Schema;
 
 // Users
+//Os users assumem 2 tipos: 0 - Moderator // 1 - Student
 var userSchema = new Schema({
     name: String,
     username: {

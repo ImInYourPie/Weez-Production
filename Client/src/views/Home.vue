@@ -27,6 +27,7 @@
                 icon-pack="fas"
                 icon="user-circle"
                 placeholder="Username"
+                name="username"
                 required
               ></b-input>
             </b-field>
@@ -39,6 +40,7 @@
               <b-input
                 v-model="registerForm.email"
                 type="email"
+                name="email"
                 icon-pack="fas"
                 icon="at"
                 placeholder="Email"
@@ -51,6 +53,7 @@
               <b-input
                 v-model="registerForm.profilePicture"
                 type="url"
+                name="profilePicture"
                 icon-pack="fas"
                 icon="camera"
                 placeholder="Link de foto"
@@ -64,6 +67,7 @@
               <b-input
                 v-model="registerForm.password"
                 type="password"
+                name="password"
                 icon-pack="fas"
                 icon="key"
                 placeholder="Password"
@@ -79,6 +83,7 @@
               <b-input
                 v-model="registerForm.confirmPassword"
                 type="password"
+                name="confirmPassword"
                 icon-pack="fas"
                 icon="key"
                 placeholder="Confirmar Password"

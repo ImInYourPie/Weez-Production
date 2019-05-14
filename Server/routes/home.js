@@ -9,11 +9,16 @@ global.app.get('/registerUser', function(req, res) {
 
 // post app to /
 global.app.post('/registerUser', function(req, res) {
-    console.log("POST")
-    res.send("POST");
-    global.registerUserController.registerUser(req, res);
-    res.json(global.registerUserController.registerUser)
-    console.log(global.registerUserController.registerUser)
+    // console.log("POST")
+    // res.send("POST");
+    
+    // global.registerUserController.registerUser(req, res);
+    // //Registo de users AQUI
+    
+    // console.log(JSON.stringify(global.registerUserController.registerUser.newUserString))
+    
+    
+    
 });
 
 

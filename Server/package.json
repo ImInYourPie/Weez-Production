@@ -1,0 +1,26 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "Backend development for Weez App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImInYourPie/Weez-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImInYourPie/Weez-Backend/issues"
+  },
+  "homepage": "https://github.com/ImInYourPie/Weez-Backend#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.4",
+    "passport": "^0.4.0"
+  }
+}
