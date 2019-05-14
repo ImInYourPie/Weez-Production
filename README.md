@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <img src="src/assets/Brand.png" alt="weez">
+  <img src="Client/src/assets/Brand.png" alt="weez">
   <br>
 </p>
 
