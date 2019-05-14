@@ -76,14 +76,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 * [Buefy](https://buefy.github.io/) - Vue.js Framework
 * [Bulma](https://bulma.io/) - CSS Framework based on Flexbox
 
-## Author
+## Authors
+* **Diogo Fernandes - diogo.fernandes98@hotmail.com**
+* **Matilde Valente - matildevalente@gmail.com**
 * **Miguel Melo - d.miguel.melo@gmail.com**
-
-
-## Acknowledgments
-
-* My huge thank you to the love of my life **Sara Monteiro** for being there for me and for all the support she gave me.
-* Hat tip to some of my friends and colleagues who helped me with my questions and problems, we all work together some way!
-* Shout out to my friend **Rodrigo Queirós**.
-* Many thanks to my professor **Ricardo Queirós** for the help and knowledge that he gave me.
-* Last but not least, thank you Stack Overflow, you guys know why.
