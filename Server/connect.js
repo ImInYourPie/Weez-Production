@@ -1,14 +1,4 @@
-//Server Connection
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require("mongoose");
 
-const uri = "mongodb+srv://admin:<admin123>@weez-wf5te.mongodb.net/test";
-
-MongoClient.connect(uri, function(err, db) {
-    db.close();
-});
-
-
-
-
-
+mongoose.connect("mongodb+srv://admin:" + process.env.DB_PASS +"@weez-wf5te.mongodb.net/test?retryWrites=true");
 

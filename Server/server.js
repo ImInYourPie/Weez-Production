@@ -1,40 +1,60 @@
-var express = require('express');
+const express = require('express');
 const path = require('path');
-global.bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const expressValidator = require("express-validator");
+const flash = require('connect-flash');
+const session = require('express-session');
 const passport = require("passport");
-var mongodb = require('mongodb');
-global.mongoose = require('mongoose');
+const mongodb = require('mongodb');
+const mongoose = require('mongoose');
+const config = require("./config/database");
 
-global.app = express();
+mongoose.connect(config.database);
+
+let db = mongoose.connection;
+
+db.once("open", () => {
+    console.log("Connected to MongoDB Atlas");
+});
+
+db.on("error", (err) => {
+    console.log(err);
+});
+
+const app = express();
 
 //Body-parser
-global.app.use(global.bodyParser.json(), global.bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //Routes
-var home = require('./routes/home.js');
-var ask = require('./routes/ask.js');
-var questionPage = require('./routes/question-page.js');
-var forum = require('./routes/forum.js');
-var ranking = require('./routes/ranking.js');
-var profile = require('./routes/profile.js');
+const home = require('./routes/home.js');
+const ask = require('./routes/ask.js');
+const questionPage = require('./routes/question-page.js');
+const forum = require('./routes/forum.js');
+const ranking = require('./routes/ranking.js');
+const profile = require('./routes/profile.js');
 
 
-// var connect = require('./connect.js')
 
 //Schemas
-global.usertestSchema = require('./model/schemas/userTest.schema.js');
+// usertestSchema = require('./model/schemas/userTest.schema.js');
 
 //Controller
-global.registerUserController = require('./controller/user.controller.js');
+// registerUserController = require('./controller/user.controller.js');
 
 //global.registerUserController.registerUser(req, res);
 
 
 
+// Routing
+app.use("/", home);
+app.use("/forum", forum)
+
+
 // PORT
 const port = process.env.PORT;
-global.app.listen(port, function(){
-    console.log(`Listening on https://weez-api-iminyourcode.c9users.io`)
+app.listen(port, () => {
+    console.log(`App listening on port `, port)
 });
