@@ -1,10 +1,12 @@
+const mongoose = require("mongoose");
+// const trophySchema = require("./trophy.schema.js");
+
 // Schema variable
-var Schema = global.mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Users
 //Os users assumem 2 tipos: 0 - Moderator // 1 - Student
-var userSchema = new Schema({
-    name: String,
+const userSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -19,27 +21,15 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
-    userType: [{
-        type: 0,
-        firstName: String(),
-        lastName: String(),
-        profilePic: String()
-    },
-    {
-        type: 1,
-        firstName: String(),
-        lastName: String(),
-        profilePic: String(),
-        courseId: Number(),
-        upVotes: Number(),
-        downVotes: Number(),
-        experience: Number(),
-        trophies: String()
-    }]
+    profilePic: String,
+    upVotes: Number,
+    downVotes: Number,
+    experience: Number,
+    // trophies: [trophySchema]
 });
 
 // Create model
-var User = global.mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 // Export model
 module.exports = User;

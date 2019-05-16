@@ -8,6 +8,7 @@ const passport = require("passport");
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const config = require("./config/database");
+require('dotenv').config();
 
 mongoose.connect(config.database);
 
@@ -50,7 +51,7 @@ const profile = require('./routes/profile.js');
 
 // Routing
 app.use("/", home);
-app.use("/forum", forum)
+// app.use("/forum", forum)
 
 
 // PORT
