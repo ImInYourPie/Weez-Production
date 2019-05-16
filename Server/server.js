@@ -7,10 +7,11 @@ const session = require('express-session');
 const passport = require("passport");
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
+const cors = require("cors");
 const config = require("./config/database");
 require('dotenv').config();
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
@@ -28,9 +29,17 @@ const app = express();
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors());
+app.use(expressValidator());
+app.use(flash());
+app.use(session({ cookie: { maxAge: 60000 }, 
+    secret: 'woot',
+    resave: false, 
+    saveUninitialized: false}));
 
 //Routes
-const home = require('./routes/home.js');
+const home = require("./routes/home");
+app.use("/", home);
 const ask = require('./routes/ask.js');
 const questionPage = require('./routes/question-page.js');
 const forum = require('./routes/forum.js');
@@ -50,7 +59,7 @@ const profile = require('./routes/profile.js');
 
 
 // Routing
-app.use("/", home);
+
 // app.use("/forum", forum)
 
 

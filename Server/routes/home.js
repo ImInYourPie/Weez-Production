@@ -4,19 +4,20 @@ const bcrypt = require("bcrypt");
 const expressValidator = require("express-validator")
 const router = express.Router();
 const passport = require("passport");
-const registerUser = require("../controller/user.controller.js");
+const UserController = require("../controller/user.controller");
+let User = require("../model/schemas/user.schema.js");
 
 
 
 // post app to /
 router.get('/', (req, res) => {
-    console.log("GET");
-    res.send("GET");
-    // console.log(global.registerUserController.registerUser)
+    User.find().lean().exec(function (err, users) {
+        return res.end(JSON.stringify(users));
+    })
 });
 
 // post app to /
-router.post('/register', registerUser);
+router.post('/register', UserController.registerUser);
 
 
 module.exports = router;
