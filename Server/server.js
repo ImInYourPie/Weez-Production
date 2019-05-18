@@ -40,10 +40,8 @@ app.use(session({ cookie: { maxAge: 60000 },
 
 //Routes
 const home = require("./routes/home.js");
-app.use("/", home);
 const ask = require('./routes/ask.js');
 const questionPage = require('./routes/question-page.js');
-app.use("/questionPage", questionPage);
 const forum = require('./routes/forum.js');
 const ranking = require('./routes/ranking.js');
 const profile = require('./routes/profile.js');
@@ -61,7 +59,8 @@ const profile = require('./routes/profile.js');
 
 
 // Routing
-
+app.use("/", home);
+app.use("/questionPage", questionPage);
 // app.use("/forum", forum)
 
 

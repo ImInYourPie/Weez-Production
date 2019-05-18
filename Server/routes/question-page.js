@@ -8,7 +8,7 @@ const questionController = require("../controller/question.controller");
 // let Question = require("../model/schemas/question.schema.js");
 
 
-router.get('/createQuestion', (req, res) => {
+router.get('/', (req, res) => {
     res.send("GET")
     console.log(questionController.createQuestion)
 });

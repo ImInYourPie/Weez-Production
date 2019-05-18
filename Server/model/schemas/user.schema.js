@@ -22,10 +22,22 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    profilePic: String,
-    upVotes: Number,
-    downVotes: Number,
-    experience: Number,
+    profilePic: {
+        type: String,
+        default: "http://i.imgur.com/AItCxSs.jpg"
+    },
+    upVotes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: {
+        type: Number,
+        default: 0
+    },
+    experience: {
+        type: Number,
+        default: 0
+    }
     // trophies: [trophySchema]
 });
 
