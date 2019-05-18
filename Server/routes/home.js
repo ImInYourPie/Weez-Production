@@ -8,7 +8,6 @@ const UserController = require("../controller/user.controller");
 let User = require("../model/schemas/user.schema.js");
 
 
-
 // post app to /
 router.get('/', (req, res) => {
     User.find().lean().exec(function (err, users) {

@@ -32,16 +32,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(expressValidator());
 app.use(flash());
+app.use(cors());
 app.use(session({ cookie: { maxAge: 60000 }, 
     secret: 'woot',
     resave: false, 
     saveUninitialized: false}));
 
 //Routes
-const home = require("./routes/home");
+const home = require("./routes/home.js");
 app.use("/", home);
 const ask = require('./routes/ask.js');
 const questionPage = require('./routes/question-page.js');
+app.use("/questionPage", questionPage);
 const forum = require('./routes/forum.js');
 const ranking = require('./routes/ranking.js');
 const profile = require('./routes/profile.js');
@@ -53,8 +55,8 @@ const profile = require('./routes/profile.js');
 
 //Controller
 // registerUserController = require('./controller/user.controller.js');
+// global.questionController = require("./controller/question.controller.js");
 
-//global.registerUserController.registerUser(req, res);
 
 
 
@@ -66,5 +68,5 @@ const profile = require('./routes/profile.js');
 // PORT
 const port = process.env.PORT;
 app.listen(port, () => {
-    console.log(`App listening on port `, port)
+    console.log(`https://weez-api-iminyourcode.c9users.io/`)
 });
