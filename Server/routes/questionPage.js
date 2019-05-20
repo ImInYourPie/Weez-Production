@@ -4,13 +4,13 @@ const bcrypt = require("bcrypt");
 const expressValidator = require("express-validator")
 const router = express.Router();
 const passport = require("passport");
-let Comment = require('../model/schemas/comment.schema.js');
-const commentController = require("../controller/comment.controller");
-console.log("Comment")
-router.get('/', (req, res) =>{
+let Question = require('../model/schemas/question.schema.js');
+const questionController = require("../controller/question.controller.js");
+
+router.get('/createQuestion', (req, res) =>{
     res.send("GET")
 })
 
-router.post('/createComment', commentController.createComment);
+router.post('/createQuestion', questionController.createQuestion);
 
 module.exports = router;

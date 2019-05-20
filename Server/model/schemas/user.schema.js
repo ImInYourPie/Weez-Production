@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongooseUniqueValidator = require("mongoose-unique-validator");
 // const trophySchema = require("./trophy.schema.js");
 
 // Schema variable
@@ -7,7 +8,7 @@ const Schema = mongoose.Schema;
 // Users
 //Os users assumem 2 tipos: 0 - Moderator // 1 - Student
 const userSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     username: {
         type: String,
         unique: true,
@@ -37,9 +38,16 @@ const userSchema = new Schema({
     experience: {
         type: Number,
         default: 0
+    },
+    userType: {
+        type: String,
+        default: "student",
+        required: true
     }
     // trophies: [trophySchema]
 });
+
+userSchema.plugin(mongooseUniqueValidator);
 
 // Create model
 const User = mongoose.model('User', userSchema);

@@ -1,27 +1,43 @@
-// let Question = require('../model/schemas/question.schema.js');
+let Question = require('../model/schemas/question.schema.js');
 
 class QuestionController {
-    
+
     static createQuestion(req, res) {
         //Get inputs
         const title = req.body.title;
-        const desc = req.body.desc;
-        const tag = req.body.tag;
+        const description = req.body.description;
+        const tags = req.body.tags;
 
         //Validate inputs
-        req.checkBody("title", "É necessário inserir o título da pergunta.").isEmpty();
-        req.checkBody("desc", "É necessário inserir a descrição da pergunta.").isEmpty();
-        req.checkBody("tag", "É necessário inserir pelo menos uma tag.").isEmpty();
+        req.checkBody("title", "É necessário inserir o título da pergunta.").notEmpty();
+        req.checkBody("description", "É necessário inserir a descrição da pergunta.").notEmpty();
+        req.checkBody("tags", "É necessário inserir pelo menos uma tag.").notEmpty();
 
-        // If valide create new User
-        var newQuestion = {
-            title: title,
-            desc: desc,
-            tag: tag
-        };
-        var newQuestionString = JSON.stringify(newQuestion);
-        console.log("Question:" + newQuestionString);
 
+        let errors = req.validationErrors();
+
+        if (errors) {
+            res.status(500).send(errors);
+        }
+        else {
+            // If valide create new Question
+            var newQuestion = new Question({
+                title: title,
+                description: description,
+                tags: tags
+            });
+
+            newQuestion.save((err) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                else {
+                    req.flash("success", "Pergunta criada!");
+                    res.status(200).send();
+                }
+            })
+        }
     }
 }
 
