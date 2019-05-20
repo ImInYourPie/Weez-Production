@@ -6,217 +6,25 @@ Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
   state: {
+
     url: "http://localhost:3000/",
+
     error: false,
+
     token: null,
+
     // USERS ARRAY
     users: [],
+
     // QUESTIONS ARRAY 
-    questions: [
-      {
-        id: 1,
-        userId: 1,
-        title: "O professor Quéiros fez-nos usar Vue.js e eu não gosto!",
-        description: "O vue é um cadito feio, não? E logo verde ainda por cima, que cor feia! O que são views afinal, e aquela cena do vuex? O Evan You devia tar com sono quando criou isto.",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 0,
-        downvotes: 200,
-        date: "12-12-2018",
-        status: "open",
-        answers: [{
-          id: 30,
-          userId: 5,
-          comment: "Vou descobrir onde vives e vais ver! Vue is love!",
-          upvotes: 10,
-          downvotes: 0,
-          date: "20-01-2019"
-        }]
-      },
-      {
-        id: 4,
-        userId: 3,
-        title: "Não sei escrever. Ajuda por favor!",
-        description: "Ajuda por favor sou analfabeto!",
-        tags: ["Português"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 0,
-        downvotes: 5,
-        date: "12-12-2018",
-        status: "open",
-        answers: [{
-          id: 12,
-          userId: 2,
-          comment: "Mas... acabaste de escrever...",
-          upvotes: 0,
-          downvotes: 0,
-          date: "20-01-2019"
-        }]
-      },
-      {
-        id: 5,
-        userId: 1,
-        title: "Olá sou uma pergunta!",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 6,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Bases de Dados"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 7,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 8,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Design"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 9,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 10,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 11,
-        userId: 1,
-        title: "Quando é para entregar o trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 20,
-        downvotes: 3,
-        date: "12-12-2018",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 2,
-        userId: 1,
-        title: "Quando é para entregar o outro trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript"],
-        courseId: 1,
-        classId: 1,
-        views: 0,
-        upvotes: 2,
-        downvotes: 0,
-        date: "10-01-2019",
-        status: "open",
-        answers: []
-      },
-      {
-        id: 3,
-        userId: 2,
-        title: "Quando é para entregar o outro que é o mesmo trabalho de PW1?",
-        description: "Gostava de saber quando é que temos de entregar o trabalho de PW1 porque sou meio nabo e não me lembro!",
-        tags: ["Javascript", "CSS"],
-        courseId: 1,
-        classId: 1,
-        views: 6,
-        upvotes: 3,
-        downvotes: 12,
-        date: "20-11-2018",
-        status: "closed",
-        answers: [
-          {
-            id: 1,
-            userId: 1,
-            comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis perspiciatis eos temporibus ducimus sint nam, eum aperiam a similique laborum earum quae ipsa! Itaque cumque harum repellendus iste, ipsa quas..",
-            upvotes: 2,
-            downvotes: 1,
-            date: "20-01-2019"
-          },
-          {
-            id: 2,
-            userId: 2,
-            comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis perspiciatis eos temporibus ducimus sint nam, eum aperiam a similique laborum earum quae ipsa! Itaque cumque harum repellendus iste, ipsa quas.",
-            upvotes: 5,
-            downvotes: 0,
-            date: "20-01-2019"
-          },
-        ]
-      },
-    ],
+    questions: [],
+
     // TAGS ARRAY
     tags: [],
-  
-
 
     // NOTIFICATIONS ARRAY
     notifications: [],
+
   },
 
   mutations: {
@@ -224,6 +32,10 @@ export default new Vuex.Store({
 
     SET_USERS (state, users) {
       state.users = users;
+    },
+
+    SET_QUESTIONS(state, questions){
+      state.questions = questions;
     },
 
 
@@ -290,6 +102,20 @@ export default new Vuex.Store({
           console.log(data.data)
           let users = data.data
           commit('SET_USERS', users)
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err)
+        })
+    },
+
+    getQuestions ({ commit, state }) {
+      axios.get(state.url + "forum")
+        .then(data => {
+          // eslint-disable-next-line no-console
+          console.log(data.data)
+          let questions = data.data
+          commit('SET_QUESTIONS', questions)
         })
         .catch(err => {
           // eslint-disable-next-line no-console

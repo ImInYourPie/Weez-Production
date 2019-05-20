@@ -6,12 +6,12 @@ class QuestionController {
         //Get inputs
         const title = req.body.title;
         const description = req.body.description;
-        const tags = req.body.tags;
+        // const tags = req.body.tags;
 
         //Validate inputs
         req.checkBody("title", "É necessário inserir o título da pergunta.").notEmpty();
         req.checkBody("description", "É necessário inserir a descrição da pergunta.").notEmpty();
-        req.checkBody("tags", "É necessário inserir pelo menos uma tag.").notEmpty();
+        // req.checkBody("tags", "É necessário inserir pelo menos uma tag.").notEmpty();
 
 
         let errors = req.validationErrors();
@@ -24,7 +24,7 @@ class QuestionController {
             var newQuestion = new Question({
                 title: title,
                 description: description,
-                tags: tags
+                // tags: tags
             });
 
             newQuestion.save((err) => {
@@ -38,6 +38,13 @@ class QuestionController {
                 }
             })
         }
+    };
+
+    static getQuestions(req, res){
+       // Get data
+       Question.find().exec((err, questions) => {
+        res.status(200).send(questions);
+    })
     }
 }
 

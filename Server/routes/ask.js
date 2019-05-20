@@ -1,16 +1,13 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const expressValidator = require("express-validator")
 const router = express.Router();
-const passport = require("passport");
-let Comment = require('../model/schemas/comment.schema.js');
-const commentController = require("../controller/comment.controller");
-console.log("Comment")
+const questionController = require("../controller/question.controller");
+
+
+
 router.get('/', (req, res) =>{
-    res.send("GET")
+    
 })
 
-router.post('/createComment', commentController.createComment);
+router.post('/create-question', questionController.createQuestion);
 
 module.exports = router;

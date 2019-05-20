@@ -62,7 +62,7 @@ const profile = require('./routes/profile.js');
 app.use("/", home);
 app.use("/questionPage", questionPage);
 app.use("/ask", ask);
-// app.use("/forum", forum)
+app.use("/forum", forum)
 
 
 // PORT
