@@ -1,120 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
-Vue.use(Vuex)
+Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
   state: {
+    url: "http://localhost:3000/",
     error: false,
     token: null,
     // USERS ARRAY
-    users: [
-      {
-        id: 1,
-        userType: "student",
-        fullname: "Miguel Melo",
-        username: "ImInYourPie",
-        email: "1@email.com",
-        password: "12345",
-        registerDate: "01-12-2018",
-        courseId: 1,
-        profilePicture: "https://scontent.fopo3-2.fna.fbcdn.net/v/t1.0-9/46482080_2058551337569721_3549961134964473856_n.jpg?_nc_cat=102&_nc_ht=scontent.fopo3-2.fna&oh=df26edd7a35fd2cc7c1dd6b2bc2d67cb&oe=5D005321",
-        allUpvotes: 2,
-        allDownvotes: 5,
-        allQuestions: 2,
-        allAnswers: 0,
-        experience: 100,
-        trophies: {
-          bronze: [1, 2, 3, 4],
-          silver: [1, 2, 3],
-          gold: [1, 2]
-        }
-      },
-      {
-        id: 2,
-        userType: "student",
-        fullname: "Gonçalo Santos",
-        username: "GG_EZ",
-        email: "2@email.com",
-        password: "12345",
-        registerDate: "01-12-2018",
-        courseId: 1,
-        profilePicture: "https://scontent.fopo3-1.fna.fbcdn.net/v/t1.0-9/49518556_1201985673303930_7283775002233536512_n.jpg?_nc_cat=106&_nc_ht=scontent.fopo3-1.fna&oh=7ca4395a0971f27c8d8f96a7ebc8c868&oe=5CF9F9C1",
-        allUpvotes: 55,
-        allDownvotes: 45,
-        allQuestions: 2,
-        allAnswers: 0,
-        experience: 100,
-        trophies: {
-          bronze: [1, 2, 3],
-          silver: [1, 2],
-          gold: [1]
-        }
-      },
-      {
-        id: 3,
-        userType: "student",
-        fullname: "Ricardo Cunha",
-        username: "Esquilo",
-        email: "3@email.com",
-        password: "12345",
-        registerDate: "01-12-2018",
-        courseId: 1,
-        profilePicture: "https://scontent.fopo3-2.fna.fbcdn.net/v/t1.0-9/15894402_720400668114489_3679565347868962779_n.jpg?_nc_cat=102&_nc_ht=scontent.fopo3-2.fna&oh=ab609010015e40bcff846c8a16f1a44f&oe=5CC2AC98",
-        allUpvotes: 220,
-        allDownvotes: 2,
-        allQuestions: 2,
-        allAnswers: 0,
-        experience: 100,
-        trophies: {
-          bronze: [1, 2, 3],
-          silver: [1, 2],
-          gold: [1]
-        }
-      },
-      {
-        id: 4,
-        userType: "student",
-        fullname: "Inés Oliveira",
-        username: "InesSS",
-        email: "4@email.com",
-        password: "12345",
-        registerDate: "01-12-2018",
-        courseId: 1,
-        profilePicture: "https://scontent.fopo3-2.fna.fbcdn.net/v/t1.0-9/40662268_2043367609060660_1033153051612938240_n.jpg?_nc_cat=102&_nc_ht=scontent.fopo3-2.fna&oh=22269a2da92baba0ac16d23065ae65d0&oe=5CC6A2D7",
-        allUpvotes: 100,
-        allDownvotes: 22,
-        allQuestions: 2,
-        allAnswers: 0,
-        experience: 100,
-        trophies: {
-          bronze: [1, 2, 3],
-          silver: [1, 2],
-          gold: [1]
-        }
-      },
-      {
-        id: 5,
-        userType: "student",
-        fullname: "Sara Monteiro",
-        username: "Sasa",
-        email: "5@email.com",
-        password: "12345",
-        registerDate: "01-12-2018",
-        courseId: 1,
-        profilePicture: "https://scontent.fopo3-2.fna.fbcdn.net/v/t1.0-9/11921787_1173697175979148_2020454571316390451_n.jpg?_nc_cat=100&_nc_ht=scontent.fopo3-2.fna&oh=bfdf4d1c94424a81fe1638e09848a07c&oe=5CB46E5D",
-        allUpvotes: 334,
-        allDownvotes: 22,
-        allQuestions: 2,
-        allAnswers: 0,
-        experience: 100,
-        trophies: {
-          bronze: [1, 2, 3],
-          silver: [1, 2],
-          gold: [1]
-        }
-      },
-    ],
+    users: [],
     // QUESTIONS ARRAY 
     questions: [
       {
@@ -315,104 +211,22 @@ export default new Vuex.Store({
       },
     ],
     // TAGS ARRAY
-    tags: ["Javascript", "HTML", "CSS", "Bases de Dados", "Design", "POO", "PW1", "Português"],
-
-
-    // COURSES ARRAY
-    courses: [
-      {
-        id: 1,
-        name: "Tecnologias e Sistemas de Informação para a Web",
-        abrebiation: "TSIW",
-      }
-    ],
-
-    // CLASSES ARRAY
-    classes: [
-      {
-        id: 1,
-        courseId: 1,
-        name: "Programação para a Web I",
-        abrebiation: "PW1",
-        year: 2
-      },
-      {
-        id: 2,
-        courseId: 1,
-        name: "Progamação Orientada a Objectos",
-        abrebiation: "POO",
-        year: 1
-      },
-      {
-        id: 3,
-        courseId: 1,
-        name: "Bases de Dados",
-        abrebiation: "BD",
-        year: 2
-      }
-    ],
-
-
-    bronze: [
-      {
-        id: 1,
-        neededQuestions: 1,
-        description: "Primeira pergunta!"
-      },
-      {
-        id: 2,
-        neededQuestions: 5,
-        description: "Cinco perguntas!"
-      },
-      {
-        id: 3,
-        neededQuestions: 10,
-        description: "Dez perguntas!"
-      },
-      {
-        id: 4,
-        neededQuestions: 20,
-        description: "Vinte perguntas!"
-      },
-    ],
-    silver: [
-      {
-        id: 1,
-        neededAnswers: 1,
-        description: "Primeira resposta!"
-      },
-      {
-        id: 2,
-        neededAnswers: 5,
-        description: "Cinco respostas!"
-      },
-      {
-        id: 3,
-        neededAnswers: 10,
-        description: "Dez respostas!"
-      },
-    ],
-    gold: [
-      {
-        id: 1,
-        neededUpvotes: 1,
-        description: "Primeiro upvote!"
-      },
-      {
-        id: 2,
-        neededUpvotes: 5,
-        description: "Cinco upvotes!"
-      },
-    ],
+    tags: [],
+  
 
 
     // NOTIFICATIONS ARRAY
-    notifications: [
-
-    ]
+    notifications: [],
   },
 
   mutations: {
+
+
+    SET_USERS (state, users) {
+      state.users = users;
+    },
+
+
     createUser(state, payload) {
       state.users.push(payload);
     },
@@ -457,16 +271,34 @@ export default new Vuex.Store({
       }
     },
     // LOGIN USER WHEN ACCOUNT IS CREATED
-    loginOnCreate(state, payload){
-        for (let i = 0; i < state.users.length; i++) {
-          if (payload == state.users[i].email) {
-            state.token = state.users[i]
-            localStorage.token = JSON.stringify(state.token);
-          }
+    loginOnCreate(state, payload) {
+      for (let i = 0; i < state.users.length; i++) {
+        if (payload == state.users[i].email) {
+          state.token = state.users[i]
+          localStorage.token = JSON.stringify(state.token);
         }
+      }
     }
   },
   actions: {
+
+
+    getUsers ({ commit, state }) {
+      axios.get(state.url)
+        .then(data => {
+          // eslint-disable-next-line no-console
+          console.log(data.data)
+          let users = data.data
+          commit('SET_USERS', users)
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err)
+        })
+    },
+
+
+
     createUser({ commit }, payload) {
       let newUser = {
         id: payload.id,
@@ -560,7 +392,7 @@ export default new Vuex.Store({
       today = dd + "-" + mm + "-" + yyyy;
       return today;
     },
-    
+
     getQuestionById: state => id => {
       return state.questions.find(question => question.id === id);
     },

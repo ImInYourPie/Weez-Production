@@ -149,10 +149,13 @@
       <br>
     </div>
     <div class="container">
-      <br>
+      <!-- <br>
       <p class="title is-2">The Podium</p>
       <Top/>
-      <br>
+      <br> -->
+      <div>
+        <h1 v-for="user in users" :key="user._id">{{ user.username }}</h1>
+      </div>
     </div>
     <Footer/>
   </div>
@@ -163,6 +166,7 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Top from "@/components/Top.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "home",
@@ -173,7 +177,6 @@ export default {
   },
   data: function() {
     return {
-      users: this.$store.state.users,
       registerForm: {
         username: "",
         userType: "",
@@ -195,10 +198,13 @@ export default {
       }
     };
   },
-  beforeMount() {
-    this.getUser();
+   mounted() {
+    this.$store.dispatch("getUsers");
   },
   methods: {
+
+
+
     login() {
       let user = {
         email: this.form.email,
@@ -282,6 +288,10 @@ export default {
     }
   },
   computed: {
+
+    ...mapState(["users"]),
+
+
     token() {
       return this.$store.getters.token;
     },
