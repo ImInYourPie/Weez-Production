@@ -59,10 +59,10 @@
                 <section class="modal-card-body">
                   <b-field label="Email" :type="{ 'is-danger': hasError }">
                     <b-input
-                      v-model="form.email"
-                      type="email"
+                      v-model="form.username"
+                      type="text"
                       icon-pack="fas"
-                      icon="at"
+                      icon="user"
                       placeholder
                       required
                     ></b-input>
@@ -83,7 +83,7 @@
                     ></b-input>
                   </b-field>
 
-                  <b-checkbox id="rememberCheck">Lembrar-me</b-checkbox>
+                  <!-- <b-checkbox id="rememberCheck">Lembrar-me</b-checkbox> -->
                 </section>
                 <footer class="modal-card-foot">
                   <button @click="login()" class="button">Login</button>
@@ -99,38 +99,45 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: function() {
     return {
-      users: this.$store.state.users,
       isOpen: false,
       form: {
-        email: "",
+        username: "",
         password: ""
       },
-      hasError: false,
-      currentUser: {
-        id: null,
-        username: "",
-        fullname: "",
-        profilePic: ""
-      }
+      hasError: false
+      // currentUser: {
+      //   id: null,
+      //   username: "",
+      //   fullname: "",
+      //   profilePic: ""
+      // }
     };
   },
   methods: {
     // LOGIN ON VALIDE INPUTS
-    login() {
-      let user = {
-        email: this.form.email,
-        password: this.form.password
-      };
+    // login() {
+    //   let user = {
+    //     email: this.form.email,
+    //     password: this.form.password
+    //   };
 
-      let loginVerified = this.$store.getters.login(user);
-      if (loginVerified) {
-        this.$router.go("/");
-      } else {
-        this.hasError = true;
-      }
+    //   let loginVerified = this.$store.getters.login(user);
+    //   if (loginVerified) {
+    //     this.$router.go("/");
+    //   } else {
+    //     this.hasError = true;
+    //   }
+    // },
+    login() {
+      axios.post("http://localhost:3000/login", {
+        username: this.form.username,
+        password: this.form.password
+      });
     },
     // DOES LOGOUT ON CLICK
     logout() {

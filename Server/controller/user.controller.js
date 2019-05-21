@@ -69,9 +69,10 @@ class UserController {
     
     
     static loginUser(req, res, next){
+        console.log(req.body)
         passport.authenticate("local", {
             successRedirect: "/",
-            failureRedirect: "/",
+            failureRedirect: "/forum",
             failureFlash: true
         })(req, res, next);
     }
@@ -79,7 +80,7 @@ class UserController {
     
     static logoutUser(req, res, next){
         req.logout();
-        res.status(200).rediretc("/");
+        res.status(200).redirect("/");
     }
     
 }

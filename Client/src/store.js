@@ -94,6 +94,7 @@ export default new Vuex.Store({
   },
   actions: {
 
+    
 
     getUsers ({ commit, state }) {
       axios.get(state.url)

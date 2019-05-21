@@ -7,15 +7,12 @@
 <script>
 export default {
   data: function() {
-    return {
-    };
+    return {};
   },
-  beforeMount() {
-    if (localStorage.token) {
-      this.$store.commit("fillCurrentUser", JSON.parse(localStorage.token))
-      }
-    }
-  };
+  async mounted() {
+    
+  }
+};
 </script>
 
 
@@ -131,70 +128,70 @@ body {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-};
+}
 
-#pictureDiv{
+#pictureDiv {
   background-color: whitesmoke;
-};
-#profilePicture{
+}
+#profilePicture {
   height: 368px;
   width: 368px;
   border-radius: 20%;
-};
+}
 
 .menu {
   height: 100%;
 }
 
-#menuCol{
+#menuCol {
   border-right: 1px solid $primary;
   background-color: whitesmoke;
 }
 
-.successTrophy{
+.successTrophy {
   background-color: whitesmoke;
   border-radius: 10px;
-};
-#previewQeestion{
+}
+#previewQeestion {
   background-color: whitesmoke;
 }
 
-.nonSuccessTrophy{
+.nonSuccessTrophy {
   background-color: whitesmoke;
   border-radius: 10px;
-};
+}
 
-.champPicture{
+.champPicture {
   border-radius: 20%;
   height: 368px;
   width: 368px;
-};
-.champTile{
+}
+.champTile {
   background-color: whitesmoke !important;
-};
-.runnersTile{
+}
+.runnersTile {
   background-color: whitesmoke !important;
-};
+}
 
-.runnersPic{
+.runnersPic {
   height: 128px;
   width: 128px;
   border-radius: 20%;
-};
+}
 
-#questionContainer{
+#questionContainer {
   background-color: whitesmoke;
   padding: 10px;
   border-radius: 10px;
-};
+}
 
-#mediaUser{
+#mediaUser {
   background-color: $white;
   padding: 10px;
   border-radius: 10px;
-};
+}
 
-.container{
+.container {
   padding: 10px;
 }
 
@@ -203,8 +200,6 @@ body {
   margin-bottom: 5px;
   border-radius: 5px;
 }
-
-
 
 // Import Bulma and Buefy styles
 @import "~bulma";

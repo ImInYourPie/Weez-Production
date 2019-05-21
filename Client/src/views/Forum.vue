@@ -186,7 +186,7 @@ export default {
       search: "",
       pageNumber: 1,
       current: 1,
-      perPage: 2
+      perPage: 5
     };
   },
 

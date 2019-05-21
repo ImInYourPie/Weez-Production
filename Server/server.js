@@ -38,7 +38,7 @@ app.use(session({ cookie: { maxAge: 60000 },
     resave: false, 
     saveUninitialized: false}));
     
-require("./config.passport.js")(passport);
+require("./config/passport")(passport);
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
