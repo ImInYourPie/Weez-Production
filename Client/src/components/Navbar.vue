@@ -137,7 +137,7 @@ export default {
       axios.post("http://localhost:3000/login", {
         username: this.form.username,
         password: this.form.password
-      });
+      }).then(axios.get)
     },
     // DOES LOGOUT ON CLICK
     logout() {

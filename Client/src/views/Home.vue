@@ -49,20 +49,6 @@
             </b-field>
           </div>
           <div class="column is-10">
-            <b-field>
-              <b-input
-                v-model="registerForm.profilePicture"
-                type="url"
-                name="profilePicture"
-                icon-pack="fas"
-                icon="camera"
-                placeholder="Link de foto"
-                required
-              ></b-input>
-            </b-field>
-          </div>
-
-          <div class="column is-10">
             <b-field :type="{ 'is-danger': hasPasswordError }">
               <b-input
                 v-model="registerForm.password"
@@ -81,7 +67,7 @@
               :message="{ 'As passwords não coincidem!': hasPasswordError }"
             >
               <b-input
-                v-model="registerForm.confirmPassword"
+                v-model="registerForm.passwordConfirm"
                 type="password"
                 name="confirmPassword"
                 icon-pack="fas"
@@ -93,7 +79,7 @@
           </div>
 
           <div class="column is-4 is-offset-6">
-            <button class="button is-primary" type="submit" style="width: 100%">Registar</button>
+            <button class="button is-primary" @click="registerUser" style="width: 100%">Registar</button>
           </div>
         </form>
       </div>
@@ -165,37 +151,34 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import Top from "@/components/Top.vue";
+// import Top from "@/components/Top.vue";
+import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
   name: "home",
   components: {
     Navbar,
-    Top,
+    // Top,
     Footer
   },
   data: function() {
     return {
       registerForm: {
         username: "",
-        userType: "",
-        fullname: "",
         email: "",
         password: "",
-        confirmPassword: "",
-        profilePicture: "",
-        institutionId: null
+        passwordConfirm: "",
       },
       hasEmailError: false,
       hasPasswordError: false,
       hasUsernameError: false,
-      currentUser: {
-        id: null,
-        username: "",
-        fullname: "",
-        profilePic: ""
-      }
+      // currentUser: {
+      //   id: null,
+      //   username: "",
+      //   fullname: "",
+      //   profilePic: ""
+      // }
     };
   },
    mounted() {
@@ -204,57 +187,61 @@ export default {
 
   methods: {
 
-
-
-    login() {
-      let user = {
-        email: this.form.email,
-        password: this.form.password
-      };
-
-      let loginVerified = this.$store.getters.login(user);
-      if (loginVerified) {
-        this.$router.push("/");
-      } else {
-        this.hasError = true;
-      }
-    },
-
-    getUser() {
-      for (let i = 0; i < this.users.length; i++) {
-        if (this.users[i].id == this.token) {
-          this.currentUser.id = this.users[i].id;
-          this.currentUser.username = this.users[i].username;
-          this.currentUser.fullname = this.users[i].fullname;
-          this.currentUser.profilePic = this.users[i].profilePic;
-        }
-      }
-      return this.currentUser;
-    },
-
-
-    validateRegister() {
-      let nonValide = false;
-      for (let i = 0; i < this.users.length; i++) {
-        if (this.registerForm.email == this.users[i].email) {
-          this.hasEmailError = true;
-          nonValide = true;
-        } else if (this.registerForm.username == this.users[i].username) {
-          this.hasUsernameError = true;
-          nonValide = true;
-        }
-      }
-      if (this.registerForm.password !== this.registerForm.confirmPassword) {
-        this.hasPasswordError = true;
-        nonValide = true;
-      }
-      return nonValide;
+    async registerUser(){
+      await axios.post(this.url + "register", this.registerForm);
     }
+
+
+
+    // login() {
+    //   let user = {
+    //     email: this.form.email,
+    //     password: this.form.password
+    //   };
+
+    //   let loginVerified = this.$store.getters.login(user);
+    //   if (loginVerified) {
+    //     this.$router.push("/");
+    //   } else {
+    //     this.hasError = true;
+    //   }
+    // },
+
+    // getUser() {
+    //   for (let i = 0; i < this.users.length; i++) {
+    //     if (this.users[i].id == this.token) {
+    //       this.currentUser.id = this.users[i].id;
+    //       this.currentUser.username = this.users[i].username;
+    //       this.currentUser.fullname = this.users[i].fullname;
+    //       this.currentUser.profilePic = this.users[i].profilePic;
+    //     }
+    //   }
+    //   return this.currentUser;
+    // },
+
+
+    // validateRegister() {
+    //   let nonValide = false;
+    //   for (let i = 0; i < this.users.length; i++) {
+    //     if (this.registerForm.email == this.users[i].email) {
+    //       this.hasEmailError = true;
+    //       nonValide = true;
+    //     } else if (this.registerForm.username == this.users[i].username) {
+    //       this.hasUsernameError = true;
+    //       nonValide = true;
+    //     }
+    //   }
+    //   if (this.registerForm.password !== this.registerForm.confirmPassword) {
+    //     this.hasPasswordError = true;
+    //     nonValide = true;
+    //   }
+    //   return nonValide;
+    // }
   },
 
   computed: {
 
-    ...mapState(["users"]),
+    ...mapState(["users", "url"]),
 
 
     token() {

@@ -5,7 +5,6 @@ const expressValidator = require("express-validator");
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require("passport");
-const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const cors = require("cors");
 const config = require("./config/database");
@@ -26,18 +25,19 @@ db.on("error", (err) => {
 const app = express();
 
 //Body-parser
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(expressValidator());
 app.use(flash());
 app.use(cors());
-app.use(session({ cookie: { maxAge: 60000 }, 
-    secret: 'woot',
-    resave: false, 
-    saveUninitialized: false}));
-    
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+}));
+
 require("./config/passport")(passport);
 // Passport middleware
 app.use(passport.initialize());
