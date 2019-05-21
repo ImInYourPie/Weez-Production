@@ -98,6 +98,7 @@
             </div>
           </div>
           <hr>
+          <!-- DESKTOP TEMPLATE -->
           <div
             class="column questionBox is-hidden-mobile"
             v-for="question in paginatedQuestions"
@@ -106,12 +107,40 @@
             <div class="columns">
               <div class="column is-2"></div>
               <div class="column is-10">
-                <div class="column is-12">
-                  <a class="is-size-5">{{ question.title }}</a>
+                <div class="columns">
+                  <div class="column is-12">
+                    <router-link
+                      class="is-6 questionTitle"
+                      :to="{ name: 'question-page', params: { questionId: question._id } }"
+                    >{{ question.title }}</router-link>
+                  </div>
                 </div>
                 <div class="columns">
-                  <div class="column is-8"></div>
+                  <div class="column is-8">
+                    <a class="tag is-primary has-margin-right-5">tag</a>
+                    <a class="tag is-primary">tag</a>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <!-- MOBILE TEMPLATE -->
+          <div
+            class="column questionBox is-hidden-tablet"
+            v-for="question in paginatedQuestions"
+            :key="question._id"
+          >
+            <div class="columns">
+              <div class="column is-12">
+                <router-link
+                  class="is-6 questionTitles"
+                  :to="{ name: 'question-page', params: { questionId: question._id } }"
+                >{{ question.title }}</router-link>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column is-8">
+                <a class="tag is-primary">Tag</a>
               </div>
             </div>
           </div>

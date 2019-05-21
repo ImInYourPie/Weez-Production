@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Buefy from 'buefy'
+import 'bulma-helpers/css/bulma-helpers.min.css'
 
 
 Vue.use(Buefy)
