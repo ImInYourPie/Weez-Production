@@ -198,6 +198,12 @@ body {
   padding: 10px;
 }
 
+.questionBox {
+  background-color: whitesmoke;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
 
 
 // Import Bulma and Buefy styles

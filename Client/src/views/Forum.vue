@@ -3,12 +3,12 @@
     <Navbar/>
     <div class="container is-fluid">
       <div class="columns">
-        <div id="menuCol" class="column is-2">
-          <Menu class="is-hidden-mobile"/>
+        <div id="menuCol" class="column is-2 is-hidden-mobile">
+          <Menu/>
         </div>
         <div class="column is-9">
           <br>
-          <nav class="breadcrumb" aria-label="breadcrumbs">
+          <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
               <li>
                 <router-link :to="{name: 'home'}">Home</router-link>
@@ -19,7 +19,7 @@
             </ul>
           </nav>
           <!-- Main container -->
-          <nav class="level is-mobile">
+          <nav class="level is-hidden-mobile">
             <!-- Left side -->
             <div class="level-left">
               <div class="level-item is-hidden-mobile">
@@ -43,14 +43,14 @@
 
             <!-- Right side -->
             <div class="level-right">
-              <!-- <p class="level-item is-hidden-mobile">
-                <a v-if="!isOrderedUp" @click="dateUp">
+              <p class="level-item is-hidden-mobile">
+                <a>
                   Data
                   <span>
                     <i class="fas fa-caret-up"></i>
                   </span>
                 </a>
-                <a v-if="isOrderedUp" @click="dateDown">
+                <a>
                   Data
                   <span>
                     <i class="fas fa-caret-down"></i>
@@ -58,19 +58,19 @@
                 </a>
               </p>
               <a class="level-item is-hidden-mobile">
-                <a v-if="!isPopularUp" @click="popularityUp">
+                <a>
                   Popularidade
                   <span>
                     <i class="fas fa-caret-up"></i>
                   </span>
                 </a>
-                <a v-if="isPopularUp" @click="popularityDown">
+                <a>
                   Popularidade
                   <span>
                     <i class="fas fa-caret-down"></i>
                   </span>
                 </a>
-              </a>-->
+              </a>
               <p class="level-item">
                 <router-link :to="{name: 'ask-question'}" class="button is-primary">Nova Pergunta</router-link>
                 <!-- <b-tooltip label="Faça login para fazer uma pergunta!">
@@ -79,8 +79,42 @@
               </p>
             </div>
           </nav>
+          <nav class="level is-mobile is-hidden-tablet">
+            <a class="level-item">Tags</a>
+            <a class="level-item">Data</a>
+            <a class="level-item">Popularidade</a>
+            <p class="level-item">
+              <router-link :to="{name: 'ask-question'}" class="button is-primary">Nova Pergunta</router-link>
+            </p>
+          </nav>
+          <div class="column is-12 is-hidden-tablet">
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input" type="text" placeholder="Procurar...">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </p>
+            </div>
+          </div>
           <hr>
-          <h1 v-for="question in paginatedQuestions" :key="question._id">{{ question.title }}</h1>
+          <div
+            class="column questionBox is-hidden-mobile"
+            v-for="question in paginatedQuestions"
+            :key="question._id"
+          >
+            <div class="columns">
+              <div class="column is-2"></div>
+              <div class="column is-10">
+                <div class="column is-12">
+                  <a class="is-size-5">{{ question.title }}</a>
+                </div>
+                <div class="columns">
+                  <div class="column is-8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
           <br>
           <section>
             <b-pagination
@@ -123,7 +157,7 @@ export default {
       search: "",
       pageNumber: 1,
       current: 1,
-      perPage: 5
+      perPage: 2
     };
   },
 
@@ -132,26 +166,26 @@ export default {
   },
 
   methods: {
-    // orderUpDate(a, b) {
-    //   if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-    //   if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-    //   else return 0;
-    // },
-    // orderDownDate(a, b) {
-    //   if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-    //   if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-    //   else return 0;
-    // },
-    // orderDownPopularity(a, b) {
-    //   if (a.answers.length < b.answers.length) return 1;
-    //   if (a.answers.length > b.answers.length) return -1;
-    //   else return 0;
-    // },
-    // orderUpPopularity(a, b) {
-    //   if (a.answers.length > b.answers.length) return 1;
-    //   if (a.answers.length < b.answers.length) return -1;
-    //   else return 0;
-    // }
+    //   orderUpDate(a, b) {
+    //     if (Date.parse(a.date) > Date.parse(b.date)) return 1;
+    //     if (Date.parse(a.date) < Date.parse(b.date)) return -1;
+    //     else return 0;
+    //   },
+    //   orderDownDate(a, b) {
+    //     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+    //     if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+    //     else return 0;
+    //   },
+    //   orderDownPopularity(a, b) {
+    //     if (a.answers.length < b.answers.length) return 1;
+    //     if (a.answers.length > b.answers.length) return -1;
+    //     else return 0;
+    //   },
+    //   orderUpPopularity(a, b) {
+    //     if (a.answers.length > b.answers.length) return 1;
+    //     if (a.answers.length < b.answers.length) return -1;
+    //     else return 0;
+    //   }
   },
 
   computed: {
@@ -165,7 +199,7 @@ export default {
         pageNumber * this.perPage,
         (pageNumber + 1) * this.perPage
       );
-    },
+    }
   }
 };
 </script>

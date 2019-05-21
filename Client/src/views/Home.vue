@@ -201,6 +201,7 @@ export default {
    mounted() {
     this.$store.dispatch("getUsers");
   },
+
   methods: {
 
 
@@ -230,44 +231,7 @@ export default {
       }
       return this.currentUser;
     },
-    generateUniqueId() {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-      }
-      return (
-        s4() +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        s4() +
-        s4()
-      );
-    },
 
-    onCreateUser() {
-      if (!this.validateRegister()) {
-        let newUserData = {
-          id: this.generateUniqueId,
-          username: this.registerForm.username,
-          email: this.registerForm.email,
-          password: this.registerForm.password,
-          profilePicture: this.registerForm.profilePicture,
-          registerDate: this.$store.getters.getTodaysDate
-        };
-        this.$store.dispatch("createUser", newUserData);
-        let tempLogin = this.registerForm.email
-        this.$store.dispatch("loginOnCreate", tempLogin)
-        this.$router.push("profile")
-      }
-    },
 
     validateRegister() {
       let nonValide = false;
@@ -287,6 +251,7 @@ export default {
       return nonValide;
     }
   },
+
   computed: {
 
     ...mapState(["users"]),
