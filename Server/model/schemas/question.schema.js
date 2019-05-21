@@ -7,12 +7,13 @@ const Schema = mongoose.Schema;
 
 
 const questionSchema = new Schema({
-    // _id: mongoose.Schema.Types.ObjectId,
-//    user: {
-//         type: Schema.Types.ObjectId,
-//         ref: "userSchema",
-//         required: true
-//     },
+    id: mongoose.Schema.Types.ObjectId,
+    //cookies session 
+    /*user: {
+        type: Schema.Types.ObjectId,
+        ref: "userSchema",
+        required: true
+    },*/
     title: {
         type: String,
         required: true
@@ -21,11 +22,11 @@ const questionSchema = new Schema({
         type: String,
         required: true
     },
-    // tags: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: "tagSchema",
-    //     required: true
-    // }],
+    /*tags: [{
+        type: Schema.Types.ObjectId,
+        ref: "tagSchema",
+        required: true
+    }],*/
     upVotes: {
         type: Number,
         default: 0

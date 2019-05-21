@@ -9,11 +9,11 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
     // _id: mongoose.Schema.Types.ObjectId,
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'userSchema'
     },
     question: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'questionSchema'
     },
     description: {

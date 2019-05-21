@@ -40,11 +40,19 @@ class QuestionController {
         }
     };
 
-    static getQuestions(req, res){
-       // Get data
-       Question.find().exec((err, questions) => {
-        res.status(200).send(questions);
-    })
+    static getQuestions(req, res) {
+        // Get data
+        Question.find().exec((err, questions) => {
+            res.status(200).send(questions);
+        })
+    }
+
+    static searchQuestion(req, res) {
+
+    }
+
+    static deleteQuestion(req, res) {
+
     }
 }
 

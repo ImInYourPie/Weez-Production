@@ -8,6 +8,6 @@ router.get('/', (req, res) =>{
     
 })
 
-router.post('/create-question', questionController.createQuestion);
+router.post('/create_question', questionController.createQuestion);
 
 module.exports = router;
