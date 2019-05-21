@@ -37,6 +37,16 @@ app.use(session({ cookie: { maxAge: 60000 },
     secret: 'woot',
     resave: false, 
     saveUninitialized: false}));
+    
+require("./config.passport.js")(passport);
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get("*", (req, res, next) => {
+    res.locals.user = req.user || null;
+    next();
+})
 
 //Routes
 const home = require("./routes/home.js");

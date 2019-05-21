@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 let User = require("../model/schemas/user.schema.js");
 
 class UserController {
@@ -65,6 +66,22 @@ class UserController {
             res.status(200).send(users);
         })
     }
+    
+    
+    static loginUser(req, res, next){
+        passport.authenticate("local", {
+            successRedirect: "/",
+            failureRedirect: "/",
+            failureFlash: true
+        })(req, res, next);
+    }
+    
+    
+    static logoutUser(req, res, next){
+        req.logout();
+        res.status(200).rediretc("/");
+    }
+    
 }
 
 
