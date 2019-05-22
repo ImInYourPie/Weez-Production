@@ -4,7 +4,7 @@
     <ul class="menu-list">
       <li>
         <b-field label="Tags">
-            <b-input placeholder="Procurar por tag" rounded></b-input>
+            <b-input placeholder="Procurar por tag"></b-input>
         </b-field>
       </li>
       <br>

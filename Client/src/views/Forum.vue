@@ -6,7 +6,7 @@
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-9">
+        <div class="column is-8">
           <br>
           <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
@@ -44,47 +44,25 @@
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item is-hidden-mobile">
-                <a>
-                  Data
-                  <span>
-                    <i class="fas fa-caret-up"></i>
-                  </span>
-                </a>
-                <a>
-                  Data
-                  <span>
-                    <i class="fas fa-caret-down"></i>
-                  </span>
-                </a>
+                <a>Recentes</a>
               </p>
-              <a class="level-item is-hidden-mobile">
-                <a>
-                  Popularidade
-                  <span>
-                    <i class="fas fa-caret-up"></i>
-                  </span>
-                </a>
-                <a>
-                  Popularidade
-                  <span>
-                    <i class="fas fa-caret-down"></i>
-                  </span>
-                </a>
-              </a>
+              <p class="level-item is-hidden-mobile">
+                <a>Populares</a>
+              </p>
               <p class="level-item">
-                <router-link :to="{name: 'ask-question'}" class="button is-primary">Nova Pergunta</router-link>
+                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
                 <!-- <b-tooltip label="Faça login para fazer uma pergunta!">
                   <button v-if="token === null" class="button is-primary" disabled>Nova Pergunta</button>
                 </b-tooltip>-->
               </p>
             </div>
           </nav>
-          <nav class="level is-mobile is-hidden-tablet">
+          <nav class="level is-mobile is-hidden-tablet is-marginless">
             <a class="level-item">Tags</a>
-            <a class="level-item">Data</a>
-            <a class="level-item">Popularidade</a>
+            <a class="level-item">Recentes</a>
+            <a class="level-item">Populares</a>
             <p class="level-item">
-              <router-link :to="{name: 'ask-question'}" class="button is-primary">Nova Pergunta</router-link>
+              <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
             </p>
           </nav>
           <div class="column is-12 is-hidden-tablet">
@@ -105,8 +83,7 @@
             :key="question._id"
           >
             <div class="columns">
-              <div class="column is-2"></div>
-              <div class="column is-10">
+              <div class="column is-9">
                 <div class="columns">
                   <div class="column is-12">
                     <router-link
@@ -122,6 +99,7 @@
                   </div>
                 </div>
               </div>
+              <div class="column is-3"></div>
             </div>
           </div>
           <!-- MOBILE TEMPLATE -->

@@ -28,7 +28,7 @@ export default new Router({
       component: Profile
     },
     {
-      path: '/ask-question',
+      path: '/forum/ask-question',
       name: 'ask-question',
       component: AskQuestion
     },
@@ -38,7 +38,7 @@ export default new Router({
       component: Ranking
     },
     {
-      path: '/question-page',
+      path: '/forum/question?:id',
       name: 'question-page',
       component: QuestionPage
     }
