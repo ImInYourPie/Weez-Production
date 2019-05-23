@@ -22,7 +22,9 @@ router.get('/', UserController.returnUsers ,(req, res) => {
 // post app to /
 router.post('/register', UserController.registerUser);
 
-router.post("/login", UserController.login);
+router.post("/login", UserController.login, (req, res, next) => {
+    res.send(req.user.username);
+});
 
 
 module.exports = router;

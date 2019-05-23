@@ -1,4 +1,4 @@
-let Question = require('../model/schemas/question.schema.js');
+let questionSchema = require('../model/schemas/question.schema.js');
 
 class QuestionController {
 
@@ -21,7 +21,7 @@ class QuestionController {
         }
         else {
             // If valide create new Question
-            var newQuestion = new Question({
+            var newQuestion = new questionSchema({
                 title: title,
                 description: description,
                 // tags: tags
@@ -42,7 +42,7 @@ class QuestionController {
 
     static getQuestions(req, res) {
         // Get data
-        Question.find().exec((err, questions) => {
+        questionSchema.find().exec((err, questions) => {
             res.status(200).send(questions);
         })
     }
@@ -52,9 +52,16 @@ class QuestionController {
     }
 
     static deleteQuestion(req, res) {
-
+        questionSchema.findByIdAndRemove({_id: req.body.questionId }, (err, question) => {
+            if (err) {
+            return res.status(500).send(err);
+            }
+            const response = {
+                message: "Pergunta apagada!",
+            };
+            return res.status(200).send(response);
+        });
     }
+
 }
-
-
 module.exports = QuestionController;

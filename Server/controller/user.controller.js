@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-// const passport = require("passport");
+const passport = require("passport");
 let User = require("../model/schemas/user.schema.js");
 const jwt = require("jsonwebtoken");
 
@@ -12,7 +12,7 @@ function jwtSignUser(user) {
 
 class UserController {
 
-    static async registerUser(req, res) {
+    static registerUser(req, res) {
 
         // Get inputs
         const username = req.body.username;
@@ -65,62 +65,62 @@ class UserController {
         }
     }
 
-    static async returnUsers(req, res) {
+    static returnUsers(req, res) {
         // Get data
         User.find().exec((err, users) => {
             res.status(200).send(users);
-        })
+        });
     }
 
 
-    // static loginUser(req, res, next){
-    //     console.log(req.body)
-    //     passport.authenticate("local", {
-    //         successRedirect: "/",
-    //         failureRedirect: "/forum",
-    //         failureFlash: true
-    //     })(req, res, next);
-    // }
-
-    static async login(req, res) {
-        try {
-            const { username, password } = req.body;
-            console.log(username, password)
-            User.findOne({ username: username }).lean().exec((err, user) => {
-                if (err) throw err;
-                else {
-                    console.log(user)
-                    if (!user) {
-                        return res.status(403).send({
-                            error: "Utilizador não existe"
-                        });
-                    }
-
-                    let passwordValid = bcrypt.compareSync(password, user.password)
-                    console.log(passwordValid)
-                    if (!passwordValid) {
-                        return res.status(403).send({
-                            error: "Password incorreta"
-                        })
-                    }
-
-                    res.send({ user, token: jwtSignUser(user) });
-                }
-            })
-
-        }
-        catch (err) {
-            res.status(500).send({
-                error: "Oops alguma coisa correu mal, mas não é culpa tua! :)"
-            })
-        }
+    static login(req, res, next){
+        console.log(req.body);
+        passport.authenticate("local", {
+            successRedirect: "/",
+            failureRedirect: "/",
+            failureFlash: true
+        })(req, res, next);
     }
 
+    // static login(req, res) {
+    //     try {
+    //         const { username, password } = req.body;
+    //         console.log(username, password)
+    //         User.findOne({ username: username }).lean().exec((err, user) => {
+    //             if (err) throw err;
+    //             else {
+    //                 console.log(user)
+    //                 if (!user) {
+    //                     return res.status(403).send({
+    //                         error: "Utilizador não existe"
+    //                     });
+    //                 }
 
-    // static logoutUser(req, res, next){
-    //     req.logout();
-    //     res.status(200).redirect("/");
+    //                 let passwordValid = bcrypt.compareSync(password, user.password)
+    //                 console.log(passwordValid)
+    //                 if (!passwordValid) {
+    //                     return res.status(403).send({
+    //                         error: "Password incorreta"
+    //                     })
+    //                 }
+
+    //                 res.send({ user, token: jwtSignUser(user) });
+    //             }
+    //         })
+
+    //     }
+    //     catch (err) {
+    //         res.status(500).send({
+    //             error: "Oops alguma coisa correu mal, mas não é culpa tua! :)"
+    //         })
+    //     }
     // }
+
+
+    static logout(req, res, next){
+        req.logout();
+        res.status(200).redirect("/");
+    }
 
 }
 
