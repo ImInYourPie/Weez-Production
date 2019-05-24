@@ -4,9 +4,9 @@
       <router-link class="navbar-item" :to="{name: 'home'}">
         <img src="../assets/Brand.svg" alt>
       </router-link>
-      <a class="navbar-item" href="https://github.com/ImInYourPie/Weez" target="_blank">
+      <!-- <a class="navbar-item" href="https://github.com/ImInYourPie/Weez" target="_blank">
         <b-icon pack="fab" icon="github"></b-icon>
-      </a>
+      </a> -->
       <!-- BURGER -->
       <a
         role="button"

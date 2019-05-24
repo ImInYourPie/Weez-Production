@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container">
-        <nav class="level is-mobile">
+        <nav class="level">
           <!-- Left side -->
           <div class="level-left">
             <div class="level-item">
