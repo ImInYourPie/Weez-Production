@@ -21,7 +21,7 @@ router.get('/', UserController.returnUsers ,(req, res) => {
 });
 
 // post app to /
-router.post('/register', AuthenticationPolicy.register, UserController.register);
+router.post('/register', [AuthenticationPolicy.register, UserController.register]);
 
 router.post("/login", UserController.login);
 

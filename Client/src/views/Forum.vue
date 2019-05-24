@@ -170,9 +170,9 @@ export default {
     };
   },
 
-  async mounted() {
-    this.questions = await 
-  },
+  // async mounted() {
+  //   this.questions = await 
+  // },
 
   methods: {
     //   orderUpDate(a, b) {

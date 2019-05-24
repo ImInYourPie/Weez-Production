@@ -27,6 +27,7 @@
       <div class="navbar-end">
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
+        <router-link class="navbar-item" :to="{name: 'login'}">Login</router-link>
         <!--<router-link class="navbar-item" v-if="token !== null" :to="{ name: 'profile' }">-->
         <!--  <img v-bind:src="token.profilePicture" id="tokenPic" alt>-->
         <!--  &nbsp;{{ token.trophies.bronze.length }}&nbsp;-->
@@ -45,7 +46,7 @@
         <!--    style="color:gold"-->
         <!--  ></i>-->
         <!--</router-link>-->
-        <b-dropdown class="navbar-slot" position="is-bottom-left">
+        <!-- <b-dropdown class="navbar-slot" position="is-bottom-left">
           <a class="navbar-item" slot="trigger">
             <a class="navbar-item">
               Login
@@ -82,8 +83,6 @@
                       required
                     ></b-input>
                   </b-field>
-
-                  <!-- <b-checkbox id="rememberCheck">Lembrar-me</b-checkbox> -->
                 </section>
                 <footer class="modal-card-foot">
                   <button @click="login()" class="button">Login</button>
@@ -91,7 +90,7 @@
               </div>
             </form>
           </b-dropdown-item>
-        </b-dropdown>
+        </b-dropdown> -->
         <a @click="logout()" class="navbar-item">Logout</a>
       </div>
     </div>
@@ -106,8 +105,8 @@ export default {
   data: function() {
     return {
       isOpen: false,
-      username: "",
-      password: "",
+      // username: "",
+      // password: "",
       hasError: ""
     };
   },
@@ -126,16 +125,16 @@ export default {
     //     this.hasError = true;
     //   }
     // },
-    login() {
-      axios.post("https://weez-api-iminyourcode.c9users.io/login", {
-        username: this.username,
-        password: this.password
-      }).then((data) => {
-        this.$store.dispatch("loginUser", data.data);
-      }).catch((err) => {
-        if(err) this.hasError = true;
-      })
-    },
+    // login() {
+    //   axios.post("https://weez-api-iminyourcode.c9users.io/login", {
+    //     username: this.username,
+    //     password: this.password
+    //   }).then((data) => {
+    //     this.$store.dispatch("loginUser", data.data);
+    //   }).catch((err) => {
+    //     if(err) this.hasError = true;
+    //   })
+    // },
     // DOES LOGOUT ON CLICK
     // logout() {
     //   localStorage.setItem("token", "");

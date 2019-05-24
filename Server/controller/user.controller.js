@@ -14,6 +14,7 @@ class UserController {
 
     static register(req, res) {
 
+        console.log("userController")
         let newUser = new User({
             username: req.body.username,
             email: req.body.email,
