@@ -19,7 +19,7 @@
           <div class="column is-10">
             <b-field
               :type="{ 'is-danger': hasUsernameError }"
-              :message="{ hasUsernameError: hasUsernameError }"
+              :message="this.hasUsernameError "
             >
               <b-input
                 v-model="username"
@@ -35,7 +35,7 @@
           <div class="column is-10">
             <b-field
               :type="{ 'is-danger': hasEmailError }"
-              :message="{ hasEmailError: hasEmailError }"
+              :message="this.hasEmailError"
             >
               <b-input
                 v-model="email"
@@ -49,7 +49,7 @@
             </b-field>
           </div>
           <div class="column is-10">
-            <b-field :type="{ 'is-danger': hasPasswordError, 'is-danger': hasPassConfirmError}" :message="{hasPasswordError: hasPasswordError}">
+            <b-field :type="{ 'is-danger': hasPasswordError, 'is-danger': hasPassConfirmError}" :message="this.hasPasswordError">
               <b-input
                 v-model="password"
                 type="password"
@@ -64,7 +64,7 @@
           <div class="column is-10">
             <b-field
               :type="{ 'is-danger': hasPassConfirmError }"
-              :message="{ hasPassConfirmError: hasPassConfirmError }"
+              :message="this.hasPassConfirmError"
             >
               <b-input
                 v-model="passwordConfirm"
@@ -190,14 +190,23 @@ export default {
           passwordConfirm: this.passwordConfirm
         })
         console.log(response.data)
-      } catch(error) {
-        // this.hasUsernameError = !!error.response.data.hasUsernameError ? error.response.data.hasUsernameError / this.hasUsernameError = false;
-        // this.hasEmailError = !!error.response.data.hasEmailError ? error.response.data.hasEmailError / this.hasEmailError = false;
-        // this.hasPasswordError = !!error.response.data.hasPasswordError ? error.response.data.hasPasswordError / this.hasPasswordError = false;
-        if(error.response.data.hasEmailError){
-          this.hasEmailError = error.response.data.hasEmailError;
-        }
-        // this.hasPassConfirmError = !!error.response.data.hasPassConfirmError ? error.response.data.hasPassConfirmError / this.hasPassConfirmError = false;
+      } catch (error) {
+        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : false;
+        this.hasEmailError = (!!error.response.data.hasEmailError == true) ? error.response.data.hasEmailError : false;
+        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : false;
+        // if(error.response.data.hasUsernameError){
+        //   this.hasUsernameError = error.response.data.hasUsernameError;
+        // }
+        // if(error.response.data.hasEmailError){
+        //   this.hasEmailError = error.response.data.hasEmailError;
+        // }
+        // if(error.response.data.hasPasswordError){
+        //   this.hasPasswordError = error.response.data.hasPasswordError;
+        // }
+        // if(error.response.data.hasPassConfirmError){
+        //   this.hasPassConfirmError = error.response.data.hasPassConfirmError;
+        // }
+        this.hasPassConfirmError = (!!error.response.data.hasPassConfirmError == true) ? error.response.data.hasPassConfirmError : false;
       }
     },
 

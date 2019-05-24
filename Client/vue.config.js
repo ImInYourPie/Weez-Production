@@ -2,7 +2,8 @@ const config = {
     devServer: 
     {
         disableHostCheck: true,
-        public: "https://weez-iminyourcode.c9users.io"
+        public: "https://localhost:8080",
+        proxy: "http://localhost:3000"
     }
 }
 
