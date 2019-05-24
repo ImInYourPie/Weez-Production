@@ -37,10 +37,10 @@ module.exports = {
                         break
                 }
             }
-            if (usernameExists.length != 0) {
+            if (!!usernameExists) {
                 hasUsernameError = "O nome de utilizador já se encontra registado"
             };
-            if (emailExists.length != 0) {
+            if (!!emailExists) {
                 hasEmailError = "Este email já se encontra registado"
             };
             res.status(400).send({ hasUsernameError, hasEmailError, hasPasswordError, hasPassConfirmError })
