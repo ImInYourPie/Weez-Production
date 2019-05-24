@@ -148,6 +148,7 @@ import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
 // import Questions from "@/components/Questions.vue";
 import Footer from "@/components/Footer.vue";
+import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
@@ -159,17 +160,18 @@ export default {
   },
   data: function() {
     return {
-      isOrderedUp: false,
-      isPopularUp: false,
+      isPopular: false,
+      isRecent: false,
       search: "",
       pageNumber: 1,
       current: 1,
-      perPage: 5
+      perPage: 5,
+      questions: []
     };
   },
 
-  mounted() {
-    this.$store.dispatch("getQuestions");
+  async mounted() {
+    this.questions = await 
   },
 
   methods: {
@@ -196,7 +198,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["questions"]),
+    // ...mapState(["questions"]),
 
     // RENDERS DIFFERENT QUESTIONS DEPENDING ON CURRENT PAGE
     paginatedQuestions() {

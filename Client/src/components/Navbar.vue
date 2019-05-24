@@ -45,7 +45,7 @@
         <!--    style="color:gold"-->
         <!--  ></i>-->
         <!--</router-link>-->
-        <b-dropdown class="navbar-slot" v-if="token === null" position="is-bottom-left">
+        <b-dropdown class="navbar-slot" position="is-bottom-left">
           <a class="navbar-item" slot="trigger">
             <a class="navbar-item">
               Login
@@ -71,7 +71,7 @@
                   <b-field
                     label="Password"
                     :type="{ 'is-danger': hasError }"
-                    :message="{ 'Credenciais incorretas!': hasError }"
+                    :message="this.hasError"
                   >
                     <b-input
                       v-model="password"
@@ -92,7 +92,7 @@
             </form>
           </b-dropdown-item>
         </b-dropdown>
-        <a v-if="token !== null" @click="logout()" class="navbar-item">Logout</a>
+        <a @click="logout()" class="navbar-item">Logout</a>
       </div>
     </div>
   </nav>
@@ -108,7 +108,7 @@ export default {
       isOpen: false,
       username: "",
       password: "",
-      hasError: false
+      hasError: ""
     };
   },
   methods: {
@@ -147,7 +147,6 @@ export default {
     url() {
       return this.$store.getters.url;
     },
-    
     token() {
       return this.$store.getters.token;
     },

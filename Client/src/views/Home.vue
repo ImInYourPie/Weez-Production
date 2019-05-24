@@ -169,10 +169,10 @@ export default {
       email: "",
       password: "",
       passwordConfirm: "",
-      hasEmailError: null,
-      hasPasswordError: null,
-      hasPassConfirmError: null,
-      hasUsernameError: null,
+      hasEmailError: "",
+      hasPasswordError: "",
+      hasPassConfirmError: "",
+      hasUsernameError: "",
     };
   },
    mounted() {
@@ -191,22 +191,10 @@ export default {
         })
         console.log(response.data)
       } catch (error) {
-        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : false;
-        this.hasEmailError = (!!error.response.data.hasEmailError == true) ? error.response.data.hasEmailError : false;
-        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : false;
-        // if(error.response.data.hasUsernameError){
-        //   this.hasUsernameError = error.response.data.hasUsernameError;
-        // }
-        // if(error.response.data.hasEmailError){
-        //   this.hasEmailError = error.response.data.hasEmailError;
-        // }
-        // if(error.response.data.hasPasswordError){
-        //   this.hasPasswordError = error.response.data.hasPasswordError;
-        // }
-        // if(error.response.data.hasPassConfirmError){
-        //   this.hasPassConfirmError = error.response.data.hasPassConfirmError;
-        // }
-        this.hasPassConfirmError = (!!error.response.data.hasPassConfirmError == true) ? error.response.data.hasPassConfirmError : false;
+        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : "";
+        this.hasEmailError = (!!error.response.data.hasEmailError == true) ? error.response.data.hasEmailError : "";
+        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : "";
+        this.hasPassConfirmError = (!!error.response.data.hasPassConfirmError == true) ? error.response.data.hasPassConfirmError : "";
       }
     },
 

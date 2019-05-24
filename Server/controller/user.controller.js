@@ -14,55 +14,34 @@ class UserController {
 
     static register(req, res) {
 
-        // Get inputs
-        const username = req.body.username;
-        const email = req.body.email;
-        const password = req.body.password;
-        const passwordConfirm = req.body.passwordConfirm;
+        let newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+        });
 
-        // Validate inputs
-        req.checkBody("username", "É necessário inserir um nome de utilizador.").notEmpty();
-        req.checkBody("email", "É necessário inserir um endereço de email.").notEmpty();
-        req.checkBody("email", "É necessário inserir um endereço de email válido.").isEmail();
-        req.checkBody("password", "É necessário inserir uma password").notEmpty();
-        req.checkBody("passwordConfirm", "As passwords não coincidem.").equals(req.body.password);
-
-        let errors = req.validationErrors();
-
-        if (errors) {
-            res.status(500).send(errors);
-        } else {
-            // If valide create new User
-            let newUser = new User({
-                username: username,
-                email: email,
-                password: password,
-            });
-
-            bcrypt.genSalt(10, (err, salt) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    newUser.password = hash;
+                    // Save User
+                    newUser.save((err) => {
                         if (err) {
                             console.log(err);
+                            return;
+                        } else {
+                            res.status(201).send({isSuccess: "Registo efetuado com sucesso!"});
                         }
-                        newUser.password = hash;
-                        // Save User
-                        newUser.save((err) => {
-                            if (err) {
-                                console.log(err);
-                                return;
-                            } else {
-                                req.flash("success", "Registo efetuado com successo!");
-                                res.status(201).send();
-                            }
-                        })
                     })
-                }
-            })
-        }
+                })
+            }
+        })
     }
 
     static returnUsers(req, res) {
@@ -73,7 +52,7 @@ class UserController {
     }
 
 
-    static login(req, res, next){
+    static login(req, res, next) {
         console.log(req.body);
         passport.authenticate("local", {
             failureRedirect: "/",
@@ -116,12 +95,12 @@ class UserController {
     // }
 
 
-    static logout(req, res, next){
+    static logout(req, res, next) {
         req.logout();
         res.status(200).redirect("/");
     }
-    
-    
+
+
 
 }
 
