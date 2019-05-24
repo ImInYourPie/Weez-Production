@@ -5,12 +5,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data: function() {
     return {};
   },
   async mounted() {
-    
+    this.$store.dispatch("loginUser");
+  },
+  computed: {
+    ...mapState(["loggedUser"])
   }
 };
 </script>

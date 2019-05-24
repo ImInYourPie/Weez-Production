@@ -12,7 +12,7 @@ module.exports = (password) => {
         UserSchema.findOne(query, (err, user) => {
             if(err) throw err;
             if(!user){
-                return done(null, false, {message: "Nome de utilizador errado!"})
+                return done(null, false, {err: "Nome de utilizador errado!"})
             }
             
             // Compare password
@@ -21,7 +21,7 @@ module.exports = (password) => {
                 if(isMatch) {
                     return done(null, user);
                 } else {
-                    return done(null, false, {message: "Password incorreta!"});
+                    return done(null, false, {err: "Password incorreta!"});
                 }
             })
         })

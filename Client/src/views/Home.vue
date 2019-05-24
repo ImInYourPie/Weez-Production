@@ -14,15 +14,15 @@
         <h1 class="headerTitle title is-2">It's a piece of cake!</h1>
       </div>
       <div class="column is-6">
-        <br>
-        <form @submit.prevent="onCreateUser()">
+        <br class="is-hidden-mobile">
+        <form @submit.prevent="register">
           <div class="column is-10">
             <b-field
               :type="{ 'is-danger': hasUsernameError }"
-              :message="{ 'Este nome de utilizador não está disponivel!': hasUsernameError }"
+              :message="{ hasUsernameError: hasUsernameError }"
             >
               <b-input
-                v-model="registerForm.username"
+                v-model="username"
                 type="text"
                 icon-pack="fas"
                 icon="user-circle"
@@ -35,11 +35,11 @@
           <div class="column is-10">
             <b-field
               :type="{ 'is-danger': hasEmailError }"
-              :message="{ 'Este email já se encontra registado!': hasEmailError }"
+              :message="{ hasEmailError: hasEmailError }"
             >
               <b-input
-                v-model="registerForm.email"
-                type="email"
+                v-model="email"
+                type="text"
                 name="email"
                 icon-pack="fas"
                 icon="at"
@@ -49,9 +49,9 @@
             </b-field>
           </div>
           <div class="column is-10">
-            <b-field :type="{ 'is-danger': hasPasswordError }">
+            <b-field :type="{ 'is-danger': hasPasswordError, 'is-danger': hasPassConfirmError}" :message="{hasPasswordError: hasPasswordError}">
               <b-input
-                v-model="registerForm.password"
+                v-model="password"
                 type="password"
                 name="password"
                 icon-pack="fas"
@@ -63,11 +63,11 @@
           </div>
           <div class="column is-10">
             <b-field
-              :type="{ 'is-danger': hasPasswordError }"
-              :message="{ 'As passwords não coincidem!': hasPasswordError }"
+              :type="{ 'is-danger': hasPassConfirmError }"
+              :message="{ hasPassConfirmError: hasPassConfirmError }"
             >
               <b-input
-                v-model="registerForm.passwordConfirm"
+                v-model="passwordConfirm"
                 type="password"
                 name="confirmPassword"
                 icon-pack="fas"
@@ -79,7 +79,7 @@
           </div>
 
           <div class="column is-4 is-offset-6">
-            <button class="button is-primary" @click="registerUser" style="width: 100%">Registar</button>
+            <button class="button is-primary" @click="register" style="width: 100%">Registar</button>
           </div>
         </form>
       </div>
@@ -152,7 +152,8 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 // import Top from "@/components/Top.vue";
-import axios from "axios";
+// import axios from "axios";
+import AuthenticationService from "../services/AuthenticationService";
 import { mapState } from "vuex";
 
 export default {
@@ -164,21 +165,14 @@ export default {
   },
   data: function() {
     return {
-      registerForm: {
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
-      },
-      hasEmailError: false,
-      hasPasswordError: false,
-      hasUsernameError: false,
-      // currentUser: {
-      //   id: null,
-      //   username: "",
-      //   fullname: "",
-      //   profilePic: ""
-      // }
+      username: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      hasEmailError: null,
+      hasPasswordError: null,
+      hasPassConfirmError: null,
+      hasUsernameError: null,
     };
   },
    mounted() {
@@ -187,9 +181,25 @@ export default {
 
   methods: {
 
-    async registerUser(){
-      await axios.post(this.url + "register", this.registerForm);
-    }
+    async register() {
+      try {
+        const response = await AuthenticationService.register({
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          passwordConfirm: this.passwordConfirm
+        })
+        console.log(response.data)
+      } catch(error) {
+        // this.hasUsernameError = !!error.response.data.hasUsernameError ? error.response.data.hasUsernameError / this.hasUsernameError = false;
+        // this.hasEmailError = !!error.response.data.hasEmailError ? error.response.data.hasEmailError / this.hasEmailError = false;
+        // this.hasPasswordError = !!error.response.data.hasPasswordError ? error.response.data.hasPasswordError / this.hasPasswordError = false;
+        if(error.response.data.hasEmailError){
+          this.hasEmailError = error.response.data.hasEmailError;
+        }
+        // this.hasPassConfirmError = !!error.response.data.hasPassConfirmError ? error.response.data.hasPassConfirmError / this.hasPassConfirmError = false;
+      }
+    },
 
 
 

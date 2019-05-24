@@ -27,24 +27,24 @@
       <div class="navbar-end">
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
-        <router-link class="navbar-item" v-if="token !== null" :to="{ name: 'profile' }">
-          <img v-bind:src="token.profilePicture" id="tokenPic" alt>
-          &nbsp;{{ token.trophies.bronze.length }}&nbsp;
-          <i
-            class="fas fa-trophy"
-            style="color:brown"
-          ></i>
-          &nbsp;{{ token.trophies.silver.length }}&nbsp;
-          <i
-            class="fas fa-trophy"
-            style="color:silver"
-          ></i>
-          &nbsp;{{ token.trophies.gold.length }}&nbsp;
-          <i
-            class="fas fa-trophy"
-            style="color:gold"
-          ></i>
-        </router-link>
+        <!--<router-link class="navbar-item" v-if="token !== null" :to="{ name: 'profile' }">-->
+        <!--  <img v-bind:src="token.profilePicture" id="tokenPic" alt>-->
+        <!--  &nbsp;{{ token.trophies.bronze.length }}&nbsp;-->
+        <!--  <i-->
+        <!--    class="fas fa-trophy"-->
+        <!--    style="color:brown"-->
+        <!--  ></i>-->
+        <!--  &nbsp;{{ token.trophies.silver.length }}&nbsp;-->
+        <!--  <i-->
+        <!--    class="fas fa-trophy"-->
+        <!--    style="color:silver"-->
+        <!--  ></i>-->
+        <!--  &nbsp;{{ token.trophies.gold.length }}&nbsp;-->
+        <!--  <i-->
+        <!--    class="fas fa-trophy"-->
+        <!--    style="color:gold"-->
+        <!--  ></i>-->
+        <!--</router-link>-->
         <b-dropdown class="navbar-slot" v-if="token === null" position="is-bottom-left">
           <a class="navbar-item" slot="trigger">
             <a class="navbar-item">
@@ -57,9 +57,9 @@
             <form v-on:submit.prevent="login" action>
               <div class="modal-card" style="width:300px;">
                 <section class="modal-card-body">
-                  <b-field label="Email" :type="{ 'is-danger': hasError }">
+                  <b-field label="Username" :type="{ 'is-danger': hasError }">
                     <b-input
-                      v-model="form.username"
+                      v-model="username"
                       type="text"
                       icon-pack="fas"
                       icon="user"
@@ -74,7 +74,7 @@
                     :message="{ 'Credenciais incorretas!': hasError }"
                   >
                     <b-input
-                      v-model="form.password"
+                      v-model="password"
                       type="password"
                       icon-pack="fas"
                       icon="key"
@@ -100,22 +100,15 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   data: function() {
     return {
       isOpen: false,
-      form: {
-        username: "",
-        password: ""
-      },
+      username: "",
+      password: "",
       hasError: false
-      // currentUser: {
-      //   id: null,
-      //   username: "",
-      //   fullname: "",
-      //   profilePic: ""
-      // }
     };
   },
   methods: {
@@ -134,19 +127,27 @@ export default {
     //   }
     // },
     login() {
-      axios.post("http://localhost:3000/login", {
-        username: this.form.username,
-        password: this.form.password
-      }).then(axios.get)
+      axios.post("https://weez-api-iminyourcode.c9users.io/login", {
+        username: this.username,
+        password: this.password
+      }).then((data) => {
+        this.$store.dispatch("loginUser", data.data);
+      }).catch((err) => {
+        if(err) this.hasError = true;
+      })
     },
     // DOES LOGOUT ON CLICK
-    logout() {
-      localStorage.setItem("token", "");
-      this.$store.state.token = null;
-      this.$router.push("/");
-    }
+    // logout() {
+    //   localStorage.setItem("token", "");
+    //   this.$store.state.token = null;
+    //   this.$router.push("/");
+    // }
   },
   computed: {
+    url() {
+      return this.$store.getters.url;
+    },
+    
     token() {
       return this.$store.getters.token;
     },

@@ -48,20 +48,24 @@ class QuestionController {
     }
 
     static searchQuestion(req, res) {
+        const keyword = req.body.search;
 
+        
     }
 
     static deleteQuestion(req, res) {
-        questionSchema.findByIdAndRemove({_id: req.body.questionId }, (err, question) => {
-            if (err) {
-            return res.status(500).send(err);
-            }
+        questionSchema.findByIdAndRemove({ _id: req.body.questionId }, (err, question) => {
             const response = {
                 message: "Pergunta apagada!",
             };
-            return res.status(200).send(response);
+
+            if (err) {
+                return res.status(500).send(err);
+            }
+            else {
+                return res.status(200).send(response);
+            }
         });
     }
-
 }
 module.exports = QuestionController;

@@ -5,6 +5,7 @@ const expressValidator = require("express-validator")
 const router = express.Router();
 const passport = require("passport");
 const UserController = require("../controller/user.controller");
+const AuthenticationPolicy = require("../policies/authentication.policy");
 let User = require("../model/schemas/user.schema.js");
 let Question = require("../model/schemas/question.schema.js");
 
@@ -20,11 +21,9 @@ router.get('/', UserController.returnUsers ,(req, res) => {
 });
 
 // post app to /
-router.post('/register', UserController.registerUser);
+router.post('/register', AuthenticationPolicy.register, UserController.register);
 
-router.post("/login", UserController.login, (req, res, next) => {
-    res.send(req.user.username);
-});
+router.post("/login", UserController.login);
 
 
 module.exports = router;

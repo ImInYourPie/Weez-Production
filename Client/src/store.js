@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import api from '@/services/api'
 
 Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
   state: {
 
-    url: "http://localhost:3000/",
+    // url: "https://weez-api-iminyourcode.c9users.io/",
 
     error: false,
 
     token: null,
+    
+    loggedUser: null,
 
     // USERS ARRAY
     users: [],
@@ -28,7 +31,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
-
+    
+    SET_LOGGED_USER (state, user) {
+      state.loggedUser = user;
+    },
 
     SET_USERS (state, users) {
       state.users = users;
@@ -93,11 +99,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    
+    
+    loginUser ({ commit, state }, data) {
+      commit("SET_LOGGED_USER", data)
+    },
     
 
     getUsers ({ commit, state }) {
-      axios.get(state.url)
+      api().get("")
         .then(data => {
           // eslint-disable-next-line no-console
           console.log(data.data)

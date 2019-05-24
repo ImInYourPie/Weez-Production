@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-let User = require("../model/schemas/user.schema.js");
+const User = require("../model/schemas/user.schema.js");
 const jwt = require("jsonwebtoken");
 
 function jwtSignUser(user) {
@@ -12,7 +12,7 @@ function jwtSignUser(user) {
 
 class UserController {
 
-    static registerUser(req, res) {
+    static register(req, res) {
 
         // Get inputs
         const username = req.body.username;
@@ -76,7 +76,6 @@ class UserController {
     static login(req, res, next){
         console.log(req.body);
         passport.authenticate("local", {
-            successRedirect: "/",
             failureRedirect: "/",
             failureFlash: true
         })(req, res, next);
@@ -121,6 +120,8 @@ class UserController {
         req.logout();
         res.status(200).redirect("/");
     }
+    
+    
 
 }
 
