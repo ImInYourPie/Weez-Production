@@ -20,41 +20,27 @@ module.exports = {
         let hasPasswordError = false;
         let hasPassConfirmError = false;
 
-        const usernameExists = await User.find({ username: req.body.username }).lean();
-        const emailExists = await User.find({ email: req.body.email }).lean();
+        const usernameExists = await User.find({ username: req.body.username });
+        const emailExists = await User.find({ email: req.body.email });
 
-        if (error || usernameExists || emailExists) {
-            switch (error.details[0].context.key) {
-                case "username":
-                    hasUsernameError = "O nome de utlizador não é valido"
-                case "email":
-                    hasEmailError = "O email não é valido"
-                case "password":
-                    hasPasswordError = "A password tem de ser entre 6 e 32 caracteres e conter apenas minusculas, maiusculas e numeros"
-                case "passwordConfirm":
-                    hasPassConfirmError = "As passwords não coincidem"
-                    break
-                default:
-                    res.status(500).send({
-                        error: "Algo correu mal"
-                    })
+        if (error || !!usernameExists || !!emailExists) {
+            if (error) {
+                switch (error.details[0].context.key) {
+                    case "username":
+                        hasUsernameError = "O nome de utlizador não é valido"
+                    case "email":
+                        hasEmailError = "O email não é valido"
+                    case "password":
+                        hasPasswordError = "A password tem de ser entre 6 e 32 caracteres e conter apenas minusculas, maiusculas e numeros"
+                    case "passwordConfirm":
+                        hasPassConfirmError = "As passwords não coincidem"
+                        break
+                }
             }
-            // if (error.details[0].context.username) {
-            //     hasUsernameError = "O nome de utlizador não é valido"
-            // };
-            // if (error.details[0].context.email) {
-            //     hasEmailError = "O email não é valido"
-            // };
-            // if (error.details[0].context.password) {
-            //     hasPasswordError = "A password tem de ser entre 6 e 32 caracteres e conter apenas minusculas, maiusculas e numeros"
-            // };
-            // if (error.details[0].context.passwordConfirm) {
-            //     hasPassConfirmError = "As passwords não coincidem"
-            // };
-            if(usernameExists){
+            if (usernameExists.length != 0) {
                 hasUsernameError = "O nome de utilizador já se encontra registado"
             };
-            if (emailExists) {
+            if (emailExists.length != 0) {
                 hasEmailError = "Este email já se encontra registado"
             };
             res.status(400).send({ hasUsernameError, hasEmailError, hasPasswordError, hasPassConfirmError })
