@@ -26,7 +26,7 @@
           </div>
           <div class="level-right">
             <div class="level-item" style="width:100%">
-              <button @click="login" class="button is-primary" style="width:100%">Login</button>
+              <button @click.prevent="login" class="button is-primary" style="width:100%">Login</button>
             </div>
           </div>
         </nav>
@@ -47,9 +47,34 @@
 </template>
 
 <script>
+import AuthenticationService from "../services/AuthenticationService";
 export default {
   data: () => {
-    return {};
+    return {
+      username: "",
+      password: "",
+      hasUsernameError: "",
+      hasPasswordError: "",
+      error: ""
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await AuthenticationService.login({
+          username: this.username,
+          password: this.password
+        });
+        console.log(response.data.token)
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setLoggedUser", response.data.user);
+        
+      } catch (error) {
+        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : "";
+        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : "";
+        this.error = (!!error.response.data.error == true) ? error.response.data.error : "";
+      }
+    }
   }
 };
 </script>

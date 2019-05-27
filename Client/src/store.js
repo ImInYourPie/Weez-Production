@@ -14,16 +14,10 @@ export default new Vuex.Store({
 
     token: null,
     
-    loggedUser: null,
+    user: null,
 
     // USERS ARRAY
     users: [],
-
-    // QUESTIONS ARRAY 
-    questions: [],
-
-    // TAGS ARRAY
-    tags: [],
 
     // NOTIFICATIONS ARRAY
     notifications: [],
@@ -33,7 +27,12 @@ export default new Vuex.Store({
   mutations: {
     
     SET_LOGGED_USER (state, user) {
-      state.loggedUser = user;
+      state.user = user;
+      console.log(state.user)
+    },
+
+    SET_TOKEN (state, token) {
+      state.token = token;
     },
 
     SET_USERS (state, users) {
@@ -101,10 +100,13 @@ export default new Vuex.Store({
   actions: {
     
     
-    loginUser ({ commit }, data) {
-      commit("SET_LOGGED_USER", data)
+    setLoggedUser ({ commit }, user) {
+      commit("SET_LOGGED_USER", user);
     },
     
+    setToken({commit}, token) {
+      commit("SET_TOKEN", token);
+    },
 
     getUsers ({ commit }) {
       api().get()
