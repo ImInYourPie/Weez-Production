@@ -37,7 +37,7 @@ class UserController {
                             console.log(err);
                             return;
                         } else {
-                            res.status(201).send({isSuccess: "Registo efetuado com sucesso!"});
+                            res.status(201).send({ isSuccess: "Registo efetuado com sucesso!" });
                         }
                     })
                 })
@@ -53,12 +53,26 @@ class UserController {
     }
 
 
-    static login(req, res, next) {
-        console.log(req.body);
-        passport.authenticate("local", {
-            failureRedirect: "/",
-            failureFlash: true
-        })(req, res, next);
+    static async login(req, res, next) {
+        try {
+            console.log("i ran")
+            const { username, password } = req.body;
+            const user = await User.findOne({ username: username }).lean();
+            console.log(user)
+            if (!user) {
+                return res.status(403).send({ hasUsernameError: "O nome de utilizador que inseriu não existe" })
+            }
+
+            const isPasswordValid = bcrypt.compareSync(password, user.password);
+            console.log(isPasswordValid)
+            if (!isPasswordValid) {
+                return res.status(403).send({ hasPasswordError: "A password que inseriu está incorreta" })
+            }
+
+            res.send({ user: user, token: jwtSignUser(user) });
+        } catch (error) {
+            res.status(500).send({ error: "Alguma coisa correu mal, mas não é culpa tua :)" });
+        }
     }
 
     // static login(req, res) {

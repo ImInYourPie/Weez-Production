@@ -20,10 +20,12 @@ module.exports = {
         let hasPasswordError = false;
         let hasPassConfirmError = false;
 
-        const usernameExists = await User.find({ username: req.body.username });
-        const emailExists = await User.find({ email: req.body.email });
+        const usernameExists = await User.findOne({ username: req.body.username });
+        const emailExists = await User.findOne({ email: req.body.email });
 
-        if (error || !!usernameExists || !!emailExists) {
+        console.log(usernameExists, emailExists)
+
+        if (error || usernameExists || emailExists) {
             if (error) {
                 switch (error.details[0].context.key) {
                     case "username":
@@ -37,12 +39,12 @@ module.exports = {
                         break
                 }
             }
-            if (!!usernameExists) {
+            if (usernameExists) {
                 hasUsernameError = "O nome de utilizador já se encontra registado"
-            };
-            if (!!emailExists) {
+            }
+            if (emailExists) {
                 hasEmailError = "Este email já se encontra registado"
-            };
+            }
             res.status(400).send({ hasUsernameError, hasEmailError, hasPasswordError, hasPassConfirmError })
         } else {
             next();

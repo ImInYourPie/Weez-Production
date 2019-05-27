@@ -39,7 +39,7 @@
             >
               <b-input
                 v-model="email"
-                type="text"
+                type="email"
                 name="email"
                 icon-pack="fas"
                 icon="at"
@@ -58,6 +58,8 @@
                 icon="key"
                 placeholder="Password"
                 required
+                minlength="6"
+                maxlength="32"
               ></b-input>
             </b-field>
           </div>
@@ -74,6 +76,8 @@
                 icon="key"
                 placeholder="Confirmar Password"
                 required
+                minlength="6"
+                maxlength="32"
               ></b-input>
             </b-field>
           </div>
