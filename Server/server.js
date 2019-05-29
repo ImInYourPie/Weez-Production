@@ -60,6 +60,7 @@ app.use("/", home);
 // app.use("/questionPage", questionPage);
 app.use("/forum", forum);
 app.use("/profile", profile);
+app.use("/ranking", ranking);
 
 
 // PORT

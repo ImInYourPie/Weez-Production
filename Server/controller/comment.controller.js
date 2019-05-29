@@ -7,54 +7,44 @@ class CommentController {
         //Get inputs
         const { description } = req.body;
 
-        //Validate inputs
-        req.checkBody("description", "É necessário inserir a descrição do comentário.").notEmpty();
+        var newComment = new commentSchema({
+            description: description,
 
-        let errors = req.validationErrors();
+        });
 
-        if (errors) {
-            res.status(500).send(errors);
-        }
-        else {
-            // If valide create new Comment
-            var newComment = new commentSchema({
-                description: description,
-
-            });
-
-            newComment.save((err) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                else {
-                    res.status(200).send({success: "Comentário adicionado!"});
-                }
-            })
-        }
-    }
-    
-     static getComments(req, res) {
-        // Get data
-        commentSchema.find().exec((err, comments) => {
-            res.status(200).send(comments);
+        newComment.save((err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            else {
+                res.status(200).send({ success: "Comentário adicionado!" });
+            }
         })
     }
+}
+    
+     static getComments(req, res) {
+    // Get data
+    commentSchema.find().exec((err, comments) => {
+        res.status(200).send(comments);
+    })
+}
     
     static deleteComment(req, res) {
-        commentSchema.findByIdAndRemove({ _id: req.body.commentId }, (err, comment) => {
-            const response = {
-                message: "Comentário apagado!",
-            };
-            
-            if (err) {
-                return res.status(500).send(err);
-            }
-            else{
-                return res.status(200).send(response);
-            }
-        });
-    }
+    commentSchema.findByIdAndRemove({ _id: req.body.commentId }, (err, comment) => {
+        const response = {
+            message: "Comentário apagado!",
+        };
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        else {
+            return res.status(200).send(response);
+        }
+    });
+}
 }
 
 

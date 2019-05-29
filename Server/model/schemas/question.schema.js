@@ -22,11 +22,11 @@ const questionSchema = new Schema({
         type: String,
         required: true
     },
-    /*tags: [{
-        type: Schema.Types.ObjectId,
+    tags: [{
+        type: String,
         ref: "tagSchema",
         required: true
-    }],*/
+    }],
     upVotes: {
         type: Number,
         default: 0

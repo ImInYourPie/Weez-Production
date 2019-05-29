@@ -13,12 +13,11 @@ module.exports = {
 
         const { error, value } = Joi.validate(tag, schema);
 
-        let tagExists = await Tag.findOne({ name: tag }).lean();
-
         if (error) {
             return res.status(400).send({ tagError: "Tag inválida" });
         }
         else {
+            let tagExists = await Tag.findOne({ name: tag }).lean();
             if (tagExists) next()
             else {
                 let newTag = new Tag({
@@ -35,4 +34,5 @@ module.exports = {
             }
         }
     }
+    
 }
