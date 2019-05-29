@@ -47,11 +47,28 @@ class UserController {
 
     static returnUsers(req, res) {
         // Get data
-        User.find().exec((err, users) => {
+        User.find().lean().exec((err, users) => {
             res.status(200).send(users);
         });
     }
 
+    static returnUserProfile(req, res) {
+        // Get data
+        User.find({ _id: req.params.id }).lean().exec((err, user) => {
+            try {
+                res.status(200).send(user);
+            } catch (error) {
+                res.status(500).send({ error: "Alguma coisa correu mal mas não é culpa tua :)" });
+            }
+        });
+    }
+
+    static editUser(req, res, next) {
+        User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error) => {
+            if (error) return res.status(400).send({ error: "Não foi possivel atualizar o perfil" });
+            else return res.status(200).send({ success: "Perfil atualizado com sucesso" });
+        })
+    }
 
     static async login(req, res, next) {
         try {
@@ -60,13 +77,13 @@ class UserController {
             const user = await User.findOne({ username: username }).lean();
             console.log(user)
             if (!user) {
-                return res.status(403).send({ hasUsernameError: "O nome de utilizador que inseriu não existe" })
+                return res.status(400).send({ hasUsernameError: "O nome de utilizador que inseriu não existe" })
             }
 
             const isPasswordValid = bcrypt.compareSync(password, user.password);
             console.log(isPasswordValid)
             if (!isPasswordValid) {
-                return res.status(403).send({ hasPasswordError: "A password que inseriu está incorreta" })
+                return res.status(400).send({ hasPasswordError: "A password que inseriu está incorreta" })
             }
 
             res.send({ user: user, token: jwtSignUser(user) });

@@ -1,10 +1,11 @@
-let commentSchema = require('../model/schemas/comment.schema.js');
+const Joi = require("joi");
+const commentSchema = require('../model/schemas/comment.schema.js');
 
 class CommentController {
 
     static createComment(req, res) {
         //Get inputs
-        const description = req.body.description;
+        const { description } = req.body;
 
         //Validate inputs
         req.checkBody("description", "É necessário inserir a descrição do comentário.").notEmpty();
@@ -27,8 +28,7 @@ class CommentController {
                     return;
                 }
                 else {
-                    req.flash("success", "Comentário criado!");
-                    res.status(200).send();
+                    res.status(200).send({success: "Comentário adicionado!"});
                 }
             })
         }

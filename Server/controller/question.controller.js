@@ -1,4 +1,4 @@
-let questionSchema = require('../model/schemas/question.schema.js');
+let Question = require('../model/schemas/question.schema.js');
 
 class QuestionController {
 
@@ -21,7 +21,7 @@ class QuestionController {
         }
         else {
             // If valide create new Question
-            var newQuestion = new questionSchema({
+            var newQuestion = new Question({
                 title: title,
                 description: description,
                 // tags: tags
@@ -42,19 +42,23 @@ class QuestionController {
 
     static getQuestions(req, res) {
         // Get data
-        questionSchema.find().exec((err, questions) => {
+        Question.find().exec((err, questions) => {
             res.status(200).send(questions);
         })
     }
 
-    static searchQuestion(req, res) {
-        const keyword = req.body.search;
+    static async getQuestionById(req, res) {
+        let result = await Question.findById({_id: req.params.id}).lean();
+        if(!result) return res.status(404).send({error: "Esta pergunta já não existe ou nunca existiu, pedimos desculpa"});
+        else return res.status(200).send(result);
+    }
 
-        
+    static searchQuestion(req, res) {
+        const keyword = req.body.search;        
     }
 
     static deleteQuestion(req, res) {
-        questionSchema.findByIdAndRemove({ _id: req.body.questionId }, (err, question) => {
+        Question.findByIdAndRemove({ _id: req.body.questionId }, (err, question) => {
             const response = {
                 message: "Pergunta apagada!",
             };

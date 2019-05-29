@@ -12,10 +12,10 @@ const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'userSchema'
     },
-    question: {
+    /* question: {
         type: Schema.Types.ObjectId,
         ref: 'questionSchema'
-    },
+    }, */
     description: {
         type: String,
         required: true

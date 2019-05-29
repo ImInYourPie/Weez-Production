@@ -7,13 +7,13 @@ const Schema = mongoose.Schema;
 
 
 const questionSchema = new Schema({
-    id: mongoose.Schema.Types.ObjectId,
+    // id: mongoose.Schema.Types.ObjectId,
     //cookies session 
-    /*user: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "userSchema",
         required: true
-    },*/
+    },
     title: {
         type: String,
         required: true
