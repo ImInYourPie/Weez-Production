@@ -7,7 +7,6 @@ const AuthenticationPolicy = require("../policies/authentication.policy");
 // post app to /
 router.get('/', UserController.returnUsers); // for testing
 
-
 router.post('/register', [AuthenticationPolicy.register, UserController.register]);
 
 router.post("/login", UserController.login);

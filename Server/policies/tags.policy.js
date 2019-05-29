@@ -5,34 +5,34 @@ module.exports = {
 
     async addTag(req, res, next) {
 
-        let { tag } = req.body;
+        let { tags } = req.body;
 
         const schema = {
-            tag: Joi.string(),
+            tags: Joi.array().items(Joi.string()),
         };
 
-        const { error, value } = Joi.validate(tag, schema);
+        const { error, value } = Joi.validate(tags, schema);
 
         if (error) {
             return res.status(400).send({ tagError: "Tag inválida" });
         }
         else {
-            let tagExists = await Tag.findOne({ name: tag }).lean();
-            if (tagExists) next()
-            else {
-                let newTag = new Tag({
-                    name: tag
-                })
-                newTag.save((err) => {
-                    if (err) {
-                        console.log(err);
-                        return;
-                    } else {
-                        next();
-                    }
-                })
+            for (let i = 0; i < tags.length; i++) {
+                let tagExists = await Tag.findOne({ name: tags[i] });
+                if (!tagExists) {
+                    let newTag = new Tag({
+                        name: tags[i]
+                    })
+                    newTag.save((err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                }
+
             }
+            next()
         }
     }
-    
+
 }

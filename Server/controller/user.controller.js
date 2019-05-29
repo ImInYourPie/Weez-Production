@@ -47,14 +47,15 @@ class UserController {
 
     static returnUsers(req, res) {
         // Get data
-        User.find().lean().exec((err, users) => {
-            res.status(200).send(users);
+        User.find({}).select("-password, -userType, -email").lean().exec((err, users) => {
+            if (err) return res.status(400).send({ error: "Alguma coisa correu mal" });
+            else return res.status(200).send(users);
         });
     }
 
     static returnUserProfile(req, res) {
         // Get data
-        User.find({ _id: req.params.id }).lean().exec((err, user) => {
+        User.find({ _id: req.params.id }).lean().exec((user) => {
             try {
                 res.status(200).send(user);
             } catch (error) {
