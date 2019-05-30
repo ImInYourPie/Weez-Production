@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Navbar/>
-    <div id="mainHeader" v-if="token === null" class="columns is-vcentered">
+    <div id="mainHeader" v-if="!token" class="columns is-vcentered">
       <div class="column is-5 is-offset-1 is-hidden-mobile">
         <h1 class="headerTitle title is-3">It's a piece of cake!</h1>
         <h2 class="headerTitle title is-4">Pergunta, responde, e ganha.</h2>
@@ -88,7 +88,7 @@
         </form>
       </div>
     </div>
-    <div v-if="token === null" id="informationDiv">
+    <div v-if="!token" id="informationDiv">
       <div class="container">
         <br>
         <br>
@@ -252,7 +252,7 @@ export default {
 
   computed: {
 
-    ...mapState(["users", "url"]),
+    ...mapState(["users", "token"]),
 
 
     token() {

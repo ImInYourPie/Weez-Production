@@ -17,7 +17,7 @@ router.get("/questions/:id/:title", questionController.getQuestionById);
 
 router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]);
 
-router.get("/tags", async (req, res) =>{
+router.get("/tags", async (req, res) =>{ // for testing, will create tag controller
     let result = await Tag.find().lean()
     res.send(result)
 })

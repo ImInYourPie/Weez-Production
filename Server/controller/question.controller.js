@@ -9,9 +9,8 @@ class QuestionController {
         const description = req.body.description;
         const tags = req.body.tags;
 
-        let tagsToStore = await Tag.find({ name: { $in: tags } }).select("-description").lean();
         let errors = false
-        console.log(tagsToStore)
+        console.log(tags)
 
         if (errors) {
             res.status(500).send(errors);
@@ -24,8 +23,8 @@ class QuestionController {
                 tags: []
             });
 
-            for (let i = 0; i < tagsToStore.length; i++) {
-                newQuestion.tags.push(tagsToStore[i].name) 
+            for (let i = 0; i < tags.length; i++) {
+                newQuestion.tags.push(tags[i]) 
             }
 
             newQuestion.save((err) => {

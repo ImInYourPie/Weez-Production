@@ -65,9 +65,11 @@ export default {
           username: this.username,
           password: this.password
         });
+        console.log
         console.log(response.data.token)
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setLoggedUser", response.data.user);
+        // this.$router.push({name: "home"});
         
       } catch (error) {
         this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : "";

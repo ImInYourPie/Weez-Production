@@ -55,7 +55,7 @@ class UserController {
 
     static returnUserProfile(req, res) {
         // Get data
-        User.find({ _id: req.params.id }).lean().exec((user) => {
+        User.find({ _id: req.params.id }).lean().exec((error, user) => {
             try {
                 res.status(200).send(user);
             } catch (error) {

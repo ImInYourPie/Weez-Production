@@ -37,3 +37,9 @@ import api from "../services/api";
     }
   };
 </script>
+
+<style scoped>
+  .menu{
+    position: fixed;
+  }
+</style>
