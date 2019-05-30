@@ -2,6 +2,9 @@
   <div class="questions">
     <Navbar/>
     <div class="container is-fluid">
+      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
+        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+      </b-loading>
       <div class="columns">
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
@@ -94,8 +97,11 @@
                 </div>
                 <div class="columns">
                   <div class="column is-8">
-                    <a class="tag is-primary has-margin-right-5">tag</a>
-                    <a class="tag is-primary">tag</a>
+                    <b-tag
+                      class="is-primary has-margin-right-5"
+                      v-for="tag in question.tags"
+                      :key="tag"
+                    >{{tag}}</b-tag>
                   </div>
                 </div>
               </div>
@@ -150,6 +156,7 @@ import Menu from "@/components/Menu.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { mapState } from "vuex";
+import QuestionsService from "../services/QuestionsService";
 
 export default {
   name: "home",
@@ -166,12 +173,17 @@ export default {
       pageNumber: 1,
       current: 1,
       perPage: 5,
-      questions: []
+      questions: [],
+      loading: false
     };
   },
-
+  async mounted() {
+    this.loading = true;
+    this.questions = (await QuestionsService.getQuestions()).data;
+    this.loading = false;
+  },
   // async mounted() {
-  //   this.questions = await 
+  //   this.questions = await
   // },
 
   methods: {

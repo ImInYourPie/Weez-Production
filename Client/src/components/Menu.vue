@@ -8,11 +8,10 @@
         </b-field>
       </li>
       <br>
-      <li v-for="tag in tags" :key="tag">
+      <li v-for="tag in tags" :key="tag._id">
         <div class="control">
                 <b-taglist attached>
-                    <b-tag type="is-dark">{{tag}}</b-tag>
-                    <b-tag type="is-success">12</b-tag>
+                    <b-tag type="is-dark">{{tag.name}}</b-tag>
                 </b-taglist>
             </div>
       </li>
@@ -22,21 +21,19 @@
 
 
 <script>
+import api from "../services/api";
+
   export default {
     data: function() {
-      return {};
+      return {
+        tags: null
+      };
+    },
+    async mounted() {
+      this.tags = (await api().get("forum/tags")).data
     },
 
     computed: {
-      tags() {
-        return this.$store.getters.tags;
-      },
-      courses() {
-        return this.$store.getters.courses;
-      },
-      classes() {
-        return this.$store.getters.classes;
-      }
     }
   };
 </script>

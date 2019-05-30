@@ -1,20 +1,17 @@
 let Question = require('../model/schemas/question.schema.js');
+let Tag = require('../model/schemas/tag.schema.js');
 
 class QuestionController {
 
-    static createQuestion(req, res) {
+    static async createQuestion(req, res) {
         //Get inputs
         const title = req.body.title;
         const description = req.body.description;
-        // const tags = req.body.tags;
+        const tags = req.body.tags;
 
-        //Validate inputs
-        req.checkBody("title", "É necessário inserir o título da pergunta.").notEmpty();
-        req.checkBody("description", "É necessário inserir a descrição da pergunta.").notEmpty();
-        // req.checkBody("tags", "É necessário inserir pelo menos uma tag.").notEmpty();
-
-
-        let errors = req.validationErrors();
+        let tagsToStore = await Tag.find({ name: { $in: tags } }).select("-description").lean();
+        let errors = false
+        console.log(tagsToStore)
 
         if (errors) {
             res.status(500).send(errors);
@@ -24,8 +21,12 @@ class QuestionController {
             var newQuestion = new Question({
                 title: title,
                 description: description,
-                // tags: tags
+                tags: []
             });
+
+            for (let i = 0; i < tagsToStore.length; i++) {
+                newQuestion.tags.push(tagsToStore[i].name) 
+            }
 
             newQuestion.save((err) => {
                 if (err) {
@@ -33,8 +34,7 @@ class QuestionController {
                     return;
                 }
                 else {
-                    req.flash("success", "Pergunta criada!");
-                    res.status(200).send();
+                    res.status(200).send(newQuestion);
                 }
             })
         }
@@ -48,17 +48,17 @@ class QuestionController {
     }
 
     static async getQuestionById(req, res) {
-        let result = await Question.findById({_id: req.params.id}).lean();
-        if(!result) return res.status(404).send({error: "Esta pergunta já não existe ou nunca existiu, pedimos desculpa"});
+        let result = await Question.findById({ _id: req.params.id }).lean();
+        if (!result) return res.status(404).send({ error: "Esta pergunta já não existe ou nunca existiu, pedimos desculpa" });
         else return res.status(200).send(result);
     }
 
     static searchQuestion(req, res) {
-        const keyword = req.body.search;        
+        const keyword = req.body.search;
     }
 
     static deleteQuestion(req, res) {
-        Question.findByIdAndRemove({ _id: req.body.questionId }, (err, question) => {
+        Question.findByIdAndRemove({ _id: req.params.id }, (err, question) => {
             const response = {
                 message: "Pergunta apagada!",
             };
