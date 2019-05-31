@@ -17,10 +17,7 @@
         <br class="is-hidden-mobile">
         <form @submit.prevent="register">
           <div class="column is-10">
-            <b-field
-              :type="{ 'is-danger': hasUsernameError }"
-              :message="this.hasUsernameError "
-            >
+            <b-field :type="{ 'is-danger': hasUsernameError }" :message="this.hasUsernameError ">
               <b-input
                 v-model="username"
                 type="text"
@@ -33,10 +30,7 @@
             </b-field>
           </div>
           <div class="column is-10">
-            <b-field
-              :type="{ 'is-danger': hasEmailError }"
-              :message="this.hasEmailError"
-            >
+            <b-field :type="{ 'is-danger': hasEmailError }" :message="this.hasEmailError">
               <b-input
                 v-model="email"
                 type="email"
@@ -49,7 +43,10 @@
             </b-field>
           </div>
           <div class="column is-10">
-            <b-field :type="{ 'is-danger': hasPasswordError, 'is-danger': hasPassConfirmError}" :message="this.hasPasswordError">
+            <b-field
+              :type="{ 'is-danger': hasPasswordError, 'is-danger': hasPassConfirmError}"
+              :message="this.hasPasswordError"
+            >
               <b-input
                 v-model="password"
                 type="password"
@@ -58,8 +55,6 @@
                 icon="key"
                 placeholder="Password"
                 required
-                minlength="6"
-                maxlength="32"
               ></b-input>
             </b-field>
           </div>
@@ -76,12 +71,9 @@
                 icon="key"
                 placeholder="Confirmar Password"
                 required
-                minlength="6"
-                maxlength="32"
               ></b-input>
             </b-field>
           </div>
-
           <div class="column is-4 is-offset-6">
             <button class="button is-primary" @click="register" style="width: 100%">Registar</button>
           </div>
@@ -142,7 +134,7 @@
       <!-- <br>
       <p class="title is-2">The Podium</p>
       <Top/>
-      <br> -->
+      <br>-->
       <div>
         <h1 v-for="user in users" :key="user._id">{{ user.username }}</h1>
       </div>
@@ -176,15 +168,14 @@ export default {
       hasEmailError: "",
       hasPasswordError: "",
       hasPassConfirmError: "",
-      hasUsernameError: "",
+      hasUsernameError: ""
     };
   },
-   mounted() {
+  mounted() {
     this.$store.dispatch("getUsers");
   },
 
   methods: {
-
     async register() {
       try {
         const response = await AuthenticationService.register({
@@ -192,17 +183,27 @@ export default {
           email: this.email,
           password: this.password,
           passwordConfirm: this.passwordConfirm
-        })
-        console.log(response.data)
+        });
+        console.log(response.data);
       } catch (error) {
-        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : "";
-        this.hasEmailError = (!!error.response.data.hasEmailError == true) ? error.response.data.hasEmailError : "";
-        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : "";
-        this.hasPassConfirmError = (!!error.response.data.hasPassConfirmError == true) ? error.response.data.hasPassConfirmError : "";
+        this.hasUsernameError =
+          !!error.response.data.hasUsernameError == true
+            ? error.response.data.hasUsernameError
+            : "";
+        this.hasEmailError =
+          !!error.response.data.hasEmailError == true
+            ? error.response.data.hasEmailError
+            : "";
+        this.hasPasswordError =
+          !!error.response.data.hasPasswordError == true
+            ? error.response.data.hasPasswordError
+            : "";
+        this.hasPassConfirmError =
+          !!error.response.data.hasPassConfirmError == true
+            ? error.response.data.hasPassConfirmError
+            : "";
       }
-    },
-
-
+    }
 
     // login() {
     //   let user = {
@@ -230,7 +231,6 @@ export default {
     //   return this.currentUser;
     // },
 
-
     // validateRegister() {
     //   let nonValide = false;
     //   for (let i = 0; i < this.users.length; i++) {
@@ -251,17 +251,7 @@ export default {
   },
 
   computed: {
-
     ...mapState(["users", "token"]),
-
-
-    token() {
-      return this.$store.getters.token;
-    },
-
-    error() {
-      return this.$store.getters.error;
-    }
   }
 };
 </script>

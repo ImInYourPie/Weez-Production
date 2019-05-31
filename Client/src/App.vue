@@ -11,11 +11,8 @@ export default {
   data: function() {
     return {};
   },
-  async mounted() {
-    this.$store.dispatch("loginUser");
-  },
   computed: {
-    ...mapState(["loggedUser"])
+    ...mapState(["user"])
   }
 };
 </script>
@@ -144,9 +141,9 @@ body {
   border-radius: 20%;
 }
 
-.menu {
-  height: 100%;
-}
+// .menu {
+//   height: 100%;
+// }
 
 #menuCol {
   border-right: 1px solid $primary;

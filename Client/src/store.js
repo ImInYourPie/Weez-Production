@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import api from "./services/api";
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
 
     // url: "http://localhost:3000",
@@ -13,7 +15,7 @@ export default new Vuex.Store({
     error: false,
 
     token: null,
-    
+
     user: null,
 
     // USERS ARRAY
@@ -25,17 +27,17 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    
-    SET_LOGGED_USER (state, user) {
+
+    SET_LOGGED_USER(state, user) {
       state.user = user;
       console.log(state.user)
     },
 
-    SET_TOKEN (state, token) {
+    SET_TOKEN(state, token) {
       state.token = token;
     },
 
-    SET_USERS (state, users) {
+    SET_USERS(state, users) {
       state.users = users;
     },
 
@@ -44,71 +46,70 @@ export default new Vuex.Store({
     // },
 
 
-  //   createUser(state, payload) {
-  //     state.users.push(payload);
-  //   },
-  //   createQuestion(state, payload) {
-  //     state.questions.push(payload);
-  //   },
-  //   createAnswer(state, payload) {
-  //     for (let i = 0; i < state.questions.length; i++) {
-  //       if (state.questions[i].id === payload.question.id) {
-  //         state.questions[i].answers.push(payload.newAnswer);
-  //       }
-  //     }
-  //   },
-  //   // FILLS TOKEN TO BE USED AS CURRENT USER LOGGED IN
-  //   fillCurrentUser(state, payload) {
-  //     state.token = payload;
-  //   },
+    //   createUser(state, payload) {
+    //     state.users.push(payload);
+    //   },
+    //   createQuestion(state, payload) {
+    //     state.questions.push(payload);
+    //   },
+    //   createAnswer(state, payload) {
+    //     for (let i = 0; i < state.questions.length; i++) {
+    //       if (state.questions[i].id === payload.question.id) {
+    //         state.questions[i].answers.push(payload.newAnswer);
+    //       }
+    //     }
+    //   },
+    //   // FILLS TOKEN TO BE USED AS CURRENT USER LOGGED IN
+    //   fillCurrentUser(state, payload) {
+    //     state.token = payload;
+    //   },
 
-  //   // UPVOTE && DOWNVOTE QUESTION
-  //   updateQuestionUpvote(state, payload) {
-  //     for (let i = 0; i < state.questions.length; i++) {
-  //       if (state.questions[i].id === payload.question.id) {
-  //         state.questions[i].upvotes += payload.amount;
-  //       }
-  //     }
-  //     for (let j = 0; j < state.users.length; j++) {
-  //       if (state.users[j].id === payload.question.userId) {
-  //         state.users[j].allUpvotes += payload.amount;
-  //       }
-  //     }
-  //   },
-  //   updateQuestionDownvote(state, payload) {
-  //     for (let i = 0; i < state.questions.length; i++) {
-  //       if (state.questions[i].id === payload.question.id) {
-  //         state.questions[i].downvotes += payload.amount;
-  //       }
-  //     }
-  //     for (let j = 0; j < state.users.length; j++) {
-  //       if (state.users[j].id === payload.question.userId) {
-  //         state.users[j].allDownvotes += payload.amount;
-  //       }
-  //     }
-  //   },
-  //   // LOGIN USER WHEN ACCOUNT IS CREATED
-  //   loginOnCreate(state, payload) {
-  //     for (let i = 0; i < state.users.length; i++) {
-  //       if (payload == state.users[i].email) {
-  //         state.token = state.users[i]
-  //         localStorage.token = JSON.stringify(state.token);
-  //       }
-  //     }
-  //   }
+    //   // UPVOTE && DOWNVOTE QUESTION
+    //   updateQuestionUpvote(state, payload) {
+    //     for (let i = 0; i < state.questions.length; i++) {
+    //       if (state.questions[i].id === payload.question.id) {
+    //         state.questions[i].upvotes += payload.amount;
+    //       }
+    //     }
+    //     for (let j = 0; j < state.users.length; j++) {
+    //       if (state.users[j].id === payload.question.userId) {
+    //         state.users[j].allUpvotes += payload.amount;
+    //       }
+    //     }
+    //   },
+    //   updateQuestionDownvote(state, payload) {
+    //     for (let i = 0; i < state.questions.length; i++) {
+    //       if (state.questions[i].id === payload.question.id) {
+    //         state.questions[i].downvotes += payload.amount;
+    //       }
+    //     }
+    //     for (let j = 0; j < state.users.length; j++) {
+    //       if (state.users[j].id === payload.question.userId) {
+    //         state.users[j].allDownvotes += payload.amount;
+    //       }
+    //     }
+    //   },
+    //   // LOGIN USER WHEN ACCOUNT IS CREATED
+    //   loginOnCreate(state, payload) {
+    //     for (let i = 0; i < state.users.length; i++) {
+    //       if (payload == state.users[i].email) {
+    //         state.token = state.users[i]
+    //         localStorage.token = JSON.stringify(state.token);
+    //       }
+    //     }
+    //   }
   },
   actions: {
-    
-    
-    setLoggedUser ({ commit }, user) {
+
+    setLoggedUser({ commit }, user) {
       commit("SET_LOGGED_USER", user);
     },
-    
-    setToken({commit}, token) {
+
+    setToken({ commit }, token) {
       commit("SET_TOKEN", token);
     },
 
-    getUsers ({ commit }) {
+    getUsers({ commit }) {
       api().get()
         .then(data => {
           // eslint-disable-next-line no-console
@@ -138,66 +139,66 @@ export default new Vuex.Store({
 
 
 
-  //   createUser({ commit }, payload) {
-  //     let newUser = {
-  //       id: payload.id,
-  //       userType: "student",
-  //       fullname: "",
-  //       username: payload.username,
-  //       email: payload.email,
-  //       password: payload.password,
-  //       registerDate: payload.registerDate,
-  //       institutionId: 0,
-  //       profilePicture: payload.profilePicture,
-  //       allUpvotes: 0,
-  //       allDownvotes: 0,
-  //       allQuestions: 0,
-  //       allAnswers: 0,
-  //       experience: 0,
-  //       trophies: {
-  //         bronze: [],
-  //         silver: [],
-  //         gold: []
-  //       }
-  //     }
-  //     commit("createUser", newUser);
-  //   },
-  //   // CREATES QUESTION USING PAYLOAD FROM VIEW
-  //   createQuestion({ commit }, payload) {
-  //     let newQuestion = {
-  //       id: payload.id,
-  //       userId: payload.userId,
-  //       title: payload.title,
-  //       description: payload.description,
-  //       tags: payload.tags,
-  //       courseId: 1,
-  //       classId: payload.classId,
-  //       views: 0,
-  //       upvotes: 0,
-  //       downvotes: 0,
-  //       date: payload.date,
-  //       status: "open",
-  //       answers: []
-  //     }
-  //     commit("createQuestion", newQuestion);
-  //   },
+    //   createUser({ commit }, payload) {
+    //     let newUser = {
+    //       id: payload.id,
+    //       userType: "student",
+    //       fullname: "",
+    //       username: payload.username,
+    //       email: payload.email,
+    //       password: payload.password,
+    //       registerDate: payload.registerDate,
+    //       institutionId: 0,
+    //       profilePicture: payload.profilePicture,
+    //       allUpvotes: 0,
+    //       allDownvotes: 0,
+    //       allQuestions: 0,
+    //       allAnswers: 0,
+    //       experience: 0,
+    //       trophies: {
+    //         bronze: [],
+    //         silver: [],
+    //         gold: []
+    //       }
+    //     }
+    //     commit("createUser", newUser);
+    //   },
+    //   // CREATES QUESTION USING PAYLOAD FROM VIEW
+    //   createQuestion({ commit }, payload) {
+    //     let newQuestion = {
+    //       id: payload.id,
+    //       userId: payload.userId,
+    //       title: payload.title,
+    //       description: payload.description,
+    //       tags: payload.tags,
+    //       courseId: 1,
+    //       classId: payload.classId,
+    //       views: 0,
+    //       upvotes: 0,
+    //       downvotes: 0,
+    //       date: payload.date,
+    //       status: "open",
+    //       answers: []
+    //     }
+    //     commit("createQuestion", newQuestion);
+    //   },
 
-  //   loginOnCreate({ commit }, payload) {
-  //     commit("loginOnCreate", payload)
-  //   },
+    //   loginOnCreate({ commit }, payload) {
+    //     commit("loginOnCreate", payload)
+    //   },
 
-  //   // CREATE ANSWER
-  //   createAnswer({ commit }, payload) {
-  //     commit("createAnswer", payload)
-  //   },
+    //   // CREATE ANSWER
+    //   createAnswer({ commit }, payload) {
+    //     commit("createAnswer", payload)
+    //   },
 
-  //   // UPVOTE && DOWNVOTE QUESTION
-  //   updateQuestionUpvote({ commit }, payload) {
-  //     commit("updateQuestionUpvote", payload)
-  //   },
-  //   updateQuestionDownvote({ commit }, payload) {
-  //     commit("updateQuestionDownvote", payload)
-  //   }
+    //   // UPVOTE && DOWNVOTE QUESTION
+    //   updateQuestionUpvote({ commit }, payload) {
+    //     commit("updateQuestionUpvote", payload)
+    //   },
+    //   updateQuestionDownvote({ commit }, payload) {
+    //     commit("updateQuestionDownvote", payload)
+    //   }
 
   },
 
@@ -249,35 +250,35 @@ export default new Vuex.Store({
     // },
 
     // ACTUAL GETTERS
-    token(state) {
-      return state.token;
-    },
-    users(state) {
-      return state.users;
-    },
-    error(state) {
-      return state.error;
-    },
-    questions(state) {
-      return state.questions;
-    },
-    tags(state) {
-      return state.tags;
-    },
-    courses(state) {
-      return state.courses;
-    },
-    classes(state) {
-      return state.classes;
-    },
-    bronze(state) {
-      return state.bronze;
-    },
-    silver(state) {
-      return state.silver;
-    },
-    gold(state) {
-      return state.gold;
-    }
+    // token(state) {
+    //   return state.token;
+    // },
+    // users(state) {
+    //   return state.users;
+    // },
+    // error(state) {
+    //   return state.error;
+    // },
+    // questions(state) {
+    //   return state.questions;
+    // },
+    // tags(state) {
+    //   return state.tags;
+    // },
+    // courses(state) {
+    //   return state.courses;
+    // },
+    // classes(state) {
+    //   return state.classes;
+    // },
+    // bronze(state) {
+    //   return state.bronze;
+    // },
+    // silver(state) {
+    //   return state.silver;
+    // },
+    // gold(state) {
+    //   return state.gold;
+    // }
   }
 })

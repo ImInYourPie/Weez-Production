@@ -25,7 +25,7 @@ const userSchema = new Schema({
     },
     profilePic: {
         type: String,
-        default: "http://i.imgur.com/AItCxSs.jpg"
+        default: "https://res.cloudinary.com/iminyourcloud/image/upload/v1559269810/DefaultPic_odfcze.jpg"
     },
     upVotes: {
         type: Number,

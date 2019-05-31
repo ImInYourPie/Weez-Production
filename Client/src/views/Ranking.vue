@@ -26,6 +26,7 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Top from "@/components/Top.vue";
 export default {
+  name: "ranking",
   components: {
     Navbar,
     Top,

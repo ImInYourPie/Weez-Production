@@ -53,7 +53,7 @@
                 <a>Populares</a>
               </p>
               <p class="level-item">
-                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
+                <router-link :to="{name: '/forum/ask-question'}" class="button is-primary">Perguntar</router-link>
                 <!-- <b-tooltip label="Faça login para fazer uma pergunta!">
                   <button v-if="token === null" class="button is-primary" disabled>Nova Pergunta</button>
                 </b-tooltip>-->
@@ -159,12 +159,13 @@ import { mapState } from "vuex";
 import QuestionsService from "../services/QuestionsService";
 
 export default {
-  name: "home",
+  name: "forum",
   components: {
     Navbar,
     Menu,
     Footer
   },
+
   data: function() {
     return {
       isPopular: false,
@@ -172,41 +173,39 @@ export default {
       search: "",
       pageNumber: 1,
       current: 1,
-      perPage: 5,
+      perPage: 10,
       questions: [],
       loading: false
     };
   },
+
   async mounted() {
     this.loading = true;
     this.questions = (await QuestionsService.getQuestions()).data;
     this.loading = false;
   },
-  // async mounted() {
-  //   this.questions = await
-  // },
 
   methods: {
-    //   orderUpDate(a, b) {
-    //     if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-    //     if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-    //     else return 0;
-    //   },
-    //   orderDownDate(a, b) {
-    //     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-    //     if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-    //     else return 0;
-    //   },
-    //   orderDownPopularity(a, b) {
-    //     if (a.answers.length < b.answers.length) return 1;
-    //     if (a.answers.length > b.answers.length) return -1;
-    //     else return 0;
-    //   },
-    //   orderUpPopularity(a, b) {
-    //     if (a.answers.length > b.answers.length) return 1;
-    //     if (a.answers.length < b.answers.length) return -1;
-    //     else return 0;
-    //   }
+      orderUpDate(a, b) {
+        if (Date.parse(a.date) > Date.parse(b.date)) return 1;
+        if (Date.parse(a.date) < Date.parse(b.date)) return -1;
+        else return 0;
+      },
+      orderDownDate(a, b) {
+        if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+        if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+        else return 0;
+      },
+      orderDownPopularity(a, b) {
+        if (a.answers.length < b.answers.length) return 1;
+        if (a.answers.length > b.answers.length) return -1;
+        else return 0;
+      },
+      orderUpPopularity(a, b) {
+        if (a.answers.length > b.answers.length) return 1;
+        if (a.answers.length < b.answers.length) return -1;
+        else return 0;
+      }
   },
 
   computed: {
@@ -224,3 +223,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+/* #menuCol {
+  overflow: hidden;
+} */
+</style>

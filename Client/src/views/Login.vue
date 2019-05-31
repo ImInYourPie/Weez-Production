@@ -8,12 +8,20 @@
     <hr>
     <form @submit.prevent="login">
       <div class="column is-4 is-offset-4">
-        <b-field label="Username">
+        <b-field
+          label="Username"
+          :type="{ 'is-danger': hasUsernameError }"
+          :message="this.hasUsernameError"
+        >
           <b-input v-model="username" size="is-medium" type="text" placeholder="Username"></b-input>
         </b-field>
       </div>
       <div class="column is-4 is-offset-4">
-        <b-field label="Password">
+        <b-field
+          label="Password"
+          :type="{ 'is-danger': hasPasswordError }"
+          :message="this.hasPasswordError"
+        >
           <b-input v-model="password" size="is-medium" type="password" placeholder="Password"></b-input>
         </b-field>
       </div>
@@ -49,6 +57,7 @@
 <script>
 import AuthenticationService from "../services/AuthenticationService";
 export default {
+  name: "login",
   data: () => {
     return {
       username: "",
@@ -65,16 +74,22 @@ export default {
           username: this.username,
           password: this.password
         });
-        console.log
-        console.log(response.data.token)
+        console.log;
+        console.log(response.data.token);
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setLoggedUser", response.data.user);
-        // this.$router.push({name: "home"});
-        
+        this.$router.push({ name: "home" });
       } catch (error) {
-        this.hasUsernameError = (!!error.response.data.hasUsernameError == true) ? error.response.data.hasUsernameError : "";
-        this.hasPasswordError = (!!error.response.data.hasPasswordError == true) ? error.response.data.hasPasswordError : "";
-        this.error = (!!error.response.data.error == true) ? error.response.data.error : "";
+        this.hasUsernameError =
+          !!error.response.data.hasUsernameError == true
+            ? error.response.data.hasUsernameError
+            : "";
+        this.hasPasswordError =
+          !!error.response.data.hasPasswordError == true
+            ? error.response.data.hasPasswordError
+            : "";
+        this.error =
+          !!error.response.data.error == true ? error.response.data.error : "";
       }
     }
   }

@@ -6,7 +6,7 @@
       </router-link>
       <!-- <a class="navbar-item" href="https://github.com/ImInYourPie/Weez" target="_blank">
         <b-icon pack="fab" icon="github"></b-icon>
-      </a> -->
+      </a>-->
       <!-- BURGER -->
       <a
         role="button"
@@ -27,24 +27,9 @@
       <div class="navbar-end">
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
-        <router-link class="navbar-item" :to="{name: 'login'}">Login</router-link>
+        <router-link class="navbar-item" v-if="!token" :to="{name: 'login'}">Login</router-link>
         <router-link class="navbar-item" v-if="token" :to="{ name: 'profile' }">
-          <img v-bind:src="user.ProfilePic" id="tokenPic" alt>
-          <!--&nbsp;{{ token.trophies.bronze.length }}&nbsp;-->
-          <!--<i-->
-          <!--  class="fas fa-trophy"-->
-          <!--  style="color:brown"-->
-          <!--></i>-->
-          <!--&nbsp;{{ token.trophies.silver.length }}&nbsp;-->
-          <!--<i-->
-          <!--  class="fas fa-trophy"-->
-          <!--  style="color:silver"-->
-          <!--></i>-->
-          <!--&nbsp;{{ token.trophies.gold.length }}&nbsp;-->
-          <!--<i-->
-          <!--  class="fas fa-trophy"-->
-          <!--  style="color:gold"-->
-          <!--></i>-->
+          <img v-bind:src="user.profilePic" v-if="token" id="tokenPic" alt>
         </router-link>
         <!-- <b-dropdown class="navbar-slot" position="is-bottom-left">
           <a class="navbar-item" slot="trigger">
@@ -90,8 +75,8 @@
               </div>
             </form>
           </b-dropdown-item>
-        </b-dropdown> -->
-        <a @click="logout()" class="navbar-item">Logout</a>
+        </b-dropdown>-->
+        <a @click="logout()" v-if="token" class="navbar-item">Logout</a>
       </div>
     </div>
   </nav>
@@ -141,11 +126,13 @@ export default {
     //   this.$store.state.token = null;
     //   this.$router.push("/");
     // }
+    logout() {
+      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setLoggedUser", null);
+    }
   },
   computed: {
     ...mapState(["token", "user"])
-    
-    
   }
 };
 </script>

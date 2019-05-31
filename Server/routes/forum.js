@@ -1,21 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const questionController = require("../controller/question.controller.js");
+const QuestionController = require("../controller/question.controller.js");
 const CommentsController = require("../controller/comment.controller");
 const TagsPolicy = require("../policies/tags.policy");
+const TagsController = require("../controller/tags.controller");
 const CommentsPolicy = require("../policies/comments.policy");
 const Tag = require("../model/schemas/tag.schema")
 
 
-router.get("/", questionController.getQuestions);
+router.get("/", QuestionController.getQuestions); // returns questions from db
 
-router.post('/ask', [TagsPolicy.addTag, questionController.createQuestion]);
+router.get("/ask", [TagsController.getTags, QuestionController.getQuestions]); // return tags and questions from db
 
-router.delete("/question/:id/delete", questionController.deleteQuestion);
+router.post('/ask', [TagsPolicy.addTag, QuestionController.createQuestion]); // validates new tags and saves them on db, then posts new question on db
 
-router.get("/questions/:id/:title", questionController.getQuestionById);
+router.delete("/question/:id/delete", QuestionController.deleteQuestion); // deletes question from db by id
 
-router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]);
+router.get("/questions/:id/:title", QuestionController.getQuestionById); // returns a question from db by id
+
+router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
 
 router.get("/tags", async (req, res) =>{ // for testing, will create tag controller
     let result = await Tag.find().lean()

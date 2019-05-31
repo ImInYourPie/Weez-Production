@@ -11,7 +11,6 @@ module.exports = {
                 new RegExp("^[a-zA-Z0-9]{6,32}$")
             ),
             passwordConfirm: Joi.string().valid(Joi.ref("password"))
-
         }
 
         const { error, value } = Joi.validate(req.body, schema);
