@@ -5,9 +5,8 @@ const userSchema = require("./user.schema.js");
 // Schema variable
 const Schema = mongoose.Schema;
 
-
+// Comments
 const commentSchema = new Schema({
-    // _id: mongoose.Schema.Types.ObjectId,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'userSchema'
@@ -33,7 +32,6 @@ const commentSchema = new Schema({
         required: true,
         default: Date.now
     }
-
 });
 
 // Create model

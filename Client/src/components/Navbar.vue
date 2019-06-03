@@ -31,51 +31,6 @@
         <router-link class="navbar-item" v-if="token" :to="{ name: 'profile' }">
           <img v-bind:src="user.profilePic" v-if="token" id="tokenPic" alt>
         </router-link>
-        <!-- <b-dropdown class="navbar-slot" position="is-bottom-left">
-          <a class="navbar-item" slot="trigger">
-            <a class="navbar-item">
-              Login
-              <i class="fas fa-caret-down"></i>
-            </a>
-          </a>
-
-          <b-dropdown-item custom paddingless>
-            <form v-on:submit.prevent="login" action>
-              <div class="modal-card" style="width:300px;">
-                <section class="modal-card-body">
-                  <b-field label="Username" :type="{ 'is-danger': hasError }">
-                    <b-input
-                      v-model="username"
-                      type="text"
-                      icon-pack="fas"
-                      icon="user"
-                      placeholder
-                      required
-                    ></b-input>
-                  </b-field>
-
-                  <b-field
-                    label="Password"
-                    :type="{ 'is-danger': hasError }"
-                    :message="this.hasError"
-                  >
-                    <b-input
-                      v-model="password"
-                      type="password"
-                      icon-pack="fas"
-                      icon="key"
-                      placeholder
-                      required
-                    ></b-input>
-                  </b-field>
-                </section>
-                <footer class="modal-card-foot">
-                  <button @click="login()" class="button">Login</button>
-                </footer>
-              </div>
-            </form>
-          </b-dropdown-item>
-        </b-dropdown>-->
         <a @click="logout()" v-if="token" class="navbar-item">Logout</a>
       </div>
     </div>
@@ -90,8 +45,6 @@ export default {
   data: function() {
     return {
       isOpen: false,
-      // username: "",
-      // password: "",
       hasError: ""
     };
   },

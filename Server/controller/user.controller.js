@@ -66,8 +66,13 @@ class UserController {
 
     static editUser(req, res, next) {
         User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error) => {
-            if (error) return res.status(400).send({ error: "Não foi possivel atualizar o perfil" });
-            else return res.status(200).send({ success: "Perfil atualizado com sucesso" });
+            if (error){ 
+                return res.status(400).send({ error: "Não foi possivel atualizar o perfil" });
+                
+            }
+            else {
+                return res.status(200).send({ success: "Perfil atualizado com sucesso" });
+            }
         })
     }
 

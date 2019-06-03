@@ -33,7 +33,7 @@ class CommentController {
 
 
     static deleteComment(req, res) {
-        commentSchema.findByIdAndRemove({ _id: req.body.commentId }, (err, comment) => {
+        commentSchema.findByIdAndRemove({ _id: req.params.id }, (err, comment) => {
             const response = {
                 message: "Comentário apagado!",
             };

@@ -20,6 +20,8 @@ router.get("/questions/:id/:title", QuestionController.getQuestionById); // retu
 
 router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
 
+router.delete("/question/:id/comment/delete", CommentsController.deleteComment); // deletes comment from db by id
+
 router.get("/tags", async (req, res) =>{ // for testing, will create tag controller
     let result = await Tag.find().lean()
     res.send(result)

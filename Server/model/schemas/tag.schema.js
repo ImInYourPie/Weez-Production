@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 // Schema variable
 const Schema = mongoose.Schema;
 
-// Users
+// Tags
 const tagSchema = new Schema({
-    // _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
         required: true

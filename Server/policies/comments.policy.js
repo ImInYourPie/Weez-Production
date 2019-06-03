@@ -11,9 +11,11 @@ module.exports = {
             description: Joi.string(),
         };
 
-        const { error, value } = Joi.validate(description, schema);
+        // const { error, value } = Joi.validate(description, schema);
 
+        let error = false;
         if (error) {
+            console.log(error)
             return res.status(400).send({ tagError: "O comentário que inseriu é inválido" });
         }
         else {
