@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 const User = require("../model/schemas/user.schema");
 
 module.exports = {

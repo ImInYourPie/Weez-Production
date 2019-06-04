@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 const Tag = require("../model/schemas/tag.schema");
 
 module.exports = {
@@ -8,9 +8,9 @@ module.exports = {
         let { tags } = req.body;
         
         // console.log(tags)
-        // const schema = Joi.array().items(Joi.string());
+        const schema = Joi.array().items(Joi.string());
     
-        // const { error, value } = Joi.validate(tags, schema);
+        const { error, value } = Joi.validate(tags, schema);
         
         let error = false
 

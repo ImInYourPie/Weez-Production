@@ -1,15 +1,18 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 const commentSchema = require('../model/schemas/comment.schema.js');
+const QuestionController = require("../controller/question.controller.js");
+const UserController = require("../controller/user.controller.js");
 
 class CommentController {
 
     static createComment(req, res) {
         //Get inputs
         const { description } = req.body;
+        
 
         var newComment = new commentSchema({
             description: description,
-
+            
         });
 
         newComment.save((err) => {

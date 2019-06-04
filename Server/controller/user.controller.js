@@ -75,6 +75,12 @@ class UserController {
             }
         })
     }
+    
+    static async getUserById(req, res){
+        let result = await User.findById({ _id: req.params.id }).lean();
+        if (!result) return res.status(404).send({ error: "Este user já não existe ou nunca existiu, pedimos desculpa" });
+        else return res.status(200).send(result);
+    }
 
     static async login(req, res, next) {
         try {

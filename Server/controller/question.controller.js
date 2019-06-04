@@ -8,6 +8,7 @@ class QuestionController {
         const title = req.body.title;
         const description = req.body.description;
         const tags = req.body.tags;
+        const userId = req.body.userId;
 
         let errors = false
         console.log(tags)
@@ -20,7 +21,9 @@ class QuestionController {
             var newQuestion = new Question({
                 title: title,
                 description: description,
-                tags: []
+                tags: [],
+                userId: userId
+                
             });
 
             for (let i = 0; i < tags.length; i++) {

@@ -80,54 +80,11 @@
           </div>
           <hr>
           <!-- DESKTOP TEMPLATE -->
-          <div
-            class="column questionBox is-hidden-mobile"
-            v-for="question in paginatedQuestions"
-            :key="question._id"
-          >
-            <div class="columns">
-              <div class="column is-9">
-                <div class="columns">
-                  <div class="column is-12">
-                    <router-link
-                      class="is-6 questionTitle"
-                      :to="{ name: 'question-page', params: { questionId: question._id } }"
-                    >{{ question.title }}</router-link>
-                  </div>
-                </div>
-                <div class="columns">
-                  <div class="column is-8">
-                    <b-tag
-                      class="is-primary has-margin-right-5"
-                      v-for="tag in question.tags"
-                      :key="tag"
-                    >{{tag}}</b-tag>
-                  </div>
-                </div>
-              </div>
-              <div class="column is-3"></div>
-            </div>
+          <div class="columns" v-for="question in paginatedQuestions" :key="question._id">
+            <question-panel :question="question"></question-panel>
           </div>
           <!-- MOBILE TEMPLATE -->
-          <div
-            class="column questionBox is-hidden-tablet"
-            v-for="question in paginatedQuestions"
-            :key="question._id"
-          >
-            <div class="columns">
-              <div class="column is-12">
-                <router-link
-                  class="is-6 questionTitles"
-                  :to="{ name: 'question-page', params: { questionId: question._id } }"
-                >{{ question.title }}</router-link>
-              </div>
-            </div>
-            <div class="columns">
-              <div class="column is-8">
-                <a class="tag is-primary">Tag</a>
-              </div>
-            </div>
-          </div>
+          
           <br>
           <section>
             <b-pagination
@@ -152,7 +109,7 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
-// import Questions from "@/components/Questions.vue";
+import QuestionPanel from "@/components/QuestionPanel.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { mapState } from "vuex";
@@ -163,7 +120,8 @@ export default {
   components: {
     Navbar,
     Menu,
-    Footer
+    Footer,
+    QuestionPanel
   },
 
   data: function() {

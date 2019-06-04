@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 
 const questionSchema = new Schema({
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: "userSchema",
         required: true
