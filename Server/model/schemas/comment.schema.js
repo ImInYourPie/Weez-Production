@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const questionSchema = require("./question.schema.js");
-const userSchema = require("./user.schema.js");
 
 // Schema variable
 const Schema = mongoose.Schema;
@@ -9,11 +7,11 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'userSchema'
+        ref: 'User'
     },
     question: {
         type: Schema.Types.ObjectId,
-        ref: 'questionSchema'
+        ref: 'Question'
     },
     description: {
         type: String,

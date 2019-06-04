@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const userSchema = require("./user.schema");
 
 // Schema variable
 const Schema = mongoose.Schema;
@@ -8,15 +7,16 @@ const Schema = mongoose.Schema;
 const notificationSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: "userSchema",
+        ref: "User",
         required: true
     },
     description: {
         type: String,
         default: "Olha ai uma notificação!"
     },
-    url: {
-        type: String,
+    question: {
+        type: Schema.Types.ObjectId,
+        ref: "Question",
         required: true
     }
 });

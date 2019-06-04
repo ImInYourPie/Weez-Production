@@ -80,11 +80,41 @@
           </div>
           <hr>
           <!-- DESKTOP TEMPLATE -->
-          <div class="columns" v-for="question in paginatedQuestions" :key="question._id">
-            <question-panel :question="question"></question-panel>
+          <div
+            class="columns is-hidden-mobile"
+            v-for="question in paginatedQuestions"
+            :key="question._id"
+          >
+            <div class="column is-12">
+              <div class="columns">
+                <div class="column is-2 has-text-centered">
+                  <nav class="level">
+                    <div class="level-item has-text-centered">
+                      <div>
+                        <p class="is-size-5">{{questionScore(question)}}</p>
+                        <p><b-icon icon="thumbs-up-down"></b-icon></p>
+                      </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                      <div>
+                        <p class="is-size-5">{{question.comments.length}}</p>
+                        <p><b-icon pack="fas" icon="comments"></b-icon></p>
+                      </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                      <div>
+                        <p class="is-size-5">{{question.views.length}}</p>
+                        <p><b-icon pack="fas" icon="eye"></b-icon></p>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                <div class="column is-8"></div>
+              </div>
+            </div>
           </div>
           <!-- MOBILE TEMPLATE -->
-          
+
           <br>
           <section>
             <b-pagination
@@ -140,30 +170,35 @@ export default {
   async mounted() {
     this.loading = true;
     this.questions = (await QuestionsService.getQuestions()).data;
+
     this.loading = false;
   },
 
   methods: {
-      orderUpDate(a, b) {
-        if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-        if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-        else return 0;
-      },
-      orderDownDate(a, b) {
-        if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-        if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-        else return 0;
-      },
-      orderDownPopularity(a, b) {
-        if (a.answers.length < b.answers.length) return 1;
-        if (a.answers.length > b.answers.length) return -1;
-        else return 0;
-      },
-      orderUpPopularity(a, b) {
-        if (a.answers.length > b.answers.length) return 1;
-        if (a.answers.length < b.answers.length) return -1;
-        else return 0;
-      }
+    questionScore(question) {
+      return question.upVotes - question.downVotes;
+    },
+
+    orderUpDate(a, b) {
+      if (Date.parse(a.date) > Date.parse(b.date)) return 1;
+      if (Date.parse(a.date) < Date.parse(b.date)) return -1;
+      else return 0;
+    },
+    orderDownDate(a, b) {
+      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+      else return 0;
+    },
+    orderDownPopularity(a, b) {
+      if (a.answers.length < b.answers.length) return 1;
+      if (a.answers.length > b.answers.length) return -1;
+      else return 0;
+    },
+    orderUpPopularity(a, b) {
+      if (a.answers.length > b.answers.length) return 1;
+      if (a.answers.length < b.answers.length) return -1;
+      else return 0;
+    }
   },
 
   computed: {

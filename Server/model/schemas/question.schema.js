@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const tagSchema = require("./tag.schema.js");
-const userSchema = require("./user.schema.js");
+const Tag = require("./tag.schema.js");
+const User = require("./user.schema.js");
+const Comment = require("./comment.schema");
 
 // Schema variable
 const Schema = mongoose.Schema;
@@ -9,7 +10,7 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: "userSchema",
+        ref: "User",
         required: true
     },
     title: {
@@ -22,7 +23,6 @@ const questionSchema = new Schema({
     },
     tags: [{
         type: String,
-        ref: "tagSchema",
         required: true
     }],
     upVotes: {
@@ -38,6 +38,16 @@ const questionSchema = new Schema({
         required: true,
         default: Date.now
     },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+        default: []
+    }],
+    views: [{
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }]
 });
 
 // Create model

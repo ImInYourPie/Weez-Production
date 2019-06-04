@@ -50,7 +50,7 @@ class QuestionController {
     }
 
     static async getQuestionById(req, res) {
-        let result = await Question.findById({ _id: req.params.id }).lean();
+        let result = await Question.findById({ _id: req.params.id }).populate("comments").lean();
         if (!result) return res.status(404).send({ error: "Esta pergunta já não existe ou nunca existiu, pedimos desculpa" });
         else return res.status(200).send(result);
     }
