@@ -53,7 +53,7 @@
                 <a>Populares</a>
               </p>
               <p class="level-item">
-                <router-link :to="{name: '/forum/ask-question'}" class="button is-primary">Perguntar</router-link>
+                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
                 <!-- <b-tooltip label="Faça login para fazer uma pergunta!">
                   <button v-if="token === null" class="button is-primary" disabled>Nova Pergunta</button>
                 </b-tooltip>-->
@@ -81,37 +81,66 @@
           <hr>
           <!-- DESKTOP TEMPLATE -->
           <div
-            class="columns is-hidden-mobile"
+            class="columns is-hidden-mobile question-box"
             v-for="question in paginatedQuestions"
             :key="question._id"
           >
             <div class="column is-12">
-              <div class="columns">
+              <div class="columns is-vcentered">
                 <div class="column is-2 has-text-centered">
                   <nav class="level">
                     <div class="level-item has-text-centered">
                       <div>
                         <p class="is-size-5">{{questionScore(question)}}</p>
-                        <p><b-icon icon="thumbs-up-down"></b-icon></p>
+                        <p>
+                          <b-icon icon="thumbs-up-down" type="is-template"></b-icon>
+                        </p>
                       </div>
                     </div>
                     <div class="level-item has-text-centered">
                       <div>
                         <p class="is-size-5">{{question.comments.length}}</p>
-                        <p><b-icon pack="fas" icon="comments"></b-icon></p>
+                        <p>
+                          <b-icon pack="fas" icon="comments" type="is-template"></b-icon>
+                        </p>
                       </div>
                     </div>
                     <div class="level-item has-text-centered">
                       <div>
                         <p class="is-size-5">{{question.views.length}}</p>
-                        <p><b-icon pack="fas" icon="eye"></b-icon></p>
+                        <p>
+                          <b-icon pack="fas" icon="eye" type="is-template"></b-icon>
+                        </p>
                       </div>
                     </div>
                   </nav>
                 </div>
-                <div class="column is-8"></div>
+                <div class="column is-10">
+                  <div class="columns">
+                    <div class="column is-12">
+                      <router-link
+                        tag="a"
+                        :to="{name: 'question-page', params: {questionId: question._id, questionTitle: question.title}}"
+                      >{{question.title}}</router-link>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column is-6">
+                      <a v-for="tag in question.tags" :key="tag" class="has-margin-right-5">
+                        <b-tag type="is-template">{{tag}}</b-tag>
+                      </a>
+                    </div>
+                    <div class="column is-6 has-text-right">
+                      <span
+                        class="is-size-7"
+                        type="is-template"
+                      >Pergunta feita: {{ question.date | moment("calendar") }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <hr>
           </div>
           <!-- MOBILE TEMPLATE -->
 
@@ -170,7 +199,11 @@ export default {
   async mounted() {
     this.loading = true;
     this.questions = (await QuestionsService.getQuestions()).data;
-
+    this.questions.sort(function(a, b) {
+      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+      else return 0;
+    });
     this.loading = false;
   },
 
@@ -217,8 +250,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* #menuCol {
-  overflow: hidden;
-} */
-</style>
+

@@ -29,7 +29,7 @@ export default new Router({
       component: Forum
     },
     {
-      path: '/profile',
+      path: '/profile/:userId',
       name: 'profile',
       component: Profile
     },
@@ -44,7 +44,7 @@ export default new Router({
       component: Ranking
     },
     {
-      path: '/forum/question?:id',
+      path: '/forum/question/:questionId',
       name: 'question-page',
       component: QuestionPage
     }

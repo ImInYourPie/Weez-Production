@@ -16,7 +16,7 @@ router.post('/ask', [TagsPolicy.addTag, QuestionController.createQuestion]); // 
 
 router.delete("/question/:id/delete", QuestionController.deleteQuestion); // deletes question from db by id
 
-router.get("/questions/:id/:title", QuestionController.getQuestionById); // returns a question from db by id
+router.get("/question/:id", QuestionController.getQuestionById); // returns a question from db by id
 
 router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
 

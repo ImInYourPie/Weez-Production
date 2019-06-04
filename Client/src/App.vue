@@ -31,6 +31,8 @@ $danger: #7f181f;
 $danger-invert: findColorInvert($danger);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
+$template: #DCDCDC;
+$template-invert: findColorInvert($template);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -77,6 +79,10 @@ $colors: (
   "twitter": (
     $twitter,
     $twitter-invert
+  ),
+  "template": (
+    $template,
+    $template-invert
   )
 );
 
@@ -146,7 +152,7 @@ body {
 // }
 
 #menuCol {
-  border-right: 1px solid $primary;
+  border-right: 1px solid $template;
   background-color: whitesmoke;
 }
 
@@ -197,10 +203,14 @@ body {
   padding: 10px;
 }
 
-.questionBox {
-  background-color: whitesmoke;
-  margin-bottom: 5px;
-  border-radius: 5px;
+// .questionBox {
+//   background-color: whitesmoke;
+//   margin-bottom: 5px;
+//   border-radius: 5px;
+// }
+
+.question-box{
+  border-bottom: 1px solid $template
 }
 
 // Import Bulma and Buefy styles
