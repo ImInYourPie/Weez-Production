@@ -25,6 +25,14 @@
 
     <div id="navbarContent" class="navbar-menu" v-bind:class="{'is-active': isOpen}">
       <div class="navbar-end">
+        <span class="navbar-item">
+          <div class="control has-icons-right">
+            <input class="input is-small" style="min-width:400px" type="text" placeholder="Pesquisar...">
+            <span class="icon is-small is-right">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+        </span>
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
         <router-link class="navbar-item" v-if="!token" :to="{name: 'login'}">Login</router-link>

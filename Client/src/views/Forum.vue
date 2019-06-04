@@ -30,20 +30,7 @@
                   <strong>{{questions.length}}</strong> perguntas
                 </p>
               </div>
-              <div class="level-item">
-                <div class="field has-addons">
-                  <p class="control">
-                    <input class="input" type="text" placeholder="Procurar...">
-                  </p>
-                  <p class="control">
-                    <button class="button is-primary">
-                      <i class="fas fa-search"></i>
-                    </button>
-                  </p>
-                </div>
-              </div>
             </div>
-
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item is-hidden-mobile">

@@ -1,8 +1,33 @@
 <template>
   <div class="questionPage">
     <Navbar/>
-    <div class="container">
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column is-2" id="menuCol">
+          <Menu/>
+        </div>
+        <div class="column is-10 has-margin-top-5">
+          <div class="column is-12">
+            <div class="columns">
+              <div class="column is-10">
+                <h1 class="subtitle is-size-4">{{question.title}}</h1>
+              </div>
+              <div class="column is-2 has-text-right">
+                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="columns">
+            <div class="column is-8">
+              <div class="columns">
 
+              </div>
+            </div>
+            <div class="column is-4"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <Footer/>
   </div>
@@ -12,13 +37,15 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import Menu from "@/components/Menu.vue";
 import QuestionsService from "../services/QuestionsService";
 
 export default {
   name: "question",
   components: {
     Navbar,
-    Footer
+    Footer,
+    Menu
   },
   data: function() {
     return {
@@ -31,7 +58,7 @@ export default {
   async mounted() {
     const questionId = this.$route.params.questionId;
     this.question = (await QuestionsService.getQuestionById(questionId)).data;
-    this.user = this.question.userId
+    this.user = this.question.userId;
   },
   methods: {
     // getQuestion() {
