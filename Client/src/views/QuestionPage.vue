@@ -3,7 +3,7 @@
     <Navbar/>
     <div class="container is-fluid">
       <div class="columns">
-        <div class="column is-2" id="menuCol">
+        <div class="column is-2 is-hidden-mobile" id="menuCol">
           <Menu/>
         </div>
         <div class="column is-10 has-margin-top-5">
@@ -12,16 +12,16 @@
               <div class="column is-10">
                 <h1 class="subtitle is-size-4">{{question.title}}</h1>
               </div>
-              <div class="column is-2 has-text-right">
+              <div class="column is-hidden-mobile is-2 has-text-right">
                 <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
               </div>
             </div>
             <hr>
           </div>
-          <div class="columns">
+          <div class="columns has-margin-left-5">
             <div class="column is-8">
               <div class="columns">
-
+                <div class="column is-12"><p>{{question.description}}</p></div>
               </div>
             </div>
             <div class="column is-4"></div>

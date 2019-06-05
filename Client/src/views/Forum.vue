@@ -119,18 +119,46 @@
                     </div>
                     <div class="column is-6 has-text-right">
                       <span
-                        class="is-size-7"
-                        type="is-template"
-                      >Pergunta feita: {{ question.date | moment("calendar") }}</span>
+                        class="is-size-7 is-template"
+                      >Baked: {{ question.date | moment("calendar") }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <hr>
           </div>
           <!-- MOBILE TEMPLATE -->
-
+          <div
+            class="columns question-box"
+            v-for="question in paginatedQuestions"
+            :key="question._id"
+          >
+            <div class="column is-12">
+              <router-link
+                tag="a"
+                :to="{name: 'question-page', params: {questionId: question._id, questionTitle: question.title}}"
+              >{{question.title}}</router-link>
+            </div>
+            <div class="column is-12">
+              <a v-for="tag in question.tags" :key="tag" class="has-margin-right-5">
+                <b-tag type="is-template">{{tag}}</b-tag>
+              </a>
+            </div>
+            <div class="column is-12">
+              <span class="is-size-7 is-template">Baked: {{ question.date | moment("calendar") }}</span>
+              <span class="is-pulled-right">
+                <span class="is-size-6">
+                  {{questionScore(question)}}
+                  <b-icon icon="thumbs-up-down" size="is-small" type="is-template"></b-icon>
+                </span>
+                &nbsp;
+                <span class="is-size-6 is-template">
+                  {{question.comments.length}}
+                  <b-icon pack="fas" icon="comments" size="is-small" type="is-template"></b-icon>
+                </span>
+              </span>
+            </div>
+          </div>
           <br>
           <section>
             <b-pagination

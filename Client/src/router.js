@@ -29,7 +29,7 @@ export default new Router({
       component: Forum
     },
     {
-      path: '/profile/:userId',
+      path: '/profile/:username',
       name: 'profile',
       component: Profile
     },
