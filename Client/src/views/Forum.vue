@@ -129,7 +129,7 @@
           </div>
           <!-- MOBILE TEMPLATE -->
           <div
-            class="columns question-box"
+            class="columns is-hidden-tablet question-box"
             v-for="question in paginatedQuestions"
             :key="question._id"
           >
