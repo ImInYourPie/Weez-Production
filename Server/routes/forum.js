@@ -6,6 +6,7 @@ const TagsPolicy = require("../policies/tags.policy");
 const TagsController = require("../controller/tags.controller");
 const CommentsPolicy = require("../policies/comments.policy");
 const Tag = require("../model/schemas/tag.schema")
+const testController = require("../controller/test.controller");
 
 
 router.get("/", QuestionController.getQuestions); // returns questions from db
@@ -21,6 +22,8 @@ router.get("/question/:id", QuestionController.getQuestionById); // returns a qu
 router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
 
 router.delete("/question/:id/comment/delete", CommentsController.deleteComment); // deletes comment from db by id
+
+router.post("/question/:id/vote", testController.vote)
 
 router.get("/tags", async (req, res) =>{ // for testing, will create tag controller
     let result = await Tag.find().lean()

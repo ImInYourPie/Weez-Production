@@ -25,11 +25,13 @@ const questionSchema = new Schema({
         type: String,
         required: true
     }],
-    upVotes: {
-        type: Number,
-        default: 0
-    },
-    downVotes: {
+    upVotes: [{
+        type: String,
+    }],
+    downVotes: [{
+        type: String,
+    }],
+    voteCount: {
         type: Number,
         default: 0
     },
