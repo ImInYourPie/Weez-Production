@@ -2,32 +2,48 @@
   <div id="profilePage">
     <Navbar/>
     <div class="container has-margin-top-20">
+      <div class="column is-12 has-text-centered" v-if="error">
+        <h1 class="is-size-3 is-primary">{{error}}</h1>
+      </div>
       <template>
-        <section>
+        <section v-if="!error">
           <b-tabs v-model="activeTab">
             <b-tab-item label="Perfil" icon-pack="fas" icon="user">
               <div class="columns has-margin-top-20">
-                <div class="column is-one-third is-hidden-mobile">
+                <div class="column is-3 is-hidden-mobile">
                   <div class="column has-text-centered is-flex is-horizontal-center">
-                    <figure class="image is-square profile-pic">
-                      <img class :src="user.profilePic" alt>
+                    <figure class="image profile-pic">
+                      <img class :src="profileUser.profilePic" alt>
                     </figure>
                   </div>
                   <div class="column">
-                    <p class="title">{{user.username}}</p>
+                    <span class="subtitle">
+                      <strong>{{profileUser.username}}</strong>
+                    </span>
+                    <p>
+                      Reputação:
+                      <strong>{{profileUser.reputation}}</strong>
+                      <progress class="progress is-danger" :value="profileUser.experience"></progress>
+                    </p>
                   </div>
                 </div>
                 <div class="column is-hidden-tablet">
                   <article class="media">
                     <figure class="media-left">
                       <p class="image is-64x64">
-                        <img :src="user.profilePic">
+                        <img :src="profileUser.profilePic">
                       </p>
                     </figure>
                     <div class="media-content">
                       <div class="content">
-                        <p class="subtitle"><strong>{{user.username}}</strong></p>
-                        <progress class="progress is-danger" :value="user.experience"></progress>
+                        <span class="subtitle">
+                          <strong>{{profileUser.username}}</strong>
+                        </span>
+                        <p>
+                          Reputação:
+                          <strong>{{profileUser.reputation}}</strong>
+                          <progress class="progress is-danger" :value="profileUser.experience"></progress>
+                        </p>
                       </div>
                     </div>
                   </article>
@@ -37,15 +53,15 @@
 
             <b-tab-item label="Atividade" icon-pack="fas" icon="chart-line"></b-tab-item>
 
-            <b-tab-item label="Editar Perfil" icon-pack="fas" icon="edit"></b-tab-item>
+            <b-tab-item
+              v-if="user.username == this.$route.params.username"
+              label="Editar Perfil"
+              icon-pack="fas"
+              icon="edit"
+            ></b-tab-item>
           </b-tabs>
         </section>
       </template>
-    </div>
-    <Footer/>
-  </div>
-</template>
-
     </div>
     <Footer/>
   </div>
@@ -55,6 +71,7 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import ProfileService from "../services/ProfileService";
 import { mapState } from "vuex";
 
 export default {
@@ -65,8 +82,22 @@ export default {
   },
   data: function() {
     return {
-      activeTab: 0
+      activeTab: 0,
+      profileUser: false,
+      questions: [],
+      tags: [],
+      error: false
     };
+  },
+  async mounted() {
+    const username = this.$route.params.username;
+    console.log(username);
+    try {
+      const response = await ProfileService.getUserForProfile(username);
+      this.profileUser = response.data;
+    } catch (error) {
+      this.error = error.response.data.error;
+    }
   },
   computed: {
     ...mapState(["user"])
@@ -80,6 +111,8 @@ export default {
 }
 
 .profile-pic {
+  // height: 256px;
+  // width: 256px;
   height: 100%;
   width: 100%;
 }

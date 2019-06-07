@@ -53,30 +53,33 @@ class UserController {
         });
     }
 
-    static returnUserProfile(req, res) {
+    static async returnUserProfile(req, res) {
         // Get data
-        User.find({ _id: req.params.id }).lean().exec((error, user) => {
-            try {
-                res.status(200).send(user);
-            } catch (error) {
-                res.status(500).send({ error: "Alguma coisa correu mal mas não é culpa tua :)" });
+        const user = await User.findOne({ username: req.params.username }).select("-password").lean()
+            if (!user) {
+                console.log("hey")
+                return res.status(404).send({ error: "Ooops o utilizador não existe!" })
             }
-        });
+            else {
+                console.log("heyhey")
+                return res.status(200).send(user)
+            };
+        
     }
 
     static editUser(req, res, next) {
         User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error) => {
-            if (error){ 
+            if (error) {
                 return res.status(400).send({ error: "Não foi possivel atualizar o perfil" });
-                
+
             }
             else {
                 return res.status(200).send({ success: "Perfil atualizado com sucesso" });
             }
         })
     }
-    
-    static async getUserById(req, res){
+
+    static async getUserById(req, res) {
         let result = await User.findById({ _id: req.params.id }).lean();
         if (!result) return res.status(404).send({ error: "Este user já não existe ou nunca existiu, pedimos desculpa" });
         else return res.status(200).send(result);

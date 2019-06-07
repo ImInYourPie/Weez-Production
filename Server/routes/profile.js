@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("../controller/user.controller.js");
 
-router.get("/user/:id", UserController.returnUserProfile);
+router.get("/user/:username", UserController.returnUserProfile);
 
-router.put("/user/:id", UserController.editUser);
+router.put("/user/:username", UserController.editUser);
 
 
 module.exports = router;

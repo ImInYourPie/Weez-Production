@@ -39,6 +39,10 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
+    reputation: {
+        type: Number,
+        default: 0
+    },
     userType: {
         type: String,
         default: "student",

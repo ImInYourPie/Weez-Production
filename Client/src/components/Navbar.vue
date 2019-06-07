@@ -36,7 +36,7 @@
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
         <router-link class="navbar-item" v-if="!token" :to="{name: 'login'}">Login</router-link>
-        <router-link class="navbar-item" v-if="token" :to="{ name: 'profile', params: {username: user.username} }">
+        <router-link class="navbar-item" v-if="token" :key="$route.fullPath" :to="{ name: 'profile', params: {username: user.username} }">
           <img v-bind:src="user.profilePic" v-if="token" id="tokenPic" alt>&nbsp;<span>{{user.username}}</span>
         </router-link>
         <a @click="logout()" v-if="token" class="navbar-item">Logout</a>
