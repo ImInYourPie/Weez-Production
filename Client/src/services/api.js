@@ -2,6 +2,6 @@ import axios from "axios";
 
 export default () => {
     return axios.create({
-        baseURL: "http://localhost:3000/"
+        baseURL: "https://weez-api-iminyourcode.c9users.io/"
     })
 }

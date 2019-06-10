@@ -2,9 +2,9 @@
   <div class="questions">
     <Navbar/>
     <div class="container is-fluid">
-      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
-        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
-      </b-loading>
+      <!--<b-loading is-full-page :active.sync="loading" :can-cancel="false">-->
+      <!--  <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>-->
+      <!--</b-loading>-->
       <div class="columns">
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
@@ -78,7 +78,7 @@
                   <nav class="level">
                     <div class="level-item has-text-centered">
                       <div>
-                        <p class="is-size-5">{{questionScore(question)}}</p>
+                        <p class="is-size-5">{{question.voteCount}}</p>
                         <p>
                           <b-icon icon="thumbs-up-down" type="is-template"></b-icon>
                         </p>
@@ -148,7 +148,7 @@
               <span class="is-size-7 is-template">Baked: {{ question.date | moment("calendar") }}</span>
               <span class="is-pulled-right">
                 <span class="is-size-6">
-                  {{questionScore(question)}}
+                  {{question.voteCount}}
                   <b-icon icon="thumbs-up-down" size="is-small" type="is-template"></b-icon>
                 </span>
                 &nbsp;
@@ -223,9 +223,9 @@ export default {
   },
 
   methods: {
-    questionScore(question) {
-      return question.upVotes - question.downVotes;
-    },
+    // questionScore(question) {
+    //   return question.upVotes - question.downVotes;
+    // },
 
     orderUpDate(a, b) {
       if (Date.parse(a.date) > Date.parse(b.date)) return 1;

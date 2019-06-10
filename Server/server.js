@@ -50,14 +50,12 @@ app.get("*", (req, res, next) => {
 
 //Routes
 const home = require("./routes/home.js");
-// const questionPage = require("./routes/questionPage.js");
 const forum = require('./routes/forum.js');
 const ranking = require('./routes/ranking.js');
 const profile = require('./routes/profile.js');
 
 // Routing
 app.use("/", home);
-// app.use("/questionPage", questionPage);
 app.use("/forum", forum);
 app.use("/profile", profile);
 app.use("/ranking", ranking);
