@@ -2,7 +2,9 @@
   <aside class="menu">
     <p class="menu-label">Menu</p>
     <ul class="menu-list">
-      
+      <li><router-link tag="a" :to='{name: "forum" }'>Perguntas</router-link></li>
+      <li><router-link tag="a" :to='{name: "forum-tags" }'>Tags</router-link></li>
+      <li><router-link tag="a" :to='{name: "forum-users" }'>Utilizadores</router-link></li>
     </ul>
   </aside>
 </template>
@@ -24,7 +26,7 @@ export default {
 </script>
 
 <style scoped>
-.menu {
-  height: 600px;
-}
+/*.menu {*/
+/*  height: 600px;*/
+/*}*/
 </style>

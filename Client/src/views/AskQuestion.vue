@@ -18,7 +18,7 @@
       </nav>
       <div class="columns">
         <div class="column is-6">
-          <form @submit.prevent="onCreateQuestion()">
+          <form @submit.prevent="createQuestion">
             <b-field label="Título">
               <b-input
                 placeholder="Descrição rápida da pergunta..."
@@ -41,14 +41,14 @@
             <b-field label="Tags">
               <b-taginput
                 v-model="tags"
-                :data="tags"
+                :data="returnedTags"
                 autocomplete
                 allow-new
                 type="is-primary"
                 field="name"
                 icon="label"
                 placeholder="Máximo 5 tags"
-                maxlength="5"
+                maxlength="20"
                 @typing="getFilteredTags"
               ></b-taginput>
             </b-field>
@@ -57,21 +57,21 @@
             </div>
           </form>
         </div>
-        <div class="column is-6">
-          <div id="#previewQuestion">
-            <div class="columns is-mobile">
-              <div class="column is-10">
-                <h1 class="subtitle">{{ title }}</h1>
-              </div>
-              <div class="column is-2" v-if="title !== '' ">
-                <b-tag size="is-medium" class="is-primary">{{ getTodaysDate() }}</b-tag>
-              </div>
-            </div>
-            <div class="columns">
-              <div class="column is-12">{{ description }}</div>
-            </div>
-          </div>
-        </div>
+        <!--<div class="column is-6">-->
+        <!--  <div id="#previewQuestion">-->
+        <!--    <div class="columns is-mobile">-->
+        <!--      <div class="column is-10">-->
+        <!--        <h1 class="subtitle">{{ title }}</h1>-->
+        <!--      </div>-->
+        <!--      <div class="column is-2" v-if="title !== '' ">-->
+        <!--        <b-tag size="is-medium" class="is-primary">{{ getTodaysDate() }}</b-tag>-->
+        <!--      </div>-->
+        <!--    </div>-->
+        <!--    <div class="columns">-->
+        <!--      <div class="column is-12">{{ description }}</div>-->
+        <!--    </div>-->
+        <!--  </div>-->
+        <!--</div>-->
       </div>
       <br>
     </div>
@@ -82,6 +82,9 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import QuestionsService from "../services/QuestionsService"
+import TagsService from "../services/TagsService"
+import { mapState } from "vuex";
 
 export default {
   name: "ask",
@@ -93,20 +96,43 @@ export default {
     return {
         title: "",
         description: "",
-        tags: []
+        tags: [],
+        error: "", 
+        filteredTags: [],
+        returnedTags: []
     };
   },
+  async mounted() {
+    this.returnedTags = (await TagsService.getTags()).data
+    console.log(this.returnedTags)
+  },
   methods: {
-    // getFilteredTags(text) {
-    //   this.filteredTags = this.tags.filter(option => {
-    //     return (
-    //       option.name
-    //         .toString()
-    //         .toLowerCase()
-    //         .indexOf(text.toLowerCase()) >= 0
-    //     );
-    //   });
-    // },
+    
+    async createQuestion () {
+      try{
+        const questionId = (await QuestionsService.createQuestion({
+          title: this.title,
+          description: this.description,
+          tags: this.tags,
+          userId: this.user._id
+        })).data
+        this.router.push({name: "question-page", params: {questionId: questionId}});
+        console.log("i ran")
+      } catch(error) {
+        this.error = "Alguma coisa correu mal!"
+      }
+    },
+    
+    getFilteredTags(text) {
+      this.filteredTags = this.returnedTags.filter(option => {
+        return (
+          option.name
+            .toString()
+            .toLowerCase()
+            .indexOf(text.toLowerCase()) >= 0
+        );
+      });
+    },
     // onCreateQuestion() {
     //   let newQuestionData = {
     //     id: this.generateUniqueId,
@@ -127,7 +153,7 @@ export default {
   },
 
   computed: {
-
+    ...mapState(["user"])
   }
 };
 </script>

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Forum from './views/Forum.vue'
+import Tags from './views/Tags.vue'
+import Users from './views/Users.vue'
 import Profile from './views/Profile.vue'
 import AskQuestion from './views/AskQuestion.vue'
 import Ranking from './views/Ranking.vue'
@@ -25,9 +27,19 @@ export default new Router({
       component: Login
     },
     {
-      path: '/forum',
+      path: '/forum/questions',
       name: 'forum',
       component: Forum
+    },
+    {
+      path: '/forum/users',
+      name: 'forum-users',
+      component: Users
+    },
+    {
+      path: '/forum/tags',
+      name: 'forum-tags',
+      component: Tags
     },
     {
       path: '/profile/:username',

@@ -10,7 +10,6 @@ class QuestionController {
         const description = req.body.description;
         const tags = req.body.tags;
         const userId = req.body.userId;
-        var experience = 100;
 
         let errors = false
         console.log(tags)
@@ -38,18 +37,8 @@ class QuestionController {
                     return;
                 }
                 else {
-                    // Add 100xp to User experience
-                    userSchema.updateOne({ "_id": userId }, {
-                        $inc: { "experience": experience }
-                    }, (err, result) =>{
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log("+100xp");
-                        }
-                    })
-                    res.status(200).send(newQuestion);
+                    res.status(200).send(newQuestion._id);
+                    console.log("i came here")
                 }
             })
         }

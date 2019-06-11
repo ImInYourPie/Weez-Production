@@ -33,6 +33,8 @@ $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
 $template: #DCDCDC;
 $template-invert: findColorInvert($template);
+$card-shadow: 0 2px 3px rgba(255,48,63, 0.1), 0 0 0 1px rgba(255,48,63, 0.1);
+
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -147,13 +149,12 @@ body {
   border-radius: 20%;
 }
 
-// .menu {
-//   height: 100%;
-// }
+/* .menu {*/
+/*   height: 100%;*/
+/* }*/
 
 #menuCol {
   border-right: 1px solid $template;
-  background-color: whitesmoke;
 }
 
 .successTrophy {
@@ -211,6 +212,21 @@ body {
 
 .question-box{
   border-bottom: 1px solid $template
+}
+
+#hr {
+  border: 1px solid red;
+  opacity: 0.5;
+}
+
+#icon {
+  margin-right: 10px;
+}
+
+#box {
+  -webkit-box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
+-moz-box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
+box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
 }
 
 // Import Bulma and Buefy styles

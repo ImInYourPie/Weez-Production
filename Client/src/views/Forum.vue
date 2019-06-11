@@ -2,14 +2,14 @@
   <div class="questions">
     <Navbar/>
     <div class="container is-fluid">
-      <!--<b-loading is-full-page :active.sync="loading" :can-cancel="false">-->
-      <!--  <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>-->
-      <!--</b-loading>-->
+      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
+        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+      </b-loading>
       <div class="columns">
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-8">
+        <div class="column is-7">
           <br>
           <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
@@ -29,6 +29,18 @@
                 <p class="subtitle is-5">
                   <strong>{{questions.length}}</strong> perguntas
                 </p>
+                <div class="level-item has-margin-left-10">
+                  <div class="field has-addons">
+                    <p class="control">
+                      <input class="input" type="text" placeholder="" style="min-width:300px;">
+                    </p>
+                    <p class="control">
+                      <button class="button is-primary">
+                        <b-icon pack="fas" icon="search" size="is-small"></b-icon>
+                      </button>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- Right side -->
@@ -39,21 +51,19 @@
               <p class="level-item is-hidden-mobile">
                 <a>Populares</a>
               </p>
-              <p class="level-item">
-                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
-                <!-- <b-tooltip label="Faça login para fazer uma pergunta!">
-                  <button v-if="token === null" class="button is-primary" disabled>Nova Pergunta</button>
-                </b-tooltip>-->
-              </p>
             </div>
           </nav>
           <nav class="level is-mobile is-hidden-tablet is-marginless">
-            <a class="level-item">Tags</a>
-            <a class="level-item">Recentes</a>
-            <a class="level-item">Populares</a>
-            <p class="level-item">
-              <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
+            <p class="level-item has-text-centered">
+              <router-link tag="a" :to="{name: 'forum' }" class="level-item">Perguntas</router-link>
             </p>
+            <p class="level-item has-text-centered">
+              <router-link tag="a" :to="{name: 'forum-tags' }" class="level-item is-active">Tags</router-link>
+            </p>
+            <p class="level-item has-text-centered">
+              <router-link tag="a" :to="{name: 'forum-users' }" class="level-item">Users</router-link>
+            </p>
+            
           </nav>
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
@@ -65,6 +75,7 @@
               </p>
             </div>
           </div>
+          <div class=""></div>
           <hr>
           <!-- DESKTOP TEMPLATE -->
           <div
@@ -172,7 +183,6 @@
           </section>
         </div>
       </div>
-      <template></template>
     </div>
     <Footer/>
   </div>

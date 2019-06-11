@@ -7,5 +7,9 @@ export default {
 
     getQuestionById(questionId) {
         return api().get(`forum/question/${questionId}`)
+    },
+    
+    createQuestion (question) {
+        return api().post("forum/ask", question)
     }
 }

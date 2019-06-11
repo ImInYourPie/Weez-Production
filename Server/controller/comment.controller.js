@@ -9,8 +9,6 @@ class CommentController {
     static createComment(req, res) {
         //Get inputs
         const { description } = req.body;
-        // const userId = req.body.userId
-        // var experience = 50;
         
 
         var newComment = new commentSchema({
@@ -24,17 +22,6 @@ class CommentController {
                 return;
             }
             else {
-                /*// Add 50xp to User experience
-                    userSchema.updateOne({ "_id": userId }, {
-                        $inc: { "experience": experience }
-                    }, (err, result) =>{
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log("+50xp");
-                        }
-                    })*/
                 res.status(200).send({ success: "Comentário adicionado!" });
             }
         })
@@ -64,7 +51,7 @@ class CommentController {
         });
     }
     
-    
+    //Save vote type
     static async voteComment(req, res) {
 
         var counterInc = 0;
@@ -78,8 +65,7 @@ class CommentController {
                     "downVotes": req.body.username //username in cookies
                 }
             }, (err, result) => {
-                console.log("Entrou")
-                console.log("modified " + result.nModified)
+                
                 if (result.nModified > 0) {
                     counterInc = 1;
                     commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
@@ -92,7 +78,6 @@ class CommentController {
                             return res.status(200).send("Votou");
                         }
                     });
-                    console.log("Tirou down")
                 }
                 else {
                     commentSchema.updateOne({ "_id": req.params.commentId }, {
@@ -100,7 +85,9 @@ class CommentController {
                             "upVotes": req.body.username
                         }
                     }, (err, result) => {
+                        
                         if (result.nModified > 0) {
+                            
                             counterInc = -1;
                             commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
                                 $inc: { "voteCount": counterInc }
@@ -112,7 +99,6 @@ class CommentController {
                                     return res.status(200).send("Votou");
                                 }
                             });
-                            console.log("Tirou up")
                         }
                     });
                 }
@@ -122,13 +108,12 @@ class CommentController {
         //If the user is already in the downvotes list, it removes from it and add to the upvotes
         if (req.body.voteType == "up") {
 
-            console.log("up")
             voterType = "upVotes"
             commentSchema.updateOne({ "_id": req.params.commentId }, {
                 $pull: {
                     "downVotes": req.body.username
                 }
-            }, (error, result) => {
+            }, (err, result) => {
                 if (result.nModified > 0) {
                     counterInc = 2;
                 }
@@ -145,7 +130,7 @@ class CommentController {
                 $pull: {
                     "upVotes": req.body.username
                 }
-            }, (error, result) => {
+            }, (err, result) => {
                 if (result.nModified > 0) {
                     counterInc = -2;
                 }
@@ -157,14 +142,14 @@ class CommentController {
 
 
         if (req.body.voteType != "") {
-            console.log("1: " + counterInc)
+            
             commentSchema.updateOne({ "_id": req.params.commentId }, {
                 $addToSet: {
                     [voterType]: req.body.username
                 }
             }, (err, result) => {
                 if (result.nModified > 0) {
-                    console.log("Entrou no modified")
+                    
                     commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
                         $inc: { "voteCount": counterInc }
                     }, (err, votes) => {
@@ -175,9 +160,6 @@ class CommentController {
                             return res.status(200).send("Votou");
                         }
                     });
-                    console.log("Counter inc: " + counterInc)
-
-
                 }
             });
         }

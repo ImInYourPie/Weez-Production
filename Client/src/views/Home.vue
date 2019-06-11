@@ -185,6 +185,7 @@ export default {
           passwordConfirm: this.passwordConfirm
         });
         console.log(response.data);
+        router.push("login")
       } catch (error) {
         this.hasUsernameError =
           !!error.response.data.hasUsernameError == true

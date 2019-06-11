@@ -25,14 +25,9 @@
 
     <div id="navbarContent" class="navbar-menu" v-bind:class="{'is-active': isOpen}">
       <div class="navbar-end">
-        <span class="navbar-item his-hidden-mobile">
-          <div class="control has-icons-right">
-            <input class="input" style="min-width:400px" type="text" placeholder="Pesquisar...">
-            <span class="icon is-small is-right">
-              <i class="fas fa-search"></i>
-            </span>
-          </div>
-        </span>
+        <div class="navbar-item">
+        <router-link tag="a" class="button is-primary" :to="{name: 'ask-question'}" v-if="token">Perguntar</router-link>
+        </div>
         <router-link class="navbar-item" :to="{name: 'ranking'}">Ranking</router-link>
         <router-link class="navbar-item" :to="{name: 'forum'}">Fórum</router-link>
         <router-link class="navbar-item" v-if="!token" :to="{name: 'login'}">Login</router-link>
