@@ -7,7 +7,7 @@
           <Menu/>
         </div>
         <div class="column is-10 has-margin-top-5">
-          <div class="column is-12">
+          <div class="column is-9">
             <div class="columns">
               <div class="column is-10">
                 <!-- <h1 class="subtitle is-size-4">{{question.title}}</h1> -->
@@ -33,7 +33,7 @@
             <button class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
           </div>
           <div class="columns has-margin-left-5">
-            <div class="column is-8">
+            <div class="column is-9">
               <div class="columns">
                <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
   <div class="column"> 
