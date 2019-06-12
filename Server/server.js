@@ -38,15 +38,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
-require("./config/passport")(passport);
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+require("./config/passport")
 
-app.get("*", (req, res, next) => {
-    res.locals.user = req.user || null;
-    next();
-})
 
 //Routes
 const home = require("./routes/home.js");

@@ -4,18 +4,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Tags
-const watchedTagSchema = new Schema({
+const recentlyViewedSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    tag: {
+    question: {
         type: Schema.Types.ObjectId,
-        ref: 'Tag'
+        ref: 'Question'
     },
-    
 });
 
-const WatchedTag = mongoose.model('WatchedTag', watchedTagSchema);
+const RecentlyViewed = mongoose.model('Tag', recentlyViewedSchema);
 
-module.exports = WatchedTag;
+module.exports = RecentlyViewed;
