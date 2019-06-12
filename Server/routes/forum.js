@@ -10,6 +10,7 @@ const UserController = require("../controller/user.controller")
 
 
 
+
 router.get("/", QuestionController.getQuestions); // returns questions from db
 
 router.get("/ask", [TagsController.getTags, QuestionController.getQuestions]); // return tags and questions from db
@@ -32,10 +33,7 @@ router.get('/users', UserController.returnUsers);
 
 
 
-router.get("/tags", async (req, res) =>{ // for testing, will create tag controller
-    let result = await Tag.find().lean()
-    res.send(result)
-})
+router.get("/tags", TagsController.getTags)
 
 // router.get("/searchQuestion", questionController.searchQuestion)
 

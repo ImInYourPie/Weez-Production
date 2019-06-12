@@ -28,7 +28,7 @@ class QuestionController {
             });
 
             for (let i = 0; i < tags.length; i++) {
-                newQuestion.tags.push(tags[i])
+                newQuestion.tags.push(tags[i].name)
             }
 
             newQuestion.save((err) => {

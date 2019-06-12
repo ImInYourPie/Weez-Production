@@ -7,7 +7,8 @@ class TagsController {
         // Tag.find().select("-_id -__v -description").lean().exec((err, tags) => {
         //     res.status(200).send(tags);
         // })
-        const tags = await Tag.findAll({}).select("name")
+        const tags = await Tag.find({}).select("+name -_id -description -__v").lean()
+        console.log(tags)
         res.status(200).send(tags)
     }
 }
