@@ -20,7 +20,7 @@
                 <router-link :to="{name: 'forum'}">Fórum</router-link>
               </li>
             </ul>
-          </nav> -->
+          </nav>-->
           <!-- Main container -->
           <nav class="level is-hidden-mobile">
             <!-- Left side -->
@@ -31,17 +31,15 @@
                 </p>
               </div>
               <div class="level-item has-margin-left-10">
-                  <div class="field has-addons">
-                    <p class="control">
-                      <input class="input" type="text" placeholder="" style="min-width:300px;">
-                    </p>
-                    <p class="control">
-                      <button class="button is-primary">
-                        <b-icon pack="fas" icon="search" size="is-small"></b-icon>
-                      </button>
-                    </p>
-                  </div>
+                <div class="field">
+                  <p class="control has-icons-right">
+                    <input class="input" v-model="search" type="text" placeholder="Procurar Tags..." style="min-width:300px;">
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </p>
                 </div>
+              </div>
             </div>
             <!-- Right side -->
           </nav>
@@ -55,11 +53,11 @@
             <p class="level-item has-text-centered">
               <router-link tag="a" :to="{name: 'forum-users' }" class="level-item">Users</router-link>
             </p>
-          </nav>  
+          </nav>
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="text" placeholder="Procurar tags">
+                <input class="input" v-model="search" type="text" placeholder="Procurar Tags...">
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -67,9 +65,9 @@
             </div>
           </div>
           <hr>
-           
+
           <br>
-          <section>
+          <!-- <section>
             <b-pagination
               :total="tags.length"
               :current.sync="current"
@@ -78,10 +76,9 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section>
+          </section> -->
         </div>
       </div>
-      <template></template>
     </div>
     <Footer/>
   </div>
@@ -92,11 +89,8 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
-import QuestionPanel from "@/components/QuestionPanel.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
 import { mapState } from "vuex";
-import QuestionsService from "../services/QuestionsService";
 import TagsService from "../services/TagsService";
 
 export default {
@@ -104,8 +98,7 @@ export default {
   components: {
     Navbar,
     Menu,
-    Footer,
-    QuestionPanel
+    Footer
   },
 
   data: function() {

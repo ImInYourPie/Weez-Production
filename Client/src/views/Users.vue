@@ -31,14 +31,12 @@
                 </p>
               </div>
               <div class="level-item has-margin-left-10">
-                <div class="field has-addons">
-                  <p class="control">
-                    <input class="input" type="text" placeholder style="min-width:300px;">
-                  </p>
-                  <p class="control">
-                    <button class="button is-primary">
-                      <b-icon pack="fas" icon="search" size="is-small"></b-icon>
-                    </button>
+                <div class="field">
+                  <p class="control has-icons-right">
+                    <input class="input" v-model="search" type="text" placeholder="Procurar Utilizadores..." style="min-width:300px;">
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-search"></i>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -58,7 +56,7 @@
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="text" placeholder="Procurar utilizador">
+                <input class="input" v-model="search" type="text" placeholder="Procurar Utilizadores...">
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -83,14 +81,14 @@
                       >{{user.username}}</router-link>
                     </div>
                   </div>
-
+                  
                   <div class="content"></div>
                 </div>
               </div>
             </div>
           </div>
           <br>
-          <section>
+          <!-- <section>
             <b-pagination
               :total="users.length"
               :current.sync="current"
@@ -99,10 +97,12 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section>
+          </section> -->
+        </div>
+        <div class="column is-3 right-column">
+          <WatchedTags class="is-hidden-mobile" />
         </div>
       </div>
-      <template></template>
     </div>
     <Footer/>
   </div>
@@ -113,19 +113,19 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
-import QuestionPanel from "@/components/QuestionPanel.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
+import WatchedTags from "@/components/WatchedTags.vue"
 import { mapState } from "vuex";
 import UsersService from "../services/UsersService";
+import _ from "lodash"
 
 export default {
-  name: "forum",
+  name: "forum-users",
   components: {
     Navbar,
     Menu,
     Footer,
-    QuestionPanel
+    WatchedTags
   },
 
   data: function() {
@@ -139,36 +139,36 @@ export default {
     };
   },
 
-  async mounted() {
-    this.loading = true;
-    this.users = (await UsersService.returnUsers()).data;
-    this.loading = false;
-  },
+  // async mounted() {
+  //   this.loading = true;
+  //   this.users = (await UsersService.returnUsers()).data;
+  //   this.loading = false;
+  // },
 
   methods: {
-    // questionScore(question) {
-    //   return question.upVotes - question.downVotes;
-    // },
+    
+  },
 
-    orderUpDate(a, b) {
-      if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-      else return 0;
-    },
-    orderDownDate(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
-    },
-    orderDownPopularity(a, b) {
-      if (a.answers.length < b.answers.length) return 1;
-      if (a.answers.length > b.answers.length) return -1;
-      else return 0;
-    },
-    orderUpPopularity(a, b) {
-      if (a.answers.length > b.answers.length) return 1;
-      if (a.answers.length < b.answers.length) return -1;
-      else return 0;
+  watch: {
+    search: _.debounce(async function(value) {
+      const route = {
+        name: "forum-users"
+      };
+      if (this.search !== "") {
+        route.query = {
+          search: this.search
+        };
+      }
+      this.$router.push(route);
+    }, 700),
+    "$route.query.search": {
+      immediate: true,
+      async handler(value) {
+        this.loading = true;
+        this.search = value;
+        this.users = (await UsersService.returnUsers(value)).data;
+        this.loading = false;
+      }
     }
   },
 

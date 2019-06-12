@@ -1,7 +1,11 @@
 import api from "@/services/api";
 
 export default {
-    returnUsers () {
-        return api().get("forum/users");
+    returnUsers(search) {
+        return api().get("forum/users", {
+            params: {
+                search: search
+            }
+        });
     },
 }

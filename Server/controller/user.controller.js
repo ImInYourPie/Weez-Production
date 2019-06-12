@@ -45,12 +45,23 @@ class UserController {
         })
     }
 
-    static returnUsers(req, res) {
+    static async returnUsers(req, res) {
         // Get data
-        User.find({}).select("-password, -userType, -email").lean().exec((err, users) => {
-            if (err) return res.status(400).send({ error: "Alguma coisa correu mal" });
-            else return res.status(200).send(users);
-        });
+        try {
+            let users = null;
+            const search = req.query.search;
+            if (search) {
+                users = await User
+                    .find({ username: new RegExp(search, "i")})
+                    .select("-email -password")
+                    .lean();
+            } else {
+                users = await User.find().select("-email -password").lean();
+            }
+            res.status(200).send(users);
+        } catch (error) {
+            res.status(500).send({ error: "Ocorreu um erro a tentar receber os utilizadores" })
+        }
     }
 
     static async returnUserProfile(req, res) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="question-panel">
+  <div class="watched-questions">
       
   </div>
 </template>

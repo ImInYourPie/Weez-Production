@@ -31,14 +31,17 @@
                 </p>
                 <div class="level-item has-margin-left-10">
                   <div class="field">
-                    <p class="control">
+                    <p class="control has-icons-right">
                       <input
                         class="input"
                         v-model="search"
                         type="text"
-                        placeholder
+                        placeholder="Procurar Perguntas..."
                         style="min-width:300px;"
                       >
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-search"></i>
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -68,7 +71,12 @@
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" v-model="search" type="text" placeholder="Procurar...">
+                <input
+                  class="input"
+                  v-model="search"
+                  type="text"
+                  placeholder="Procurar Perguntas..."
+                >
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -132,7 +140,7 @@
                       <p
                         class="is-size-7 is-template"
                       >Baked: {{ question.date | moment("calendar") }}</p>
-                      <span class="is-size-6">Baker:</span>
+                      <span class="is-size-6">Baker:&nbsp;</span>
                       <router-link
                         tag="a"
                         class="is-size-6"
@@ -267,12 +275,13 @@ export default {
     },
     orderDownPopularity() {
       this.questions.sort(function(a, b) {
-        if (Date.parse(a.comments.length) < Date.parse(b.comments.length)) return 1;
-        if (Date.parse(a.comments.length) > Date.parse(b.comments.length)) return -1;
+        if (Date.parse(a.comments.length) < Date.parse(b.comments.length))
+          return 1;
+        if (Date.parse(a.comments.length) > Date.parse(b.comments.length))
+          return -1;
         else return 0;
       });
-    },
-    
+    }
   },
   watch: {
     search: _.debounce(async function(value) {
