@@ -44,11 +44,23 @@ class QuestionController {
         }
     };
 
-    static getQuestions(req, res) {
-        // Get data
-        questionSchema.find().populate("userId", "-email -password").exec((err, questions) => {
+    static async getQuestions(req, res) {
+        try {
+            let questions = null;
+            const search = req.query.search;
+            if (search) {
+                questions = await questionSchema
+                    .find().or([{ title: new RegExp(search, "i")}, {tags: new RegExp(search, "i")}])
+                    .populate("userId", "-email -password")
+                    .lean();
+            } else {
+                questions = await questionSchema.find().populate("userId", "-email -password").lean();
+            }
             res.status(200).send(questions);
-        })
+        } catch (error) {
+            res.status(500).send({ error: "Ocorreu um erro a tentar receber as perguntas" })
+        }
+
     }
 
     static async getQuestionById(req, res) {

@@ -30,14 +30,9 @@
                   <strong>{{questions.length}}</strong> Perguntas
                 </p>
                 <div class="level-item has-margin-left-10">
-                  <div class="field has-addons">
+                  <div class="field">
                     <p class="control">
-                      <input class="input" type="text" placeholder style="min-width:300px;">
-                    </p>
-                    <p class="control">
-                      <button class="button is-primary">
-                        <b-icon pack="fas" icon="search" size="is-small"></b-icon>
-                      </button>
+                      <input class="input" v-model="search" type="text" placeholder style="min-width:300px;">
                     </p>
                   </div>
                 </div>
@@ -170,7 +165,7 @@
               </span>
             </div>
           </div>
-          <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+          <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
           <br>
           <!-- <section>
             <b-pagination
@@ -194,19 +189,18 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
-import QuestionPanel from "@/components/QuestionPanel.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
-import { mapState } from "vuex";
+// import axios from "axios";
+// import { mapState } from "vuex";
 import QuestionsService from "../services/QuestionsService";
+import _ from "lodash";
 
 export default {
   name: "forum",
   components: {
     Navbar,
     Menu,
-    Footer,
-    QuestionPanel
+    Footer
   },
 
   data: function() {
@@ -218,43 +212,40 @@ export default {
       current: 1,
       perPage: 10,
       questions: [],
-      loading: false,
-      page: 1
+      loading: false
+      // page: 1
     };
   },
 
-  async mounted() {
-    this.loading = true;
-    this.questions = (await QuestionsService.getQuestions()).data;
-    this.questions.sort(function(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
-    });
-    console.table(this.questions);
-    this.loading = false;
-  },
+  // async mounted() {
+  //   this.loading = true;
+  //   this.questions = (await QuestionsService.getQuestions()).data;
+  //   this.questions.sort(function(a, b) {
+  //     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+  //     if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+  //     else return 0;
+  //   });
+  //   console.table(this.questions);
+  //   this.loading = false;
+  // },
 
   methods: {
     // questionScore(question) {
     //   return question.upVotes - question.downVotes;
     // },
 
-    infiniteHandler($state) {
-      axios.get(api, {
-        params: {
-          page: this.page,
-        },
-      }).then(({ data }) => {
-        if (data.hits.length) {
-          this.page += 1;
-          this.list.push(...data.hits);
-          $state.loaded();
-        } else {
-          $state.complete();
-        }
-      });
-    },
+    // infiniteHandler($state) {
+    //   QuestionsService.getQuestions(this.page).then(({ data }) => {
+    //     console.log(data.questions)
+    //     if (data.questions.length) {
+    //       this.page += 1;
+    //       this.questions.push(...data.questions);
+    //       $state.loaded();
+    //     } else {
+    //       $state.complete();
+    //     }
+    //   });
+    // },
 
     orderUpDate(a, b) {
       if (Date.parse(a.date) > Date.parse(b.date)) return 1;
@@ -275,6 +266,26 @@ export default {
       if (a.answers.length > b.answers.length) return 1;
       if (a.answers.length < b.answers.length) return -1;
       else return 0;
+    }
+  },
+  watch: {
+    search: _.debounce(async function (value) {
+      const route = {
+        name: 'forum'
+      }
+      if (this.search !== '') {
+        route.query = {
+          search: this.search
+        }
+      }
+      this.$router.push(route)
+    }, 700),
+    '$route.query.search': {
+      immediate: true,
+      async handler (value) {
+        this.search = value;
+        this.questions = (await QuestionsService.getQuestions(value)).data;
+      }
     }
   },
 

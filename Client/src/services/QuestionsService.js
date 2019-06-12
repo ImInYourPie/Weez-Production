@@ -1,15 +1,19 @@
 import api from "@/services/api";
 
 export default {
-    getQuestions () {
-        return api().get("forum")
+    getQuestions(search) {
+        return api().get("forum", {
+            params: {
+                search: search
+            }
+        })
     },
 
     getQuestionById(questionId) {
         return api().get(`forum/question/${questionId}`)
     },
-    
-    createQuestion (question) {
+
+    createQuestion(question) {
         return api().post("forum/ask", question)
     }
 }
