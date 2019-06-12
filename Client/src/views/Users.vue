@@ -9,7 +9,7 @@
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-7">
+        <div class="column is-7 main-container">
           <br>
           <!-- <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>

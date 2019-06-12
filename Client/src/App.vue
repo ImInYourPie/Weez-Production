@@ -215,6 +215,16 @@ body {
   border-bottom: 1px solid $template
 }
 
+.main-container{
+  min-height: 800px;
+  border-right: 1px solid $template;
+}
+
+// .footer{
+//   position: fixed !important;
+//   bottom: 0;
+// }
+
 #hr {
   border: 1px solid red;
   opacity: 0.5;

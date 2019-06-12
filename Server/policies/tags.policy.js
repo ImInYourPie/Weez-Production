@@ -12,8 +12,9 @@ module.exports = {
     
         const { error, value } = Joi.validate(tags, schema);
     
-
+        console.log("1")
         if (error) {
+            console.log("2")
             return res.status(400).send({ tagError: "Tag inválida" });
         }
         else {

@@ -18,7 +18,7 @@
       </nav>
       <div class="columns">
         <div class="column is-6">
-          <form @submit.prevent="createQuestion">
+          <form>
             <b-field label="Título">
               <b-input
                 placeholder="Descrição rápida da pergunta..."
@@ -53,7 +53,7 @@
               ></b-taginput>
             </b-field>
             <div class="column has-text-right">
-              <button type="submit" class="button is-primary">Submeter</button>
+              <button @click.prevent="createQuestion" type="submit" class="button is-primary">Submeter</button>
             </div>
           </form>
         </div>
@@ -116,7 +116,7 @@ export default {
           tags: this.tags,
           userId: this.user._id
         })).data
-        this.router.push({name: "question-page", params: {questionId: questionId}});
+        this.$router.push({name: "question-page", params: {questionId: questionId}});
         console.log("i ran")
       } catch(error) {
         this.error = "Alguma coisa correu mal!"

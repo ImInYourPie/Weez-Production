@@ -9,7 +9,7 @@
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-7">
+        <div class="column is-7 main-container">
           <br>
           <!-- <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
@@ -32,7 +32,13 @@
                 <div class="level-item has-margin-left-10">
                   <div class="field">
                     <p class="control">
-                      <input class="input" v-model="search" type="text" placeholder style="min-width:300px;">
+                      <input
+                        class="input"
+                        v-model="search"
+                        type="text"
+                        placeholder
+                        style="min-width:300px;"
+                      >
                     </p>
                   </div>
                 </div>
@@ -41,10 +47,10 @@
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item is-hidden-mobile">
-                <a>Recentes</a>
+                <a @click="orderDownDate">Recentes</a>
               </p>
               <p class="level-item is-hidden-mobile">
-                <a>Populares</a>
+                <a @click="orderDownPopularity">Populares</a>
               </p>
             </div>
           </nav>
@@ -62,7 +68,7 @@
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="text" placeholder="Procurar...">
+                <input class="input" v-model="search" type="text" placeholder="Procurar...">
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -126,7 +132,12 @@
                       <p
                         class="is-size-7 is-template"
                       >Baked: {{ question.date | moment("calendar") }}</p>
-                      <span class="is-size-6">Baker: </span><router-link tag="a" class="is-size-6" :to="{name: 'profile', params: {username: question.userId.username} }">{{question.userId.username }}</router-link> 
+                      <span class="is-size-6">Baker:</span>
+                      <router-link
+                        tag="a"
+                        class="is-size-6"
+                        :to="{name: 'profile', params: {username: question.userId.username} }"
+                      >{{question.userId.username }}</router-link>
                     </div>
                   </div>
                 </div>
@@ -247,44 +258,42 @@ export default {
     //   });
     // },
 
-    orderUpDate(a, b) {
-      if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-      else return 0;
+    orderDownDate() {
+      this.questions.sort(function(a, b) {
+        if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+        if (Date.parse(a.date) > Date.parse(b.date)) return -1;
+        else return 0;
+      });
     },
-    orderDownDate(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
+    orderDownPopularity() {
+      this.questions.sort(function(a, b) {
+        if (Date.parse(a.comments.length) < Date.parse(b.comments.length)) return 1;
+        if (Date.parse(a.comments.length) > Date.parse(b.comments.length)) return -1;
+        else return 0;
+      });
     },
-    orderDownPopularity(a, b) {
-      if (a.answers.length < b.answers.length) return 1;
-      if (a.answers.length > b.answers.length) return -1;
-      else return 0;
-    },
-    orderUpPopularity(a, b) {
-      if (a.answers.length > b.answers.length) return 1;
-      if (a.answers.length < b.answers.length) return -1;
-      else return 0;
-    }
+    
   },
   watch: {
-    search: _.debounce(async function (value) {
+    search: _.debounce(async function(value) {
       const route = {
-        name: 'forum'
-      }
-      if (this.search !== '') {
+        name: "forum"
+      };
+      if (this.search !== "") {
         route.query = {
           search: this.search
-        }
+        };
       }
-      this.$router.push(route)
+      this.$router.push(route);
     }, 700),
-    '$route.query.search': {
+    "$route.query.search": {
       immediate: true,
-      async handler (value) {
+      async handler(value) {
+        this.loading = true;
         this.search = value;
         this.questions = (await QuestionsService.getQuestions(value)).data;
+        this.orderDownDate();
+        this.loading = false;
       }
     }
   },
