@@ -20,7 +20,7 @@
                 <router-link :to="{name: 'forum'}">Fórum</router-link>
               </li>
             </ul>
-          </nav> -->
+          </nav>-->
           <!-- Main container -->
           <nav class="level is-hidden-mobile">
             <!-- Left side -->
@@ -32,7 +32,7 @@
                 <div class="level-item has-margin-left-10">
                   <div class="field has-addons">
                     <p class="control">
-                      <input class="input" type="text" placeholder="" style="min-width:300px;">
+                      <input class="input" type="text" placeholder style="min-width:300px;">
                     </p>
                     <p class="control">
                       <button class="button is-primary">
@@ -63,7 +63,6 @@
             <p class="level-item has-text-centered">
               <router-link tag="a" :to="{name: 'forum-users' }" class="level-item">Users</router-link>
             </p>
-            
           </nav>
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
@@ -75,7 +74,7 @@
               </p>
             </div>
           </div>
-          <div class=""></div>
+          <div class></div>
           <hr>
           <!-- DESKTOP TEMPLATE -->
           <div
@@ -129,9 +128,10 @@
                       </a>
                     </div>
                     <div class="column is-6 has-text-right">
-                      <span
+                      <p
                         class="is-size-7 is-template"
-                      >Baked: {{ question.date | moment("calendar") }}</span>
+                      >Baked: {{ question.date | moment("calendar") }}</p>
+                      <span class="is-size-6">Baker: </span><router-link tag="a" class="is-size-6" :to="{name: 'profile', params: {username: question.userId.username} }">{{question.userId.username }}</router-link> 
                     </div>
                   </div>
                 </div>
@@ -141,8 +141,8 @@
           <!-- MOBILE TEMPLATE -->
           <div
             class="columns is-hidden-tablet question-box"
-            v-for="question in questions"
-            :key="question._id"
+            v-for="(question, index) in questions"
+            :key="index"
           >
             <div class="column is-12">
               <router-link
@@ -170,6 +170,7 @@
               </span>
             </div>
           </div>
+          <infinite-loading @infinite="infiniteHandler"></infinite-loading>
           <br>
           <!-- <section>
             <b-pagination
@@ -180,7 +181,7 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section> -->
+          </section>-->
         </div>
       </div>
     </div>
@@ -217,7 +218,8 @@ export default {
       current: 1,
       perPage: 10,
       questions: [],
-      loading: false
+      loading: false,
+      page: 1
     };
   },
 
@@ -229,6 +231,7 @@ export default {
       if (Date.parse(a.date) > Date.parse(b.date)) return -1;
       else return 0;
     });
+    console.table(this.questions);
     this.loading = false;
   },
 
@@ -236,6 +239,22 @@ export default {
     // questionScore(question) {
     //   return question.upVotes - question.downVotes;
     // },
+
+    infiniteHandler($state) {
+      axios.get(api, {
+        params: {
+          page: this.page,
+        },
+      }).then(({ data }) => {
+        if (data.hits.length) {
+          this.page += 1;
+          this.list.push(...data.hits);
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
+    },
 
     orderUpDate(a, b) {
       if (Date.parse(a.date) > Date.parse(b.date)) return 1;
@@ -261,6 +280,17 @@ export default {
 
   computed: {
     // ...mapState(["questions"]),
+
+    // returnUserOfQuestion (questionId) {
+    //   let user = null;
+    //   for (let i = 0; i < this.questions.length; i++) {
+    //     if (questionId == this.questions[i]._id){
+    //       user = this.questions[i].userId.username;
+    //     }
+    //   }
+    //   console.log(user)
+    //   return user;
+    // },
 
     // RENDERS DIFFERENT QUESTIONS DEPENDING ON CURRENT PAGE
     paginatedQuestions() {

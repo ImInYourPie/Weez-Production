@@ -46,7 +46,7 @@ class QuestionController {
 
     static getQuestions(req, res) {
         // Get data
-        questionSchema.find().exec((err, questions) => {
+        questionSchema.find().populate("userId", "-email -password").exec((err, questions) => {
             res.status(200).send(questions);
         })
     }
