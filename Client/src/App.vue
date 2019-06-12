@@ -149,9 +149,10 @@ body {
   border-radius: 20%;
 }
 
-/* .menu {*/
-/*   height: 100%;*/
-/* }*/
+.menu {
+  position: fixed;
+  overflow: hidden;
+}
 
 #menuCol {
   border-right: 1px solid $template;

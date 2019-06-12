@@ -11,7 +11,7 @@
         </div>
         <div class="column is-7">
           <br>
-          <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
+          <!-- <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
               <li>
                 <router-link :to="{name: 'home'}">Home</router-link>
@@ -20,14 +20,14 @@
                 <router-link :to="{name: 'forum'}">Fórum</router-link>
               </li>
             </ul>
-          </nav>
+          </nav> -->
           <!-- Main container -->
           <nav class="level is-hidden-mobile">
             <!-- Left side -->
             <div class="level-left">
               <div class="level-item is-hidden-mobile">
                 <p class="subtitle is-5">
-                  <strong>{{questions.length}}</strong> perguntas
+                  <strong>{{questions.length}}</strong> Perguntas
                 </p>
                 <div class="level-item has-margin-left-10">
                   <div class="field has-addons">
@@ -80,7 +80,7 @@
           <!-- DESKTOP TEMPLATE -->
           <div
             class="columns is-hidden-mobile question-box"
-            v-for="question in paginatedQuestions"
+            v-for="question in questions"
             :key="question._id"
           >
             <div class="column is-12">
@@ -141,7 +141,7 @@
           <!-- MOBILE TEMPLATE -->
           <div
             class="columns is-hidden-tablet question-box"
-            v-for="question in paginatedQuestions"
+            v-for="question in questions"
             :key="question._id"
           >
             <div class="column is-12">
@@ -171,7 +171,7 @@
             </div>
           </div>
           <br>
-          <section>
+          <!-- <section>
             <b-pagination
               :total="questions.length"
               :current.sync="current"
@@ -180,7 +180,7 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section>
+          </section> -->
         </div>
       </div>
     </div>

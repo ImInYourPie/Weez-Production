@@ -2,16 +2,16 @@
   <div class="questions">
     <Navbar/>
     <div class="container is-fluid">
-      <!--<b-loading is-full-page :active.sync="loading" :can-cancel="false">-->
-      <!--  <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>-->
-      <!--</b-loading>-->
+      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
+        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+      </b-loading>
       <div class="columns">
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-8">
+        <div class="column is-7">
           <br>
-          <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
+          <!-- <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
               <li>
                 <router-link :to="{name: 'home'}">Home</router-link>
@@ -20,7 +20,7 @@
                 <router-link :to="{name: 'forum'}">Fórum</router-link>
               </li>
             </ul>
-          </nav>
+          </nav> -->
           <!-- Main container -->
           <nav class="level is-hidden-mobile">
             <!-- Left side -->
@@ -97,6 +97,7 @@ import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 import QuestionsService from "../services/QuestionsService";
+import TagsService from "../services/TagsService";
 
 export default {
   name: "forum",
@@ -120,12 +121,7 @@ export default {
 
   async mounted() {
     this.loading = true;
-    this.questions = (await QuestionsService.getQuestions()).data;
-    this.questions.sort(function(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
-    });
+    this.tags = (await TagsService.getTags()).data;
     this.loading = false;
   },
 

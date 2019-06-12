@@ -2,16 +2,16 @@
   <div class="questions">
     <Navbar/>
     <div class="container is-fluid">
-      <!--<b-loading is-full-page :active.sync="loading" :can-cancel="false">-->
-      <!--  <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>-->
-      <!--</b-loading>-->
+      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
+        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+      </b-loading>
       <div class="columns">
         <div id="menuCol" class="column is-2 is-hidden-mobile">
           <Menu/>
         </div>
-        <div class="column is-8">
+        <div class="column is-7">
           <br>
-          <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
+          <!-- <nav class="breadcrumb is-hidden-mobile" aria-label="breadcrumbs">
             <ul>
               <li>
                 <router-link :to="{name: 'home'}">Home</router-link>
@@ -20,7 +20,7 @@
                 <router-link :to="{name: 'forum'}">Fórum</router-link>
               </li>
             </ul>
-          </nav>
+          </nav>-->
           <!-- Main container -->
           <nav class="level is-hidden-mobile">
             <!-- Left side -->
@@ -31,17 +31,17 @@
                 </p>
               </div>
               <div class="level-item has-margin-left-10">
-                  <div class="field has-addons">
-                    <p class="control">
-                      <input class="input" type="text" placeholder="" style="min-width:300px;">
-                    </p>
-                    <p class="control">
-                      <button class="button is-primary">
-                        <b-icon pack="fas" icon="search" size="is-small"></b-icon>
-                      </button>
-                    </p>
-                  </div>
+                <div class="field has-addons">
+                  <p class="control">
+                    <input class="input" type="text" placeholder style="min-width:300px;">
+                  </p>
+                  <p class="control">
+                    <button class="button is-primary">
+                      <b-icon pack="fas" icon="search" size="is-small"></b-icon>
+                    </button>
+                  </p>
                 </div>
+              </div>
             </div>
           </nav>
           <nav class="level is-mobile is-hidden-tablet is-marginless">
@@ -66,7 +66,29 @@
             </div>
           </div>
           <hr>
+          <div class="columns is-multiline">
+            <div v-for="user in users" :key="user.username" class="column is-one-third">
+              <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img :src="user.profilePic" alt="Pic">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <router-link
+                        tag="a"
+                        :to="{ name: 'profile', params: {username: user.username} }"
+                      >{{user.username}}</router-link>
+                    </div>
+                  </div>
 
+                  <div class="content"></div>
+                </div>
+              </div>
+            </div>
+          </div>
           <br>
           <section>
             <b-pagination
@@ -95,7 +117,7 @@ import QuestionPanel from "@/components/QuestionPanel.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { mapState } from "vuex";
-import QuestionsService from "../services/QuestionsService";
+import UsersService from "../services/UsersService";
 
 export default {
   name: "forum",
@@ -119,12 +141,7 @@ export default {
 
   async mounted() {
     this.loading = true;
-    this.questions = (await QuestionsService.getQuestions()).data;
-    this.questions.sort(function(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
-    });
+    this.users = (await UsersService.returnUsers()).data;
     this.loading = false;
   },
 
