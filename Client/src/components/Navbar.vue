@@ -85,6 +85,7 @@ export default {
     logout() {
       this.$store.dispatch("setToken", null);
       this.$store.dispatch("setLoggedUser", null);
+      this.$router.push({name: "home"})
     }
   },
   computed: {

@@ -57,6 +57,10 @@ const userSchema = new Schema({
         required: true,
         default: Date.now
     },
+    bio: {
+        type: String,
+        default: "Este utilizador não escreveu a sua bio, mas mesmo assim acreditamos que seja uma pessoa bacana! De qualquer das maneiras pode ser que um dia escreva. Se fores tu o utilizador, de que estás à espera?"
+    }
 
 });
 

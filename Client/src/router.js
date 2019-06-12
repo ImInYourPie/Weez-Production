@@ -60,6 +60,11 @@ export default new Router({
       path: '/forum/question/:questionId',
       name: 'question-page',
       component: QuestionPage
+    },
+    {
+      path: "*",
+      name: "forum",
+      component: Forum
     }
   ]
 })

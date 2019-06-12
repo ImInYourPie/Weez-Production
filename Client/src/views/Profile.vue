@@ -27,6 +27,16 @@
                     </p>
                   </div>
                 </div>
+                <dvi class="column is-9">
+                  <div class="columns is-multiline">
+                    <div class="column is-full">
+                      <h1 class="title">Bio</h1>
+                      <div class="box">
+                        <p>{{profileUser.bio}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </dvi>
                 <div class="column is-hidden-tablet">
                   <article class="media">
                     <figure class="media-left">
