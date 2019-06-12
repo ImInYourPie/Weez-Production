@@ -33,7 +33,13 @@
               <div class="level-item has-margin-left-10">
                 <div class="field">
                   <p class="control has-icons-right">
-                    <input class="input" v-model="search" type="text" placeholder="Procurar Utilizadores..." style="min-width:300px;">
+                    <input
+                      class="input"
+                      v-model="search"
+                      type="text"
+                      placeholder="Procurar Utilizadores..."
+                      style="min-width:300px;"
+                    >
                     <span class="icon is-small is-right">
                       <i class="fas fa-search"></i>
                     </span>
@@ -56,7 +62,12 @@
           <div class="column is-12 is-hidden-tablet">
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" v-model="search" type="text" placeholder="Procurar Utilizadores...">
+                <input
+                  class="input"
+                  v-model="search"
+                  type="text"
+                  placeholder="Procurar Utilizadores..."
+                >
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -79,10 +90,56 @@
                         tag="a"
                         :to="{ name: 'profile', params: {username: user.username} }"
                       >{{user.username}}</router-link>
+                      <p class="is-size-7">
+                        <strong>Rep:</strong>
+                        {{user.experience}}
+                      </p>
                     </div>
                   </div>
-                  
-                  <div class="content"></div>
+                  <div class="content">
+                    <div class="columns is-mobile">
+                      <div class="column is-half">
+                        <nav class="level is-mobile">
+                          <div class="level-item has-text-centered">
+                            <div>
+                              <b-icon
+                                pack="fas"
+                                icon="arrow-circle-up"
+                                type="is-primary"
+                                size="is-small"
+                              ></b-icon>
+                              <p>{{user.upVotes}}</p>
+                            </div>
+                          </div>
+                          <div class="level-item has-text-centered">
+                            <div>
+                              <b-icon
+                                pack="fas"
+                                icon="arrow-circle-down"
+                                type="is-dark"
+                                size="is-small"
+                              ></b-icon>
+                              <p>{{user.downVotes}}</p>
+                            </div>
+                          </div>
+                          <div class="level-item has-text-centered">
+                            <div>
+                              <b-icon
+                                pack="fas"
+                                icon="trophy"
+                                type="is-template"
+                                size="is-small"
+                              ></b-icon>
+                              <p>0</p>
+                            </div>
+                          </div>
+                        </nav>
+                      </div>
+                      <div class="column is-half">
+                        <p class="is-size-7">Membro desde: {{ user.registerDate | moment("calendar") }}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,10 +154,10 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section> -->
+          </section>-->
         </div>
         <div class="column is-3 right-column">
-          <WatchedTags class="is-hidden-mobile" />
+          <WatchedTags class="is-hidden-mobile"/>
         </div>
       </div>
     </div>
@@ -114,10 +171,10 @@
 import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
 import Footer from "@/components/Footer.vue";
-import WatchedTags from "@/components/WatchedTags.vue"
+import WatchedTags from "@/components/WatchedTags.vue";
 import { mapState } from "vuex";
 import UsersService from "../services/UsersService";
-import _ from "lodash"
+import _ from "lodash";
 
 export default {
   name: "forum-users",
@@ -145,9 +202,7 @@ export default {
   //   this.loading = false;
   // },
 
-  methods: {
-    
-  },
+  methods: {},
 
   watch: {
     search: _.debounce(async function(value) {

@@ -47,8 +47,17 @@ const userSchema = new Schema({
         type: String,
         default: "student",
         required: true
-    }
-    // trophies: [trophySchema]
+    },
+    trophies: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Trophy'
+    }],
+    registerDate: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+
 });
 
 userSchema.plugin(mongooseUniqueValidator);

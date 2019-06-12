@@ -65,7 +65,15 @@
             </div>
           </div>
           <hr>
-
+          <div class="columns is-multiline is-mobile">
+            <div class="column is-3" v-for="tag in tags" :key="tag._id">
+              <b-taglist attached size="is-medium">
+                    <b-tag type="is-primary" size="is-medium">{{tag.name}}</b-tag>
+                    <b-tag type="is-template" size="is-medium"><a>Seguir</a></b-tag>
+                    <!-- <b-tag type="is-template" size="is-medium" v-if="isWatched(tag)"><a>Não Seguir</a></b-tag> -->
+                </b-taglist>
+            </div>
+          </div>
           <br>
           <!-- <section>
             <b-pagination
@@ -112,36 +120,35 @@ export default {
     };
   },
 
-  async mounted() {
-    this.loading = true;
-    this.tags = (await TagsService.getTags()).data;
-    this.loading = false;
-  },
+  // async mounted() {
+  //   this.loading = true;
+  //   this.tags = (await TagsService.getTags()).data;
+  //   this.loading = false;
+  // },
 
   methods: {
-    // questionScore(question) {
-    //   return question.upVotes - question.downVotes;
-    // },
-
-    orderUpDate(a, b) {
-      if (Date.parse(a.date) > Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) < Date.parse(b.date)) return -1;
-      else return 0;
-    },
-    orderDownDate(a, b) {
-      if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-      if (Date.parse(a.date) > Date.parse(b.date)) return -1;
-      else return 0;
-    },
-    orderDownPopularity(a, b) {
-      if (a.answers.length < b.answers.length) return 1;
-      if (a.answers.length > b.answers.length) return -1;
-      else return 0;
-    },
-    orderUpPopularity(a, b) {
-      if (a.answers.length > b.answers.length) return 1;
-      if (a.answers.length < b.answers.length) return -1;
-      else return 0;
+  
+  },
+  watch: {
+    search: _.debounce(async function(value) {
+      const route = {
+        name: "forum-tags"
+      };
+      if (this.search !== "") {
+        route.query = {
+          search: this.search
+        };
+      }
+      this.$router.push(route);
+    }, 700),
+    "$route.query.search": {
+      immediate: true,
+      async handler(value) {
+        this.loading = true;
+        this.search = value;
+        this.tags = (await TagsService.getTags(value)).data;
+        this.loading = false;
+      }
     }
   },
 
