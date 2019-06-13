@@ -59,37 +59,46 @@ class Teste {
 
         //If the user is already in the downvotes list, it removes from it and add to the upvotes
         if (req.body.voteType == "up") {
-            var  upvotes = questionSchema.upVotes
-            var  downvotes = questionSchema.upVotes
-            for (let i = 0; i < upvotes; i++) {
-                for (let j = 0; j < downvotes; j++) {
-                    //verifica se está no upvotes
-                    if (req.body.username == upvotes[i]) {
-                        questionSchema.updateOne({ "_id": req.params.id }, {
-                            $pull: {
-                                "upVotes": req.body.username // retira user do upvotes
-                            }
-                        }, (err, result) => {
-                            counterInc = -1; //tira 1 ponto
-                        });
-                    }
-                    //verifica se esta no array downVote
-                    else if (req.body.username == downvotes[j]){
-                        voterType = "upVotes" //adiciona ao upvotes
-                        questionSchema.updateOne({ "_id": req.params.id }, {
-                            $pull: {
-                                "downVotes": req.body.username //retira user do downVotes
-                            }
-                        }, (err, result) => {
-                            counterInc = 2; //adiciona 2 pontos
-                        });
-                    }
-                    else {
-                        voterType = "upVotes";
-                        counterInc = 1; //Adiciona 1 ponto
-                    }
+            questionSchema.find({ "_id": req.params.id }, (err, result) => {
+                console.log(result[0].upVotes)
+                var question = result[0];
+
+                for (var i = 0; i < question.upVotes.length; i++) {
+
                 }
-            }
+
+                /*for (let i = 0; i < question.upVotes; i++) {
+                    for (let j = 0; j < question.downVotes; j++) {
+                        console.log(question.upVotes)
+                        //verifica se está no upvotes
+                        if (req.body.username == question.upVotes[i]) {
+                            questionSchema.updateOne({ "_id": req.params.id }, {
+                                $pull: {
+                                    "upVotes": req.body.username // retira user do upvotes
+                                }
+                            }, (err, result) => {
+                                counterInc = -1; //tira 1 ponto
+                            });
+                        }
+                        //verifica se esta no array downVote
+                        else if (req.body.username == question.downVotes[j]) {
+                            voterType = "upVotes" //adiciona ao upvotes
+                            questionSchema.updateOne({ "_id": req.params.id }, {
+                                $pull: {
+                                    "downVotes": req.body.username //retira user do downVotes
+                                }
+                            }, (err, result) => {
+                                counterInc = 2; //adiciona 2 pontos
+                            });
+                        }
+                        else {
+                            voterType = "upVotes";
+                            counterInc = 1; //Adiciona 1 ponto
+                        }
+                    }
+                }*/
+
+            })
         }
 
         //If the user is already in the upvotes list, it removes from it and add to the downvotes
