@@ -5,7 +5,6 @@ const CommentsController = require("../controller/comment.controller");
 const TagsPolicy = require("../policies/tags.policy");
 const TagsController = require("../controller/tags.controller");
 const CommentsPolicy = require("../policies/comments.policy");
-const Tag = require("../model/schemas/tag.schema")
 const UserController = require("../controller/user.controller")
 const RecentlyViewedController = require("../controller/recentlyViewed.controller")
 const isAuthenticated = require("../policies/isAuthenticated.policy")

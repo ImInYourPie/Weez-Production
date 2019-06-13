@@ -71,54 +71,55 @@
             >
               <div class="columns is-multiline">
                 <div class="column is-one-third">
-<template>
-    <section>
-        <b-field>
-            <b-upload v-model="dropedFile"
-                multiple
-                drag-drop>
-                <section class="section">
-                    <div class="content has-text-centered">
-                        <p>
-                            <b-icon
-                                icon="upload"
-                                size="is-large">
-                            </b-icon>
-                        </p>
-                        <p>Carregar foto de perfil</p>
-                    </div>
-                </section>
-            </b-upload>
-        </b-field>
+              <template>
+                  <section>
+                      <b-field>
+                          <b-upload v-model="dropedFile"
+                          name="file"
+                              multiple
+                              drag-drop>
+                              <section class="section">
+                                  <div class="content has-text-centered">
+                                      <p>
+                                          <b-icon
+                                              icon="upload"
+                                              size="is-large">
+                                          </b-icon>
+                                      </p>
+                                      <p>Carregar foto de perfil</p>
+                                  </div>
+                              </section>
+                          </b-upload>
+                      </b-field>
 
-        <div class="tags">
-            <span v-if="dropedFile"
-                class="tag is-primary" >
-                Apagar foto
-                <button class="delete is-small"
-                    type="button"
-                    @click="deleteDropFile">
-                </button>
-            </span>
-        </div>
-        <button class="button is-primary">Submeter</button>
-    </section>
-</template>
+                      <div class="tags">
+                          <span v-if="dropedFile"
+                              class="tag is-primary" >
+                              Apagar foto
+                              <button class="delete is-small"
+                                  type="button"
+                                  @click="deleteDropFile">
+                              </button>
+                          </span>
+                      </div>
+                      <button @click.prevent="updatePic" class="button is-primary">Submeter</button>
+                  </section>
+              </template>
+                              </div>
+                              <div class="column is-two-thirds">
+                                <form>
+                                  <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder="Editar Username">
                 </div>
-                <div class="column is-two-thirds">
-                  <form>
-                    <div class="field">
-  <label class="label">Username</label>
-  <div class="control">
-    <input class="input" type="text" placeholder="Editar Username">
-  </div>
-</div>
-                    <div class="field">
-  <label class="label">Bio</label>
-  <div class="control">
-    <textarea class="textarea" placeholder="Editar bio..."></textarea>
-  </div>
-</div>
+              </div>
+                                  <div class="field">
+                <label class="label">Bio</label>
+                <div class="control">
+                  <textarea class="textarea" placeholder="Editar bio..."></textarea>
+                </div>
+              </div>
                     <button class="button is-primary">Submeter</button>
                   </form>
                 </div>
@@ -171,7 +172,16 @@ export default {
     deleteDropFile() {
       console.log(this.dropedFile.name)
                 this.dropedFile = null;
-            }
+    },
+    async updatePic(){
+      try{
+        console.log(this.dropedFile)
+        const username = this.$route.params.username;
+        await ProfileService.updatePic(username, this.dropedFile)
+      } catch (error) {
+        console.log(error)
+      }
+    }    
   },
   computed: {
     ...mapState(["user"])

@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const expressValidator = require("express-validator");
 const flash = require('connect-flash');
 const session = require('express-session');
-const passport = require("passport");
 const mongoose = require('mongoose');
 const cors = require("cors");
 const config = require("./config/database");
@@ -37,6 +36,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 
 require("./passport")
 

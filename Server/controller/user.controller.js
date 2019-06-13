@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const User = require("../model/schemas/user.schema.js");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("cloudinary");
 
 function jwtSignUser(user) {
     const ONE_WEEK = 60 * 60 * 24 * 7;
@@ -119,43 +119,21 @@ class UserController {
         }
     }
 
-    // static login(req, res) {
-    //     try {
-    //         const { username, password } = req.body;
-    //         console.log(username, password)
-    //         User.findOne({ username: username }).lean().exec((err, user) => {
-    //             if (err) throw err;
-    //             else {
-    //                 console.log(user)
-    //                 if (!user) {
-    //                     return res.status(403).send({
-    //                         error: "Utilizador não existe"
-    //                     });
-    //                 }
-
-    //                 let passwordValid = bcrypt.compareSync(password, user.password)
-    //                 console.log(passwordValid)
-    //                 if (!passwordValid) {
-    //                     return res.status(403).send({
-    //                         error: "Password incorreta"
-    //                     })
-    //                 }
-
-    //                 res.send({ user, token: jwtSignUser(user) });
-    //             }
-    //         })
-
-    //     }
-    //     catch (err) {
-    //         res.status(500).send({
-    //             error: "Oops alguma coisa correu mal, mas não é culpa tua! :)"
-    //         })
-    //     }
-    // }
-    
     static async incrementUpvote(req, res, next){
         
     }
+
+    // static async updatePic(req, res){
+    //     cloudinary.uploader.upload(req.file.path, function (result) {
+    //         const profilePic = result.secure_url;
+            
+    //         User.findOneAndUpdate({_id: req.user._id}, {$set:{profilePic: profilePic}}, {new: true}, (err, doc) =>{
+    //             if(err) console.log(err);
+    //             console.log(doc)
+    //         });
+    //         res.status(203).send({message: "Foto alterada com sucesso"})
+    //     });
+    // }
 
     static logout(req, res, next) {
         req.logout();
