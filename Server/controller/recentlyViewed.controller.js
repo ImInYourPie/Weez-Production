@@ -6,7 +6,7 @@ class RecentlyViewedController {
         try {
             console.log("sup")
             const userId = req.user._id
-            const viewed = await RecentlyViewed.find({user: userId}).sort("-date").limit(5).populate("question")
+            const viewed = await RecentlyViewed.find({user: userId}).sort("-createdAt").limit(5).populate("question")
             console.log(viewed)
             res.status(200).send(viewed)
         } catch (error) {

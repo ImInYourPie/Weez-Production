@@ -13,6 +13,11 @@ const recentlyViewedSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Question'
     },
+    createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now
+    }
 });
 
 const RecentlyViewed = mongoose.model('RecentlyViewed', recentlyViewedSchema);
