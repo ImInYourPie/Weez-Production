@@ -1,5 +1,5 @@
 const passport = require('passport')
-const User = require('../model/schemas/user.schema')
+const User = require('./model/schemas/user.schema')
 
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
@@ -12,7 +12,7 @@ passport.use(
     }, async function (jwtPayload, done) {
         try {
             console.log(jwtPayload)
-            const user = await User.findOne({ _id: jwtPayload.id })
+            const user = await User.findOne({ _id: jwtPayload._id })
             if (!user) {
                 return done(new Error(), false)
             }

@@ -11,8 +11,8 @@
           <p class="is-danger" v-if="!this.$store.state.token">Apenas para utilizadores registados</p>
           <div class="columns is-multiline" v-if="this.$store.state.token">
             <div class="column is-one">
-              <div v-for="view in viewed">
-                {{view.question.title}}
+              <div v-for="view in viewed" :key="view._id">
+                {{view.question}}
               </div>
             </div>
           </div>

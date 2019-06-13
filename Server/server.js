@@ -38,7 +38,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-require("./config/passport")
+require("./passport")
 
 
 //Routes
