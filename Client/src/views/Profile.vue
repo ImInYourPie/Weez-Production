@@ -27,7 +27,7 @@
                     </p>
                   </div>
                 </div>
-                <dvi class="column is-9">
+                <div class="column is-9">
                   <div class="columns is-multiline">
                     <div class="column is-full">
                       <h1 class="title">Bio</h1>
@@ -36,7 +36,7 @@
                       </div>
                     </div>
                   </div>
-                </dvi>
+                </div>
                 <div class="column is-hidden-tablet">
                   <article class="media">
                     <figure class="media-left">
@@ -64,7 +64,7 @@
             <b-tab-item label="Atividade" icon-pack="fas" icon="chart-line"></b-tab-item>
 
             <b-tab-item
-              v-if="user.username == this.$route.params.username"
+              v-if="username == this.$route.params.username"
               label="Editar Perfil"
               icon-pack="fas"
               icon="edit"
@@ -96,7 +96,8 @@ export default {
       profileUser: false,
       questions: [],
       tags: [],
-      error: false
+      error: false,
+      username: null
     };
   },
   async mounted() {
@@ -105,6 +106,7 @@ export default {
     try {
       const response = await ProfileService.getUserForProfile(username);
       this.profileUser = response.data;
+      this.username = this.user.username
     } catch (error) {
       this.error = error.response.data.error;
     }
