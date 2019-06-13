@@ -7,9 +7,11 @@ const TagsController = require("../controller/tags.controller");
 const CommentsPolicy = require("../policies/comments.policy");
 const Tag = require("../model/schemas/tag.schema")
 const UserController = require("../controller/user.controller")
+const RecentlyViewedController = require("../controller/recentlyViewed.controller")
+const isAuthenticated = require("../policies/isAuthenticated.policy")
 
 
-
+const test = require("../controller/teste")
 
 router.get("/", QuestionController.getQuestions); // returns questions from db
 
@@ -31,9 +33,14 @@ router.post("/question/:id/comment/:commentId/vote", CommentsController.voteComm
 
 router.get('/users', UserController.returnUsers);
 
-
-
 router.get("/tags", TagsController.getTags)
+
+router.get("/recently-viewed", isAuthenticated, RecentlyViewedController.getRecentlyViewed)
+
+router.post("/recently-viewed", isAuthenticated, RecentlyViewedController.postRecentlyViewed)
+
+
+router.post("/question/:id", test.voteQuestion);
 
 // router.get("/searchQuestion", questionController.searchQuestion)
 

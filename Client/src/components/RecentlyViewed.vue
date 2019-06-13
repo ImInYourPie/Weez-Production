@@ -10,7 +10,11 @@
         <div class="content">
           <p class="is-danger" v-if="!this.$store.state.token">Apenas para utilizadores registados</p>
           <div class="columns is-multiline" v-if="this.$store.state.token">
-            <div class="column is-one"></div>
+            <div class="column is-one">
+              <div v-for="view in viewed">
+                {{view.question.title}}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -20,11 +24,19 @@
 
 
 <script>
+import RecentlyViewedService from "../services/RecentlyViewedService";
+
 export default {
   data() {
-    return {};
+    return {
+      viewed: []
+    };
   },
-  
+  async mounted(){
+    if(this.$store.state.token){
+      this.viewed = (await RecentlyViewedService.getViewed()).data;
+    }
+  }
 };
 </script>
 

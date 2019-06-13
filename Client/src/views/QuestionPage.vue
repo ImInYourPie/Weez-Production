@@ -142,6 +142,7 @@
   import WatchedQuestions from "@/components/WatchedQuestions.vue";
   import RecentlyViewed from "@/components/RecentlyViewed.vue";
   import QuestionsService from "../services/QuestionsService";
+  import RecentlyViewedService from "../services/RecentlyViewedService";
   import { mapState } from "vuex";
 
   export default {
@@ -166,6 +167,13 @@
       const questionId = this.$route.params.questionId;
       this.question = (await QuestionsService.getQuestionById(questionId)).data;
       this.user = this.question.userId;
+      
+      if(this.token){
+        RecentlyViewedService.postRecentlyViewed({
+          questionId: questionId
+        })
+      }
+      
     },
     methods: {
       // getQuestion() {

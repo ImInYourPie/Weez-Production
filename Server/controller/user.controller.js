@@ -79,7 +79,8 @@ class UserController {
     }
 
     static editUser(req, res, next) {
-        User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error) => {
+        const userId = req.user._id;
+        User.findOneAndUpdate({ _id: userId }, req.body, { new: true }, (error) => {
             if (error) {
                 return res.status(400).send({ error: "Não foi possivel atualizar o perfil" });
 

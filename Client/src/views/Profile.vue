@@ -68,7 +68,62 @@
               label="Editar Perfil"
               icon-pack="fas"
               icon="edit"
-            ></b-tab-item>
+            >
+              <div class="columns is-multiline">
+                <div class="column is-one-third">
+<template>
+    <section>
+        <b-field>
+            <b-upload v-model="dropedFile"
+                multiple
+                drag-drop>
+                <section class="section">
+                    <div class="content has-text-centered">
+                        <p>
+                            <b-icon
+                                icon="upload"
+                                size="is-large">
+                            </b-icon>
+                        </p>
+                        <p>Carregar foto de perfil</p>
+                    </div>
+                </section>
+            </b-upload>
+        </b-field>
+
+        <div class="tags">
+            <span v-if="dropedFile"
+                class="tag is-primary" >
+                Apagar foto
+                <button class="delete is-small"
+                    type="button"
+                    @click="deleteDropFile">
+                </button>
+            </span>
+        </div>
+        <button class="button is-primary">Submeter</button>
+    </section>
+</template>
+                </div>
+                <div class="column is-two-thirds">
+                  <form>
+                    <div class="field">
+  <label class="label">Username</label>
+  <div class="control">
+    <input class="input" type="text" placeholder="Editar Username">
+  </div>
+</div>
+                    <div class="field">
+  <label class="label">Bio</label>
+  <div class="control">
+    <textarea class="textarea" placeholder="Editar bio..."></textarea>
+  </div>
+</div>
+                    <button class="button is-primary">Submeter</button>
+                  </form>
+                </div>
+              </div>
+            </b-tab-item>
           </b-tabs>
         </section>
       </template>
@@ -97,7 +152,8 @@ export default {
       questions: [],
       tags: [],
       error: false,
-      username: null
+      username: null,
+      dropedFile: null
     };
   },
   async mounted() {
@@ -110,6 +166,12 @@ export default {
     } catch (error) {
       this.error = error.response.data.error;
     }
+  },
+  methods: {
+    deleteDropFile() {
+      console.log(this.dropedFile.name)
+                this.dropedFile = null;
+            }
   },
   computed: {
     ...mapState(["user"])

@@ -15,6 +15,6 @@ const recentlyViewedSchema = new Schema({
     },
 });
 
-const RecentlyViewed = mongoose.model('Tag', recentlyViewedSchema);
+const RecentlyViewed = mongoose.model('RecentlyViewed', recentlyViewedSchema);
 
 module.exports = RecentlyViewed;

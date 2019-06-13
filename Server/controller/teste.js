@@ -59,10 +59,12 @@ class Teste {
 
         //If the user is already in the downvotes list, it removes from it and add to the upvotes
         if (req.body.voteType == "up") {
-            for (let i = 0; i < questionSchema.upVotes; i++) {
-                for (let j = 0; j < questionSchema.downVotes; j++) {
+            var  upvotes = questionSchema.upVotes
+            var  downvotes = questionSchema.upVotes
+            for (let i = 0; i < upvotes; i++) {
+                for (let j = 0; j < downvotes; j++) {
                     //verifica se está no upvotes
-                    if (req.body.username == questionSchema.upVotes[i]) {
+                    if (req.body.username == upvotes[i]) {
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
                                 "upVotes": req.body.username // retira user do upvotes
@@ -72,7 +74,7 @@ class Teste {
                         });
                     }
                     //verifica se esta no array downVote
-                    else if (req.body.username == questionSchema.downVotes[j]){
+                    else if (req.body.username == downvotes[j]){
                         voterType = "upVotes" //adiciona ao upvotes
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
@@ -88,21 +90,6 @@ class Teste {
                     }
                 }
             }
-
-            console.log("up")
-            voterType = "upVotes"
-            questionSchema.updateOne({ "_id": req.params.id }, {
-                $pull: {
-                    "downVotes": req.body.username
-                }
-            }, (error, result) => {
-                if (result.nModified > 0) {
-                    counterInc = 2;
-                }
-                else {
-                    counterInc = 1;
-                }
-            });
         }
 
         //If the user is already in the upvotes list, it removes from it and add to the downvotes

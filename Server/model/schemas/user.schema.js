@@ -71,7 +71,7 @@ const userSchema = new Schema({
     }],
     recentlyViewed: [{
         type: Schema.Types.ObjectId,
-        ref: "Question"
+        ref: "RecentlyViewed"
     }]
 
 });
