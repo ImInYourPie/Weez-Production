@@ -100,7 +100,7 @@ class QuestionController {
         if (req.body.voteType == "") {
             questionSchema.updateOne({ "_id": req.params.id }, {
                 $pull: {
-                    "downVotes": req.body.username //username in cookies
+                    "downVotes": req.body.username
                 }
             }, (err, result) => {
                 console.log("Entrou")

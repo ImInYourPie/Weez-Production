@@ -149,6 +149,10 @@ body {
   border-radius: 20%;
 }
 
+.card{
+  border-color: black !important;
+}
+
 .menu {
   position: fixed;
   overflow: hidden;
@@ -229,9 +233,20 @@ body {
   border: 1px solid red;
   opacity: 0.5;
 }
-
-#icon {
+  
+#btnUp {
   margin-right: 10px;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#btnDown {
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 #box {

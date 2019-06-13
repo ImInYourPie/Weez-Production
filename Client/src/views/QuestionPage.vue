@@ -6,8 +6,8 @@
         <div class="column is-2 is-hidden-mobile" id="menuCol">
           <Menu/>
         </div>
-        <div class="column is-10 has-margin-top-5">
-          <div class="column is-9">
+        <div class="column is-7 has-margin-top-5">
+          <div class="column is-12">
             <div class="columns">
               <div class="column is-10">
                 <!-- <h1 class="subtitle is-size-4">{{question.title}}</h1> -->
@@ -37,25 +37,25 @@
             </div>
             <div class="column is-4"></div>
             <div class="column is-6">
-              <i id="icon" class="fas fa-arrow-circle-up fa-2x" style="color:#ff303f"></i>
-              <i class="fas fa-arrow-circle-down fa-2x"></i>
+              <button class="button buttonIcon" id="btnUp">
+                <i class="fas fa-arrow-circle-up fa-2x" style="color:#ff303f"></i>
+              </button>
+              <button class="button buttonIcon" id="btnDown">
+                <i class="fas fa-arrow-circle-down fa-2x"></i>
+              </button>
             </div>
             <hr id="hr">
-            <b-input
-              v-if="token"
-              id="box"
-              type="textarea"
-              class="textarea has-margin-left-5"
-              placeholder="Escreve aqui o teu comentário..."
-            ></b-input>
-            <div class="control">
-              <textarea v-if="!token" class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
+            <div class="control" v-if="token">
+              <textarea class="textarea" placeholder="É nessesário fazer login para comentar"></textarea>
+            </div>
+            <div class="control" v-if="!token">
+              <textarea class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
             </div>
             <button v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
-            <router-link tag="button" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
+            <router-link tag="button" v-if="!token" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
           </div>
           <div class="columns has-margin-left-5">
-            <div class="column is-9">
+            <div class="column is-12">
               <div class="columns">
                 <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
                 <div class="column">
@@ -116,8 +116,14 @@
                 </div>
               </div>
             </div>
-            <div class="column is-4"></div>
+            <div class="column is-4">
+            </div>
           </div>
+        </div>
+        <div class="column is-3 right-column">
+          <WatchedTags class="is-hidden-mobile"/>
+          <WatchedQuestions class="is-hidden-mobile has-margin-top-5"/>
+          <RecentlyViewed class="is-hidden-mobile has-margin-top-5"/>
         </div>
       </div>
     </div>
@@ -126,118 +132,124 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-import Menu from "@/components/Menu.vue";
-import QuestionsService from "../services/QuestionsService";
-import { mapState } from "vuex";
+  // @ is an alias to /src
+  import Navbar from "@/components/Navbar.vue";
+  import Footer from "@/components/Footer.vue";
+  import Menu from "@/components/Menu.vue";
+  import WatchedTags from "@/components/WatchedTags.vue";
+  import WatchedQuestions from "@/components/WatchedQuestions.vue";
+  import RecentlyViewed from "@/components/RecentlyViewed.vue";
+  import QuestionsService from "../services/QuestionsService";
+  import { mapState } from "vuex";
 
-export default {
-  name: "question",
-  components: {
-    Navbar,
-    Footer,
-    Menu
-  },
-  data: function() {
-    return {
-      questionId: this.$route.params.questionId,
-      question: {},
-      user: {},
-      inputAnswer: "" // FOR ANSWER CREATION, USING V-MODEL
-    };
-  },
-  async mounted() {
-    const questionId = this.$route.params.questionId;
-    this.question = (await QuestionsService.getQuestionById(questionId)).data;
-    this.user = this.question.userId;
-  },
-  methods: {
-    // getQuestion() {
-    //   this.question = this.$store.getters.getQuestionById(this.questionId);
-    // },
-    // getAnswers() {
-    //   this.answers = this.$store.getters.getAnswersByQuestionId(
-    //     this.questionId
-    //   );
-    // },
-    // getAsker() {
-    //   this.asker = this.$store.getters.getUserById(this.question.userId);
-    // },
-    // // ADD ANSWER
-    // onCreateAnswer() {
-    //   let newData = {
-    //     newAnswer: {
-    //       id: this.generateUniqueId,
-    //       userId: this.$store.state.token.id,
-    //       comment: this.inputAnswer,
-    //       upvotes: 0,
-    //       downvotes: 0,
-    //       date: this.$store.getters.getTodaysDate
-    //     },
-    //     question: this.question
-    //   };
-    //   this.$store.dispatch("createAnswer", newData);
-    //   this.$toast.open({
-    //     message: "Resposta criada!",
-    //     type: "is-success"
-    //   });
-    // },
-    // // UPDATE UPVOTES && DOWNVOTES ON QUESTION
-    // addQuestionUpvote() {
-    //   let upvote = {
-    //     amount: 1,
-    //     question: this.question
-    //   };
-    //   this.$store.dispatch("updateQuestionUpvote", upvote);
-    // },
-    // addQuestionDownvote() {
-    //   let downvote = {
-    //     amount: 1,
-    //     question: this.question
-    //   };
-    //   this.$store.dispatch("updateQuestionDownvote", downvote);
-    // },
-    // // UPDATE UPVOTES && DOWNVOTES ON QUESTION
-    // // addAnswerUpvote(id) {
-    // //   let upvote = {
-    // //     amount: 1,
-    // //     answer:
-    // //   };
-    // //   this.$store.dispatch("updateQuestionUpvote", upvote);
-    // // },
-    // // addAnswerDownvote(id) {
-    // //   let downvote = {
-    // //     amount: 1,
-    // //     answer: this.answers
-    // //   };
-    // //   this.$store.dispatch("updateQuestionDownvote", downvote);
-    // // }
-    // generateUniqueId() {
-    //   function s4() {
-    //     return Math.floor((1 + Math.random()) * 0x10000)
-    //       .toString(16)
-    //       .substring(1);
-    //   }
-    //   return (
-    //     s4() +
-    //     s4() +
-    //     "-" +
-    //     s4() +
-    //     "-" +
-    //     s4() +
-    //     "-" +
-    //     s4() +
-    //     "-" +
-    //     s4() +
-    //     s4() +
-    //     s4()
-    //   );
-    // }
-  },
-  computed: {
-    ...mapState(["token"])
-  }
-};
+  export default {
+    name: "question",
+    components: {
+      Navbar,
+      Footer,
+      Menu,
+      WatchedTags,
+      WatchedQuestions,
+      RecentlyViewed
+    },
+    data: function() {
+      return {
+        questionId: this.$route.params.questionId,
+        question: {},
+        user: {},
+        inputAnswer: "" // FOR ANSWER CREATION, USING V-MODEL
+      };
+    },
+    async mounted() {
+      const questionId = this.$route.params.questionId;
+      this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      this.user = this.question.userId;
+    },
+    methods: {
+      // getQuestion() {
+      //   this.question = this.$store.getters.getQuestionById(this.questionId);
+      // },
+      // getAnswers() {
+      //   this.answers = this.$store.getters.getAnswersByQuestionId(
+      //     this.questionId
+      //   );
+      // },
+      // getAsker() {
+      //   this.asker = this.$store.getters.getUserById(this.question.userId);
+      // },
+      // // ADD ANSWER
+      // onCreateAnswer() {
+      //   let newData = {
+      //     newAnswer: {
+      //       id: this.generateUniqueId,
+      //       userId: this.$store.state.token.id,
+      //       comment: this.inputAnswer,
+      //       upvotes: 0,
+      //       downvotes: 0,
+      //       date: this.$store.getters.getTodaysDate
+      //     },
+      //     question: this.question
+      //   };
+      //   this.$store.dispatch("createAnswer", newData);
+      //   this.$toast.open({
+      //     message: "Resposta criada!",
+      //     type: "is-success"
+      //   });
+      // },
+      // // UPDATE UPVOTES && DOWNVOTES ON QUESTION
+      // addQuestionUpvote() {
+      //   let upvote = {
+      //     amount: 1,
+      //     question: this.question
+      //   };
+      //   this.$store.dispatch("updateQuestionUpvote", upvote);
+      // },
+      // addQuestionDownvote() {
+      //   let downvote = {
+      //     amount: 1,
+      //     question: this.question
+      //   };
+      //   this.$store.dispatch("updateQuestionDownvote", downvote);
+      // },
+      // // UPDATE UPVOTES && DOWNVOTES ON QUESTION
+      // // addAnswerUpvote(id) {
+      // //   let upvote = {
+      // //     amount: 1,
+      // //     answer:
+      // //   };
+      // //   this.$store.dispatch("updateQuestionUpvote", upvote);
+      // // },
+      // // addAnswerDownvote(id) {
+      // //   let downvote = {
+      // //     amount: 1,
+      // //     answer: this.answers
+      // //   };
+      // //   this.$store.dispatch("updateQuestionDownvote", downvote);
+      // // }
+      // generateUniqueId() {
+      //   function s4() {
+      //     return Math.floor((1 + Math.random()) * 0x10000)
+      //       .toString(16)
+      //       .substring(1);
+      //   }
+      //   return (
+      //     s4() +
+      //     s4() +
+      //     "-" +
+      //     s4() +
+      //     "-" +
+      //     s4() +
+      //     "-" +
+      //     s4() +
+      //     "-" +
+      //     s4() +
+      //     s4() +
+      //     s4()
+      //   );
+      // }
+    },
+    computed: {
+      ...mapState(["token"])
+    }
+  };
 </script>

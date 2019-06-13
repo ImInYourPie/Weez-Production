@@ -158,6 +158,8 @@
         </div>
         <div class="column is-3 right-column">
           <WatchedTags class="is-hidden-mobile"/>
+          <WatchedQuestions class="is-hidden-mobile has-margin-top-5"/>
+          <RecentlyViewed class="is-hidden-mobile has-margin-top-5"/>
         </div>
       </div>
     </div>
@@ -172,6 +174,8 @@ import Navbar from "@/components/Navbar.vue";
 import Menu from "@/components/Menu.vue";
 import Footer from "@/components/Footer.vue";
 import WatchedTags from "@/components/WatchedTags.vue";
+import WatchedQuestions from "@/components/WatchedQuestions.vue";
+import RecentlyViewed from "@/components/RecentlyViewed.vue";
 import { mapState } from "vuex";
 import UsersService from "../services/UsersService";
 import _ from "lodash";
@@ -182,7 +186,9 @@ export default {
     Navbar,
     Menu,
     Footer,
-    WatchedTags
+    WatchedTags,
+    WatchedQuestions,
+    RecentlyViewed
   },
 
   data: function() {

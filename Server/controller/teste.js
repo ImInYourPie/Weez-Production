@@ -1,59 +1,9 @@
-const Joi = require("@hapi/joi");
-const commentSchema = require('../model/schemas/comment.schema.js');
-const userSchema = require('../model/schemas/comment.schema.js');
-const QuestionController = require("../controller/question.controller.js");
-const UserController = require("../controller/user.controller.js");
+let questionSchema = require('../model/schemas/question.schema.js');
+let Tag = require('../model/schemas/tag.schema.js');
+let userSchema = require('../model/schemas/user.schema.js');
 
-class CommentController {
-
-    static createComment(req, res) {
-        //Get inputs
-        const { description } = req.body;
-        const userId = req.user._id
-        
-
-        var newComment = new commentSchema({
-            description: description,
-            userId: userId
-        });
-
-        newComment.save((err) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            else {
-                res.status(200).send({ success: "Comentário adicionado!" });
-            }
-        })
-    }
-
-
-    static getComments(req, res) {
-        // Get data
-        commentSchema.find().exec((err, comments) => {
-            res.status(200).send(comments);
-        })
-    }
-
-
-    static deleteComment(req, res) {
-        commentSchema.findByIdAndRemove({ _id: req.params.id }, (err, comment) => {
-            const response = {
-                message: "Comentário apagado!",
-            };
-
-            if (err) {
-                return res.status(500).send(err);
-            }
-            else {
-                return res.status(200).send(response);
-            }
-        });
-    }
-    
-    //Save vote type
-    static async voteComment(req, res) {
+class Teste {
+    static async voteQuestion(req, res) {
 
         var counterInc = 0;
         let voterType = null;
@@ -61,15 +11,16 @@ class CommentController {
         // voteType is the variable name in frontend
         //check if upvote/downvote is reversed 
         if (req.body.voteType == "") {
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
+            questionSchema.updateOne({ "_id": req.params.id }, {
                 $pull: {
-                    "downVotes": req.body.username //username in cookies
+                    "downVotes": req.body.username
                 }
             }, (err, result) => {
-                
+                console.log("Entrou")
+                console.log("modified " + result.nModified)
                 if (result.nModified > 0) {
                     counterInc = 1;
-                    commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
+                    questionSchema.findOneAndUpdate({ "_id": req.params.id }, {
                         $inc: { "voteCount": counterInc }
                     }, (err, votes) => {
                         if (err) {
@@ -79,18 +30,17 @@ class CommentController {
                             return res.status(200).send("Votou");
                         }
                     });
+                    console.log("Tirou down")
                 }
                 else {
-                    commentSchema.updateOne({ "_id": req.params.commentId }, {
+                    questionSchema.updateOne({ "_id": req.params.id }, {
                         $pull: {
                             "upVotes": req.body.username
                         }
                     }, (err, result) => {
-                        
                         if (result.nModified > 0) {
-                            
                             counterInc = -1;
-                            commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
+                            questionSchema.findOneAndUpdate({ "_id": req.params.id }, {
                                 $inc: { "voteCount": counterInc }
                             }, (err, votes) => {
                                 if (err) {
@@ -100,6 +50,7 @@ class CommentController {
                                     return res.status(200).send("Votou");
                                 }
                             });
+                            console.log("Tirou up")
                         }
                     });
                 }
@@ -108,13 +59,43 @@ class CommentController {
 
         //If the user is already in the downvotes list, it removes from it and add to the upvotes
         if (req.body.voteType == "up") {
+            for (let i = 0; i < questionSchema.upVotes; i++) {
+                for (let j = 0; j < questionSchema.downVotes; j++) {
+                    //verifica se está no upvotes
+                    if (req.body.username == questionSchema.upVotes[i]) {
+                        questionSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "upVotes": req.body.username // retira user do upvotes
+                            }
+                        }, (err, result) => {
+                            counterInc = -1; //tira 1 ponto
+                        });
+                    }
+                    //verifica se esta no array downVote
+                    else if (req.body.username == questionSchema.downVotes[j]){
+                        voterType = "upVotes" //adiciona ao upvotes
+                        questionSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "downVotes": req.body.username //retira user do downVotes
+                            }
+                        }, (err, result) => {
+                            counterInc = 2; //adiciona 2 pontos
+                        });
+                    }
+                    else {
+                        voterType = "upVotes";
+                        counterInc = 1; //Adiciona 1 ponto
+                    }
+                }
+            }
 
+            console.log("up")
             voterType = "upVotes"
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
+            questionSchema.updateOne({ "_id": req.params.id }, {
                 $pull: {
                     "downVotes": req.body.username
                 }
-            }, (err, result) => {
+            }, (error, result) => {
                 if (result.nModified > 0) {
                     counterInc = 2;
                 }
@@ -127,11 +108,11 @@ class CommentController {
         //If the user is already in the upvotes list, it removes from it and add to the downvotes
         if (req.body.voteType == "down") {
             voterType = "downVotes"
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
+            questionSchema.updateOne({ "_id": req.params.id }, {
                 $pull: {
                     "upVotes": req.body.username
                 }
-            }, (err, result) => {
+            }, (error, result) => {
                 if (result.nModified > 0) {
                     counterInc = -2;
                 }
@@ -143,15 +124,15 @@ class CommentController {
 
 
         if (req.body.voteType != "") {
-            
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
+            console.log("1: " + counterInc)
+            questionSchema.updateOne({ "_id": req.params.id }, {
                 $addToSet: {
                     [voterType]: req.body.username
                 }
             }, (err, result) => {
                 if (result.nModified > 0) {
-                    
-                    commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
+                    console.log("Entrou no modified")
+                    questionSchema.findOneAndUpdate({ "_id": req.params.id }, {
                         $inc: { "voteCount": counterInc }
                     }, (err, votes) => {
                         if (err) {
@@ -161,12 +142,13 @@ class CommentController {
                             return res.status(200).send("Votou");
                         }
                     });
+                    console.log("Counter inc: " + counterInc)
+
+
                 }
             });
         }
     }
 }
 
-
-
-module.exports = CommentController;
+module.exports = Teste

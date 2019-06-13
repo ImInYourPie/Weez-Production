@@ -151,7 +151,10 @@ class UserController {
     //         })
     //     }
     // }
-
+    
+    static async incrementUpvote(req, res, next){
+        
+    }
 
     static logout(req, res, next) {
         req.logout();
