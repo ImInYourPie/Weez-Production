@@ -18,9 +18,12 @@
               </div>
                
               <div class="column is-hidden-mobile is-2 has-text-right">
-                <div class= "subtitle" style="font-size:15px"><p>Criado por: Nome do Utilizador</p></div>
+                <div class= "subtitle" style="font-size:15px">
+                  <span>Perguntado por:&nbsp;</span>
+                      <router-link tag="a" class="is-size-6" :to="{name: 'profile', params: {username: question.userId.username} }">{{question.userId.username }}</router-link>
+                  </div>
                 <br>
-                <router-link :to="{name: 'ask-question'}" class="button is-primary">Perguntar</router-link>
+                <button class="button is-primary">Seguir pergunta</button>
               </div>
             </div>
             <div class="column is-4"></div>
