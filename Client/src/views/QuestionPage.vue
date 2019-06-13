@@ -46,12 +46,14 @@
             </div>
             <hr id="hr">
             <div class="control" v-if="token">
-              <textarea class="textarea" placeholder="É nessesário fazer login para comentar"></textarea>
+              <textarea class="textarea" placeholder="Escreve aqui uma resposta..."></textarea>
             </div>
-            <div class="control" v-if="!token">
+            <form @submit.prevent="addComment">
+              <div class="control" v-if="!token">
               <textarea class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
             </div>
-            <button v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
+            <button type="submit" v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
+            </form>
             <router-link tag="button" v-if="!token" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
           </div>
           <div class="columns has-margin-left-5">
