@@ -14,7 +14,7 @@
               <div class="question-viewed">
                 <router-link
                   tag="a"
-                  :to="{name: 'question-page', params: {questionId: view._id, questionTitle: view.title}}"
+                  :to="{name: 'question-page', params: {questionId: view.question._id, questionTitle: view.question.title}}"
                 >{{view.question.title}}</router-link>
               </div>
             </div>
