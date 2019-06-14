@@ -111,14 +111,14 @@
                         </p>
                       </div>
                     </div>
-                    <div class="level-item has-text-centered">
+                    <!-- <div class="level-item has-text-centered">
                       <div>
                         <p class="is-size-5">{{question.views.length}}</p>
                         <p>
                           <b-icon pack="fas" icon="eye" type="is-template"></b-icon>
                         </p>
                       </div>
-                    </div>
+                    </div> -->
                   </nav>
                 </div>
                 <div class="column is-10">

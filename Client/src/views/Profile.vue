@@ -2,6 +2,9 @@
   <div id="profilePage">
     <Navbar/>
     <div class="container has-margin-top-20">
+      <b-loading is-full-page :active.sync="loading" :can-cancel="false">
+        <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+      </b-loading>
       <div class="column is-12 has-text-centered" v-if="error">
         <h1 class="is-size-3 is-primary">{{error}}</h1>
       </div>
@@ -71,55 +74,49 @@
             >
               <div class="columns is-multiline">
                 <div class="column is-one-third">
-              <template>
-                  <section>
+                  <template>
+                    <section>
                       <b-field>
-                          <b-upload v-model="dropedFile"
-                          name="file"
-                              multiple
-                              drag-drop>
-                              <section class="section">
-                                  <div class="content has-text-centered">
-                                      <p>
-                                          <b-icon
-                                              icon="upload"
-                                              size="is-large">
-                                          </b-icon>
-                                      </p>
-                                      <p>Carregar foto de perfil</p>
-                                  </div>
-                              </section>
-                          </b-upload>
+                        <b-upload v-model="dropedFile" name="file"  drag-drop>
+                          <section class="section">
+                            <div class="content has-text-centered">
+                              <p>
+                                <b-icon icon="upload" size="is-large"></b-icon>
+                              </p>
+                              <p>Carregar foto de perfil</p>
+                            </div>
+                          </section>
+                        </b-upload>
                       </b-field>
 
                       <div class="tags">
-                          <span v-if="dropedFile"
-                              class="tag is-primary" >
-                              Apagar foto
-                              <button class="delete is-small"
-                                  type="button"
-                                  @click="deleteDropFile">
-                              </button>
-                          </span>
+                        <span v-if="dropedFile" class="tag is-primary">
+                          Apagar foto
+                          <button
+                            class="delete is-small"
+                            type="button"
+                            @click="deleteDropFile"
+                          ></button>
+                        </span>
                       </div>
                       <button @click.prevent="updatePic" class="button is-primary">Submeter</button>
-                  </section>
-              </template>
-                              </div>
-                              <div class="column is-two-thirds">
-                                <form>
-                                  <div class="field">
-                <label class="label">Username</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="Editar Username">
+                    </section>
+                  </template>
                 </div>
-              </div>
-                                  <div class="field">
-                <label class="label">Bio</label>
-                <div class="control">
-                  <textarea class="textarea" placeholder="Editar bio..."></textarea>
-                </div>
-              </div>
+                <div class="column is-two-thirds">
+                  <form>
+                    <div class="field">
+                      <label class="label">Username</label>
+                      <div class="control">
+                        <input class="input" type="text" placeholder="Editar Username">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Bio</label>
+                      <div class="control">
+                        <textarea class="textarea" placeholder="Editar bio..."></textarea>
+                      </div>
+                    </div>
                     <button class="button is-primary">Submeter</button>
                   </form>
                 </div>
@@ -153,8 +150,10 @@ export default {
       questions: [],
       tags: [],
       error: false,
+      loading: false,
       username: null,
-      dropedFile: null
+      dropedFile: null,
+      selectedFile: null
     };
   },
   async mounted() {
@@ -163,25 +162,29 @@ export default {
     try {
       const response = await ProfileService.getUserForProfile(username);
       this.profileUser = response.data;
-      this.username = this.user.username
+      this.username = this.user.username;
     } catch (error) {
       this.error = error.response.data.error;
     }
   },
   methods: {
     deleteDropFile() {
-      console.log(this.dropedFile.name)
-                this.dropedFile = null;
+      console.log(this.dropedFile.name);
+      this.dropedFile = null;
     },
-    async updatePic(){
-      try{
-        console.log(this.dropedFile)
+    async updatePic() {
+      try {
+        
+        const fd = new FormData();
+        fd.append("image", this.dropedFile, this.dropedFile.name);
+        console.log(fd);
         const username = this.$route.params.username;
-        await ProfileService.updatePic(username, this.dropedFile)
+        await ProfileService.updatePic(username, fd);
+        this.loading = false;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }    
+    }
   },
   computed: {
     ...mapState(["user"])
