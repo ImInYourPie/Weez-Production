@@ -29,7 +29,7 @@
                 </div>
                 <br>
                 <b-tooltip label="Seguir pergunta" position="is-left">
-                  <button class="button is-primary">
+                  <button @click.prevent="watchQuestion" class="button is-primary">
                     <b-icon pack="fas" icon="thumbtack"></b-icon>
                   </button>
                 </b-tooltip>
@@ -144,6 +144,7 @@
   import QuestionsService from "../services/QuestionsService";
   import RecentlyViewedService from "../services/RecentlyViewedService";
   import CommentsService from "../services/CommentsService";
+  import { WatchedQuestionsService } from "../services";
   import { mapState } from "vuex";
 
   export default {
@@ -167,7 +168,8 @@
     async mounted() {
       const questionId = this.$route.params.questionId;
       this.question = (await QuestionsService.getQuestionById(questionId)).data;
-      this.comments = (await CommentsService.getComments())
+      this.comments = (await CommentsService.getComments()).data;
+      this.isWatched = (await WatchedQuestionsService.findWatchedQuestion()).data;
       this.user = this.question.userId;
       
       if(this.token){
@@ -182,6 +184,12 @@
         const questionId = this.$route.params.questionId;
         await CommentsService.createComment(questionId, this.description);
         this.$router.go();
+      },
+
+      async watchQuestion(){
+        const questionId = this.$route.params.questionId;
+        await WatchedQuestionsService.postWatchedQuestion(questionId);
+        this.$router.go(); // DEVIA CONCERTAR ESTA TRETA COM WATCHERS NOS COMPONENTES DELES
       }
       
     },

@@ -10,8 +10,14 @@
         <div class="content">
           <p class="is-danger" v-if="!this.$store.state.token">Apenas para utilizadores registados</p>
           <div class="columns is-multiline" v-if="this.$store.state.token">
-            <div class="column is-one"></div>
-          </div>
+            <div class="column is-12" v-for="watched in watchedQuestions" :key="watched._id">
+              <div class="question-watched">
+                <router-link
+                  tag="a"
+                  :to="{name: 'question-page', params: {questionId: watched.question._id, questionTitle: watched.question.title}}"
+                >{{watched.question.title}}</router-link>
+              </div>
+            </div>
         </div>
       </div>
     </div>
@@ -20,9 +26,16 @@
 
 
 <script>
+import { WatchedQuestionsService } from "../services";
 export default {
   data() {
-    return {};
+    return {
+      watchedQuestions: null
+    };
+  },
+  async mounted(){
+    this.watchedQuestions = (await WatchedQuestionsService.getWatchedQuestions()).data;
+    console.log(this.watchedQuestions);
   },
   props: ["question"]
 };

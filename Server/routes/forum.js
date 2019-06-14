@@ -7,6 +7,7 @@ const TagsController = require("../controller/tags.controller");
 const CommentsPolicy = require("../policies/comments.policy");
 const UserController = require("../controller/user.controller")
 const RecentlyViewedController = require("../controller/recentlyViewed.controller")
+const WatchedQuestionController = require("../controller/watchedQuestion.controller")
 const isAuthenticated = require("../policies/isAuthenticated.policy")
 
 
@@ -20,7 +21,7 @@ router.post('/ask', TagsPolicy.addTag, QuestionController.createQuestion); // va
 
 router.delete("/question/:id/delete", QuestionController.deleteQuestion); // deletes question from db by id
 
-router.get("/question/:id", QuestionController.getQuestionById); // returns a question from db by id
+router.get("/question/:id", WatchedQuestionController.findWatchedQuestion, QuestionController.getQuestionById); // returns a question from db by id
 
 router.post("/question/:id/vote", QuestionController.voteQuestion);
 
@@ -40,6 +41,15 @@ router.post("/recently-viewed", isAuthenticated, RecentlyViewedController.postRe
 
 
 router.post("/question/:id", test.voteQuestion);
+
+router.get("/watched", isAuthenticated, WatchedQuestionController.returnWatchedQuestions);
+
+router.get("/question/:id/watched", isAuthenticated, WatchedQuestionController.findWatchedQuestion)
+
+router.post("/question/:id/watch", isAuthenticated, WatchedQuestionController.watchQuestion);
+
+router.delete("/question/:id/watch", isAuthenticated, WatchedQuestionController.deleteWatchedQuestion);
+
 
 // router.get("/searchQuestion", questionController.searchQuestion)
 
