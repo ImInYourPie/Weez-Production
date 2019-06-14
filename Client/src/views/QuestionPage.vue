@@ -29,8 +29,11 @@
                 </div>
                 <br>
                 <b-tooltip label="Seguir pergunta" position="is-left">
-                  <button @click.prevent="watchQuestion" class="button is-primary">
-                    <b-icon pack="fas" icon="thumbtack"></b-icon>
+                  <button v-if="token && !isWatched.length" @click.prevent="watchQuestion" class="button is-primary">
+                    <b-icon pack="fas" icon="eye"></b-icon>
+                  </button>
+                  <button v-if="token && isWatched.length" @click.prevent="deleteWatchedQuestion" class="button is-primary">
+                    <b-icon pack="fas" icon="eye-slash"></b-icon>
                   </button>
                 </b-tooltip>
               </div>
@@ -144,7 +147,7 @@
   import QuestionsService from "../services/QuestionsService";
   import RecentlyViewedService from "../services/RecentlyViewedService";
   import CommentsService from "../services/CommentsService";
-  import { WatchedQuestionsService } from "../services";
+  import WatchedQuestionsService  from "../services/WatchedQuestionsService";
   import { mapState } from "vuex";
 
   export default {
@@ -167,9 +170,12 @@
     },
     async mounted() {
       const questionId = this.$route.params.questionId;
-      this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      const result = (await QuestionsService.getQuestionById(questionId)).data;
+      console.log(result)
+      this.question = result.question;
+      this.isWatched = result.isWatched;
       this.comments = (await CommentsService.getComments()).data;
-      this.isWatched = (await WatchedQuestionsService.findWatchedQuestion()).data;
+      
       this.user = this.question.userId;
       
       if(this.token){

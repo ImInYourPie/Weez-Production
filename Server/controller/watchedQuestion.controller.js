@@ -10,7 +10,7 @@ class WatchedQuestionController {
     static async findWatchedQuestion(req, res, next){
         const questionId = req.body.questionId;
         const isWatched = await WatchedQuestion.find({question: questionId});
-        res.status(200).send(isWatched);
+        req.isWatched = isWatched;
         next();
     }
 
@@ -18,6 +18,7 @@ class WatchedQuestionController {
         try{
             const userId = req.user._id
             const {questionId} = req.body
+            console.log(questionId)
             let newWatched = new WatchedQuestion({
                 user: userId,
                 question: questionId

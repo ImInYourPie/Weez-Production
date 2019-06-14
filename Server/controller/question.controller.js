@@ -50,7 +50,7 @@ class QuestionController {
             const search = req.query.search;
             if (search) {
                 questions = await questionSchema
-                    .find().or([{ title: new RegExp(search, "i")}, {tags: new RegExp(search, "i")}])
+                    .find().or([{ title: new RegExp(search, "i") }, { tags: new RegExp(search, "i") }])
                     .populate("userId", "-email -password")
                     .lean();
             } else {
@@ -64,9 +64,10 @@ class QuestionController {
     }
 
     static async getQuestionById(req, res) {
+        const isWatched = req.isWatched;
         let result = await questionSchema.findById({ _id: req.params.id }).populate("comments").populate("userId").lean();
         if (!result) return res.status(404).send({ error: "Esta pergunta já não existe ou nunca existiu, pedimos desculpa" });
-        else return res.status(200).send(result);
+        else return res.status(200).send({ question: result, isWatched: isWatched });
     }
 
     static searchQuestion(req, res) {

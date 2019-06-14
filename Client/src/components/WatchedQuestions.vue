@@ -1,6 +1,6 @@
 <template>
   <div class="watched-questions">
-      <div class="card">
+    <div class="card">
       <header class="card-header">
         <p class="card-header-title">
           <b-icon pack="fas" icon="eye"></b-icon>&nbsp;Perguntas
@@ -18,6 +18,7 @@
                 >{{watched.question.title}}</router-link>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -26,14 +27,14 @@
 
 
 <script>
-import { WatchedQuestionsService } from "../services";
+import WatchedQuestionsService from "../services/WatchedQuestionsService";
 export default {
   data() {
     return {
       watchedQuestions: null
     };
   },
-  async mounted(){
+  async mounted() {
     this.watchedQuestions = (await WatchedQuestionsService.getWatchedQuestions()).data;
     console.log(this.watchedQuestions);
   },
