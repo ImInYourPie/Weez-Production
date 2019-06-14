@@ -11,7 +11,7 @@ passport.use(
         secretOrKey: "baconpancakes"
     }, async function (jwtPayload, done) {
         try {
-            console.log(jwtPayload)
+            // console.log(jwtPayload)
             const user = await User.findOne({ _id: jwtPayload._id })
             if (!user) {
                 return done(new Error(), false)

@@ -21,11 +21,11 @@ router.post('/ask', TagsPolicy.addTag, QuestionController.createQuestion); // va
 
 router.delete("/question/:id/delete", QuestionController.deleteQuestion); // deletes question from db by id
 
-router.get("/question/:id", WatchedQuestionController.findWatchedQuestion, QuestionController.getQuestionById); // returns a question from db by id
+router.get("/question/:id", QuestionController.getQuestionById); // returns a question from db by id
 
 router.post("/question/:id/vote", QuestionController.voteQuestion);
 
-router.post("/question/:id/comment", isAuthenticated, CommentsController.createComment); // validates new comment, then saves comment on db
+router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
 
 router.delete("/question/:id/comment/:commentId/delete", CommentsController.deleteComment); // deletes comment from db by id
 
@@ -39,16 +39,16 @@ router.get("/recently-viewed", isAuthenticated, RecentlyViewedController.getRece
 
 router.post("/recently-viewed", isAuthenticated, RecentlyViewedController.postRecentlyViewed)
 
-
-router.post("/question/:id", test.voteQuestion);
-
-router.get("/watched", isAuthenticated, WatchedQuestionController.returnWatchedQuestions);
-
 router.get("/question/:id/watched", isAuthenticated, WatchedQuestionController.findWatchedQuestion)
 
-router.post("/question/:id/watch", isAuthenticated, WatchedQuestionController.watchQuestion);
+router.post("/question/:id/watch", isAuthenticated, WatchedQuestionController.watchQuestion)
 
-router.delete("/question/:id/watch", isAuthenticated, WatchedQuestionController.deleteWatchedQuestion);
+router.delete("/question/:id/watch", isAuthenticated, WatchedQuestionController.deleteWatchedQuestion)
+
+
+// router.post("/question/:id", test.voteQuestion);
+
+// router.get("/searchQuestion", questionController.searchQuestion)
 
 
 // router.get("/searchQuestion", questionController.searchQuestion)

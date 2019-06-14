@@ -29,10 +29,20 @@
                 </div>
                 <br>
                 <b-tooltip label="Seguir pergunta" position="is-left">
-                  <button v-if="token && !isWatched.length" @click.prevent="watchQuestion" class="button is-primary">
+                  <button
+                    v-if="token && !isWatched"
+                    @click.prevent="watchQuestion"
+                    class="button is-primary"
+                  >
                     <b-icon pack="fas" icon="eye"></b-icon>
                   </button>
-                  <button v-if="token && isWatched.length" @click.prevent="deleteWatchedQuestion" class="button is-primary">
+                </b-tooltip>
+                <b-tooltip label="Não seguir pergunta" position="is-left">
+                  <button
+                    v-if="token && isWatched"
+                    @click.prevent="deleteWatchedQuestion"
+                    class="button is-primary"
+                  >
                     <b-icon pack="fas" icon="eye-slash"></b-icon>
                   </button>
                 </b-tooltip>
@@ -50,13 +60,30 @@
             <hr id="hr">
             <form @submit.prevent="createComment">
               <div class="control" v-if="token">
-                <textarea v-model="description" class="textarea" placeholder="Escreve aqui uma resposta..."></textarea>
+                <textarea
+                  v-model="description"
+                  class="textarea"
+                  placeholder="Escreve aqui uma resposta..."
+                ></textarea>
               </div>
-                <div class="control" v-if="!token">
-                <textarea class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
+              <div class="control" v-if="!token">
+                <textarea
+                  class="textarea"
+                  placeholder="É nessesário fazer login para comentar"
+                  disabled
+                ></textarea>
               </div>
-              <button type="submit" v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
-              <router-link tag="button" v-if="!token" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
+              <button
+                type="submit"
+                v-if="token"
+                class="button is-primary is-link has-margin-left-5 has-margin-top-5"
+              >Enviar</button>
+              <router-link
+                tag="button"
+                v-if="!token"
+                class="button is-primary"
+                :to="{ name: 'login' }"
+              >Login</router-link>
             </form>
           </div>
           <div class="columns has-margin-left-5">
@@ -121,8 +148,7 @@
                 </div>
               </div>
             </div>
-            <div class="column is-4">
-            </div>
+            <div class="column is-4"></div>
           </div>
         </div>
         <div class="column is-3 right-column">
@@ -137,70 +163,69 @@
 </template>
 
 <script>
-  // @ is an alias to /src
-  import Navbar from "@/components/Navbar.vue";
-  import Footer from "@/components/Footer.vue";
-  import Menu from "@/components/Menu.vue";
-  import WatchedTags from "@/components/WatchedTags.vue";
-  import WatchedQuestions from "@/components/WatchedQuestions.vue";
-  import RecentlyViewed from "@/components/RecentlyViewed.vue";
-  import QuestionsService from "../services/QuestionsService";
-  import RecentlyViewedService from "../services/RecentlyViewedService";
-  import CommentsService from "../services/CommentsService";
-  import WatchedQuestionsService  from "../services/WatchedQuestionsService";
-  import { mapState } from "vuex";
+// @ is an alias to /src
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
+import Menu from "@/components/Menu.vue";
+import WatchedTags from "@/components/WatchedTags.vue";
+import WatchedQuestions from "@/components/WatchedQuestions.vue";
+import RecentlyViewed from "@/components/RecentlyViewed.vue";
+import QuestionsService from "../services/QuestionsService";
+import RecentlyViewedService from "../services/RecentlyViewedService";
+import CommentsService from "../services/CommentsService";
+import WatchedQuestionsService from "../services/WatchedQuestionsService";
+import { mapState } from "vuex";
 
-  export default {
-    name: "question",
-    components: {
-      Navbar,
-      Footer,
-      Menu,
-      WatchedTags,
-      WatchedQuestions,
-      RecentlyViewed
-    },
-    data: function() {
-      return {
-        questionId: this.$route.params.questionId,
-        question: {},
-        user: {},
-        description: "" // FOR ANSWER CREATION, USING V-MODEL
-      };
-    },
-    async mounted() {
-      const questionId = this.$route.params.questionId;
-      const result = (await QuestionsService.getQuestionById(questionId)).data;
-      console.log(result)
-      this.question = result.question;
-      this.isWatched = result.isWatched;
-      this.comments = (await CommentsService.getComments()).data;
-      
-      this.user = this.question.userId;
-      
-      if(this.token){
-        RecentlyViewedService.postRecentlyViewed({
-          questionId: questionId
-        })
-      }
-      
-    },
-    methods: {
-      async createComment(){
-        const questionId = this.$route.params.questionId;
-        await CommentsService.createComment(questionId, this.description);
-        this.$router.go();
-      },
+export default {
+  name: "question",
+  components: {
+    Navbar,
+    Footer,
+    Menu,
+    WatchedTags,
+    WatchedQuestions,
+    RecentlyViewed
+  },
+  data: function() {
+    return {
+      questionId: this.$route.params.questionId,
+      question: null,
+      user: {},
+      isWatched: false,
+      comments: null,
+      description: "" // FOR ANSWER CREATION, USING V-MODEL
+    };
+  },
+  async mounted() {
+    const questionId = this.$route.params.questionId;
+    this.question = (await QuestionsService.getQuestionById(questionId)).data;
+    this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
+    this.user = this.question.userId;
 
-      async watchQuestion(){
-        const questionId = this.$route.params.questionId;
-        await WatchedQuestionsService.postWatchedQuestion(questionId);
-        this.$router.go(); // DEVIA CONCERTAR ESTA TRETA COM WATCHERS NOS COMPONENTES DELES
-      }
-      
-    },
-    computed: {
-      ...mapState(["token"])
+    if (this.token) {
+      RecentlyViewedService.postRecentlyViewed({
+        questionId: questionId
+      });
     }
-  };
+
+
+    
+  },
+  methods: {
+    async createComment() {
+      const questionId = this.$route.params.questionId;
+      await CommentsService.createComment(questionId, this.description);
+      this.$router.go();
+    },
+
+    async watchQuestion() {
+      const questionId = this.$route.params.questionId;
+      await WatchedQuestionsService.postWatchedQuestion(questionId);
+      this.$router.go(); // DEVIA CONCERTAR ESTA TRETA COM WATCHERS NOS COMPONENTES DELES
+    }
+  },
+  computed: {
+    ...mapState(["token"])
+  }
+};
 </script>

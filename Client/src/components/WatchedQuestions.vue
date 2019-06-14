@@ -35,7 +35,7 @@ export default {
     };
   },
   async mounted() {
-    this.watchedQuestions = (await WatchedQuestionsService.getWatchedQuestions()).data;
+    this.watchedQuestions = (await WatchedQuestionsService.getWatched()).data;
     console.log(this.watchedQuestions);
   },
   props: ["question"]

@@ -7,17 +7,21 @@ class RecentlyViewedController {
             console.log("sup")
             const userId = req.user._id
             const viewed = await RecentlyViewed.find({user: userId}).sort("-createdAt").limit(5).populate("question")
-            console.log(viewed)
+            
             res.status(200).send(viewed)
         } catch (error) {
             res.status(500).send({ error: "Ocorreu um erro a tentar receber as perguntas" })
         }
     }
     
-    static async postRecentlyViewed(req, res) {
+    static postRecentlyViewed(req, res) {
         try{
+            console.log("supsupsup")
+            console.log("supsupsup")
+            console.log("supsupsup")
             const userId = req.user._id
-            const {questionId} = req.body
+            const questionId = req.body.questionId
+
             let newViewed = new RecentlyViewed({
                 user: userId,
                 question: questionId
