@@ -45,16 +45,16 @@
               </button>
             </div>
             <hr id="hr">
-            <div class="control" v-if="token">
-              <textarea class="textarea" placeholder="Escreve aqui uma resposta..."></textarea>
-            </div>
-            <form @submit.prevent="addComment">
-              <div class="control" v-if="!token">
-              <textarea class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
-            </div>
-            <button type="submit" v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
+            <form @submit.prevent="createComment">
+              <div class="control" v-if="token">
+                <textarea v-model="description" class="textarea" placeholder="Escreve aqui uma resposta..."></textarea>
+              </div>
+                <div class="control" v-if="!token">
+                <textarea class="textarea" placeholder="É nessesário fazer login para comentar" disabled></textarea>
+              </div>
+              <button type="submit" v-if="token" class="button is-primary is-link has-margin-left-5 has-margin-top-5">Enviar</button>
+              <router-link tag="button" v-if="!token" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
             </form>
-            <router-link tag="button" v-if="!token" class="button is-primary" :to="{ name: 'login' }">Login</router-link>
           </div>
           <div class="columns has-margin-left-5">
             <div class="column is-12">
@@ -143,6 +143,7 @@
   import RecentlyViewed from "@/components/RecentlyViewed.vue";
   import QuestionsService from "../services/QuestionsService";
   import RecentlyViewedService from "../services/RecentlyViewedService";
+  import CommentsService from "../services/CommentsService";
   import { mapState } from "vuex";
 
   export default {
@@ -160,7 +161,7 @@
         questionId: this.$route.params.questionId,
         question: {},
         user: {},
-        inputAnswer: "" // FOR ANSWER CREATION, USING V-MODEL
+        description: "" // FOR ANSWER CREATION, USING V-MODEL
       };
     },
     async mounted() {
@@ -176,6 +177,11 @@
       
     },
     methods: {
+      async createComment(){
+        const questionId = this.$route.params.questionId;
+        await CommentsService.createComment(questionId, this.description);
+        this.$router.go();
+      }
       // getQuestion() {
       //   this.question = this.$store.getters.getQuestionById(this.questionId);
       // },

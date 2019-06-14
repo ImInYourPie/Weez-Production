@@ -64,40 +64,34 @@ class Teste {
                 var question = result[0];
 
                 for (var i = 0; i < question.upVotes.length; i++) {
-
+                    console.log(question)
+                    if (req.body.username == question.upVotes[i]) {
+                        questionSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "upVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            counterInc = -1;
+                        });
+                    }
+                    else if (i === question.upVotes.length - 1 && req.body.username != question.upVotes[i]) {
+                        voterType = "upVotes";
+                        counterInc = 1;
+                        console.log(counterInc + "huelelele")
+                    }
                 }
 
-                /*for (let i = 0; i < question.upVotes; i++) {
-                    for (let j = 0; j < question.downVotes; j++) {
-                        console.log(question.upVotes)
-                        //verifica se está no upvotes
-                        if (req.body.username == question.upVotes[i]) {
-                            questionSchema.updateOne({ "_id": req.params.id }, {
-                                $pull: {
-                                    "upVotes": req.body.username // retira user do upvotes
-                                }
-                            }, (err, result) => {
-                                counterInc = -1; //tira 1 ponto
-                            });
-                        }
-                        //verifica se esta no array downVote
-                        else if (req.body.username == question.downVotes[j]) {
-                            voterType = "upVotes" //adiciona ao upvotes
-                            questionSchema.updateOne({ "_id": req.params.id }, {
-                                $pull: {
-                                    "downVotes": req.body.username //retira user do downVotes
-                                }
-                            }, (err, result) => {
-                                counterInc = 2; //adiciona 2 pontos
-                            });
-                        }
-                        else {
-                            voterType = "upVotes";
-                            counterInc = 1; //Adiciona 1 ponto
-                        }
+                for (var i = 0; i < question.downVotes.length; i++) {
+                    if(req.body.username == question.downVotes[i]){
+                        questionSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "upVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            counterInc = 1;
+                        });
                     }
-                }*/
-
+                }
             })
         }
 
@@ -117,7 +111,6 @@ class Teste {
                 }
             });
         }
-
 
         if (req.body.voteType != "") {
             console.log("1: " + counterInc)

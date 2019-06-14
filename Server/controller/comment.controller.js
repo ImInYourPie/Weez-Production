@@ -8,13 +8,15 @@ class CommentController {
 
     static createComment(req, res) {
         //Get inputs
-        const { description } = req.body;
+        const description = req.body.description;
+        const { questionId } = req.params;
         const userId = req.user._id
         
 
         var newComment = new commentSchema({
             description: description,
-            userId: userId
+            user: userId,
+            question: questionId
         });
 
         newComment.save((err) => {
@@ -23,7 +25,7 @@ class CommentController {
                 return;
             }
             else {
-                res.status(200).send({ success: "Comentário adicionado!" });
+                res.status(201).send({ success: "Comentário adicionado!" });
             }
         })
     }
@@ -164,6 +166,14 @@ class CommentController {
                 }
             });
         }
+    }
+    
+    static async upvoteComment(req, res){
+        
+    }
+    
+    static async downvoteComment(req, res){
+        
     }
 }
 

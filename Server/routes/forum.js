@@ -24,7 +24,7 @@ router.get("/question/:id", QuestionController.getQuestionById); // returns a qu
 
 router.post("/question/:id/vote", QuestionController.voteQuestion);
 
-router.post("/question/:id/comment", [CommentsPolicy.comment, CommentsController.createComment]); // validates new comment, then saves comment on db
+router.post("/question/:id/comment", isAuthenticated, CommentsController.createComment); // validates new comment, then saves comment on db
 
 router.delete("/question/:id/comment/:commentId/delete", CommentsController.deleteComment); // deletes comment from db by id
 
