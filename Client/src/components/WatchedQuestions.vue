@@ -35,8 +35,9 @@ export default {
     };
   },
   async mounted() {
-    this.watchedQuestions = (await WatchedQuestionsService.getWatched()).data;
-    console.log(this.watchedQuestions);
+    if(this.$store.state.token){
+      this.watchedQuestions = (await WatchedQuestionsService.getWatched()).data;
+    }
   },
   props: ["question"]
 };

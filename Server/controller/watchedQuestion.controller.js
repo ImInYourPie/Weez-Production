@@ -4,12 +4,13 @@ class WatchedQuestionController {
 
     static async returnWatchedQuestions(req, res){
         const watchedQuestions = await WatchedQuestion.find({user: req.user._id}).populate("question");
+        console.log(watchedQuestions)
         res.status(200).send(watchedQuestions);
     }
 
     static async findWatchedQuestion(req, res){
         const userId = req.user._id;
-        const questionId = req.body.questionId;
+        const questionId = req.params.id;
         const isWatched = await WatchedQuestion.findOne({question: questionId, user: userId});
         res.status(200).send(isWatched)
     }

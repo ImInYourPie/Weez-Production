@@ -54,108 +54,63 @@ class CommentController {
         });
     }
     
-    //Save vote type
+    //Save vote
     static async voteComment(req, res) {
 
         var counterInc = 0;
-        let voterType = null;
+        var voterType = null;
+        var comment = null;
 
-        // voteType is the variable name in frontend
-        //check if upvote/downvote is reversed 
-        if (req.body.voteType == "") {
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
-                $pull: {
-                    "downVotes": req.body.username //username in cookies
+
+        commentSchema.find({ "_id": req.params.id }, (err, result) => {
+
+            //Receives up from frontend
+            if (req.body.voteType == "up") {
+                console.log(result[0].upVotes)
+                comment = result[0];
+
+                for (var i = 0; i <= comment.upVotes.length; i++) {
+                    console.log(comment)
+                    if (req.body.username == comment.upVotes[i]) {
+                        commentSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "upVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            console.log("Retirou username")
+                        });
+                    }
+                    else if ((i === comment.upVotes.length - 1) && (req.body.username != comment.upVotes[i])) {
+                        voterType = "upVotes";
+                        console.log("Adicionou username ao upVotes")
+                    }
+                    else if(comment.upVotes == ""){
+                        voterType = "upVotes";
+                        counterInc = -1;
+                        console.log("Adicionou username ao upVotes")
+                    }
                 }
-            }, (err, result) => {
-                
-                if (result.nModified > 0) {
-                    counterInc = 1;
-                    commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
-                        $inc: { "voteCount": counterInc }
-                    }, (err, votes) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        else {
-                            return res.status(200).send("Votou");
-                        }
-                    });
+
+                for (var i = 0; i < comment.downVotes.length; i++) {
+                    if (req.body.username == comment.downVotes[i]) {
+                        voterType = "upVotes";
+                        commentSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "downVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            counterInc = 2;
+                            console.log("Tirou do downVotes e pos no upVotes")
+                        });
+                    }
                 }
-                else {
-                    commentSchema.updateOne({ "_id": req.params.commentId }, {
-                        $pull: {
-                            "upVotes": req.body.username
+
+                if (req.body.voteType != "") {
+                    commentSchema.updateOne({ "_id": req.params.id }, {
+                        $addToSet: {
+                            [voterType]: req.body.username
                         }
                     }, (err, result) => {
-                        
-                        if (result.nModified > 0) {
-                            
-                            counterInc = -1;
-                            commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
-                                $inc: { "voteCount": counterInc }
-                            }, (err, votes) => {
-                                if (err) {
-                                    return res.status(500).send(err);
-                                }
-                                else {
-                                    return res.status(200).send("Votou");
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-
-        //If the user is already in the downvotes list, it removes from it and add to the upvotes
-        if (req.body.voteType == "up") {
-
-            voterType = "upVotes"
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
-                $pull: {
-                    "downVotes": req.body.username
-                }
-            }, (err, result) => {
-                if (result.nModified > 0) {
-                    counterInc = 2;
-                }
-                else {
-                    counterInc = 1;
-                }
-            });
-        }
-
-        //If the user is already in the upvotes list, it removes from it and add to the downvotes
-        if (req.body.voteType == "down") {
-            voterType = "downVotes"
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
-                $pull: {
-                    "upVotes": req.body.username
-                }
-            }, (err, result) => {
-                if (result.nModified > 0) {
-                    counterInc = -2;
-                }
-                else {
-                    counterInc = -1;
-                }
-            });
-        }
-
-
-        if (req.body.voteType != "") {
-            
-            commentSchema.updateOne({ "_id": req.params.commentId }, {
-                $addToSet: {
-                    [voterType]: req.body.username
-                }
-            }, (err, result) => {
-                if (result.nModified > 0) {
-                    
-                    commentSchema.findOneAndUpdate({ "_id": req.params.commentId }, {
-                        $inc: { "voteCount": counterInc }
-                    }, (err, votes) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
@@ -164,16 +119,65 @@ class CommentController {
                         }
                     });
                 }
-            });
-        }
-    }
-    
-    static async upvoteComment(req, res){
-        
-    }
-    
-    static async downvoteComment(req, res){
-        
+            }
+
+            //Receives down from frontend
+            else if (req.body.voteType == "down") {
+                console.log(result[0].downVotes)
+                comment = result[0];
+
+                for (var i = 0; i <= comment.downVotes.length; i++) {
+                    console.log(comment)
+                    if (req.body.username == comment.downVotes[i]) {
+                        commentSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "downVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            console.log("Retirou username")
+                        });
+                    }
+                    else if ((i === comment.downVotes.length - 1) && (req.body.username != comment.downVotes[i])) {
+                        voterType = "downVotes";
+                        console.log("Adicionou username ao downVotes")
+                    }
+                    else if(comment.downVotes == ""){
+                        voterType = "downVotes";
+                        counterInc = -1;
+                        console.log("Adicionou username ao downVotes")
+                    }
+                }
+
+                for (var i = 0; i < comment.upVotes.length; i++) {
+                    if (req.body.username == comment.upVotes[i]) {
+                        voterType = "downVotes";
+                        commentSchema.updateOne({ "_id": req.params.id }, {
+                            $pull: {
+                                "upVotes": req.body.username
+                            }
+                        }, (err, result) => {
+                            console.log("Tirou do upVotes e pos no downVotes")
+                        });
+                    }
+                }
+
+                if (req.body.voteType != "") {
+                    commentSchema.updateOne({ "_id": req.params.id }, {
+                        $addToSet: {
+                            [voterType]: req.body.username
+                        }
+                    }, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
+                        else {
+                            return res.status(200).send("Votou");
+                        }
+
+                    });
+                }
+            }
+        })
     }
 }
 

@@ -66,5 +66,6 @@ export default new Router({
       name: "forum",
       component: Forum
     }
+    
   ]
 })

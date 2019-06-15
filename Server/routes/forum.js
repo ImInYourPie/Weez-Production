@@ -33,17 +33,19 @@ router.post("/question/:id/comment/:commentId/vote", CommentsController.voteComm
 
 router.get('/users', UserController.returnUsers);
 
-router.get("/tags", TagsController.getTags)
+router.get("/tags", TagsController.getTags);
 
-router.get("/recently-viewed", isAuthenticated, RecentlyViewedController.getRecentlyViewed)
+router.get("/recently-viewed", isAuthenticated, RecentlyViewedController.getRecentlyViewed);
 
-router.post("/recently-viewed", isAuthenticated, RecentlyViewedController.postRecentlyViewed)
+router.post("/recently-viewed", isAuthenticated, RecentlyViewedController.postRecentlyViewed);
 
-router.get("/question/:id/watched", isAuthenticated, WatchedQuestionController.findWatchedQuestion)
+router.get("/question/:id/watched", isAuthenticated, WatchedQuestionController.findWatchedQuestion);
 
-router.post("/question/:id/watch", isAuthenticated, WatchedQuestionController.watchQuestion)
+router.post("/question/:id/watch", isAuthenticated, WatchedQuestionController.watchQuestion);
 
-router.delete("/question/:id/watch", isAuthenticated, WatchedQuestionController.deleteWatchedQuestion)
+router.delete("/question/:id/watch", isAuthenticated, WatchedQuestionController.deleteWatchedQuestion);
+
+router.get("/forum/watched", isAuthenticated, WatchedQuestionController.returnWatchedQuestions);
 
 
 // router.post("/question/:id", test.voteQuestion);

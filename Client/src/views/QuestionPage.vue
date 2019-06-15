@@ -10,7 +10,6 @@
           <div class="column is-12">
             <div class="columns">
               <div class="column is-10">
-                <!-- <h1 class="subtitle is-size-4">{{question.title}}</h1> -->
                 <h1 class="title is-size-4">{{question.title}}</h1>
 
                 <div class="column is-12">
@@ -51,10 +50,10 @@
             <div class="column is-4"></div>
             <div class="column is-6">
               <button class="button buttonIcon" id="btnUp">
-                <i class="fas fa-arrow-circle-up fa-2x" style="color:#ff303f"></i>
+                <i id="icon" class="fas fa-arrow-circle-up fa-2x" style="color:#ff303f"></i>
               </button>
               <button class="button buttonIcon" id="btnDown">
-                <i class="fas fa-arrow-circle-down fa-2x"></i>
+                <i id="icon" class="fas fa-arrow-circle-down fa-2x"></i>
               </button>
             </div>
             <hr id="hr">
@@ -199,10 +198,10 @@ export default {
   async mounted() {
     const questionId = this.$route.params.questionId;
     this.question = (await QuestionsService.getQuestionById(questionId)).data;
-    this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
     this.user = this.question.userId;
 
     if (this.token) {
+      this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
       RecentlyViewedService.postRecentlyViewed({
         questionId: questionId
       });
@@ -221,8 +220,20 @@ export default {
     async watchQuestion() {
       const questionId = this.$route.params.questionId;
       await WatchedQuestionsService.postWatchedQuestion(questionId);
-      this.$router.go(); // DEVIA CONCERTAR ESTA TRETA COM WATCHERS NOS COMPONENTES DELES
+      this.isWatched = true;
+    },
+    async deleteWatchedQuestion() {
+      const questionId = this.$route.params.questionId;
+      await WatchedQuestionsService.deleteWatchedQuestion(questionId);
+      this.isWatched = false;
+    },
+    async voteQuestionUp() {
+      const questionId = this.$route.params.questionId;
+    },
+    async voteQuestionDown() {
+      const questionId = this.$route.params.questionId;
     }
+    
   },
   computed: {
     ...mapState(["token"])

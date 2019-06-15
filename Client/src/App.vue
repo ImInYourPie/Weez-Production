@@ -249,6 +249,10 @@ body {
   border-radius: 50%;
 }
 
+#icon{
+  transform: translate(0%, -18%);
+}
+
 #box {
   -webkit-box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
 -moz-box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
