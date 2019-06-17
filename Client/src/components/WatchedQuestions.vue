@@ -14,6 +14,7 @@
               <div class="question-watched">
                 <router-link
                   tag="a"
+                  class="is-size-7"
                   :to="{name: 'question-page', params: {questionId: watched.question._id, questionTitle: watched.question.title}}"
                 >{{watched.question.title}}</router-link>
               </div>

@@ -88,6 +88,10 @@ $colors: (
   )
 );
 
+// Card
+$card-header-background-color: $primary;
+$card-header-color: $white;
+
 // Links
 $link: $primary;
 $link-invert: $primary-invert;
@@ -247,6 +251,10 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.pressed{
+  color: #ff303f;
 }
 
 #icon{

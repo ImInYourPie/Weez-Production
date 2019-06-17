@@ -43,7 +43,7 @@ class WatchedQuestionController {
         try{
 
             const userId = req.user._id
-            const {questionId} = req.body
+            const questionId = req.params.id
             await WatchedQuestion.findOneAndDelete({question: questionId, user: userId});
             res.status(200).send({message: "Deixou de seguir a pergunta"})
 

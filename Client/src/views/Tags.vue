@@ -69,7 +69,7 @@
             <div class="column is-3" v-for="tag in tags" :key="tag._id">
               <b-taglist attached size="is-medium">
                     <b-tag type="is-primary" size="is-medium">{{tag.name}}</b-tag>
-                    <b-tag type="is-template" size="is-medium"><a>Seguir</a></b-tag>
+                    <b-tag type="is-template" size="is-medium"><a></a></b-tag>
                     <!-- <b-tag type="is-template" size="is-medium" v-if="isWatched(tag)"><a>Não Seguir</a></b-tag> -->
                 </b-taglist>
             </div>

@@ -15,5 +15,20 @@ export default {
 
     createQuestion(question) {
         return api().post("forum/ask", question)
+    },
+    
+    returnQuestionByTitle(questionTitle) {
+        return api().post("forum/ask/wizard", {
+            title: questionTitle
+        });
+    },
+
+    upVoteQuestion(questionId) {
+        
+        return api().post(`forum/question/${questionId}/upVote`, { voteType: "up"})
+    },
+
+    downVoteQuestion(questionId) {
+        return api().post(`forum/question/${questionId}/downVote`, { voteType: "down" })
     }
 }

@@ -11,7 +11,7 @@
             <div class="columns">
               <div class="column is-10">
                 <h1 class="title is-size-4">{{question.title}}</h1>
-
+                <!--<h1 class="title is-size-4">{{question.title}}</h1>-->
                 <div class="column is-12">
                   <p>{{question.description}}</p>
                 </div>
@@ -22,6 +22,7 @@
                   <span>Perguntado por:&nbsp;</span>
                   <router-link
                     tag="a"
+                    v-model= "username"
                     class="is-size-6"
                     :to="{name: 'profile', params: {username: question.userId.username} }"
                   >{{question.userId.username }}</router-link>
@@ -49,13 +50,15 @@
             </div>
             <div class="column is-4"></div>
             <div class="column is-6">
-              <button class="button buttonIcon" id="btnUp">
-                <i id="icon" class="fas fa-arrow-circle-up fa-2x" style="color:#ff303f"></i>
+              <button  @click.prevent="upVoteQuestion" class="button" id="btnUp">
+                <i id="icon" 
+                class="fas fa-arrow-circle-up fa-2x"></i>{{question.upVotes.length}}
               </button>
-              <button class="button buttonIcon" id="btnDown">
+              <button @click.prevent="downVoteQuestion" class="button" id="btnDown" >
                 <i id="icon" class="fas fa-arrow-circle-down fa-2x"></i>
               </button>
             </div>
+            <!--<div> Total: {{question.upVotes.length - question.downVotes.length}}</div>-->
             <hr id="hr">
             <form @submit.prevent="createComment">
               <div class="control" v-if="token">
@@ -162,81 +165,81 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-import Menu from "@/components/Menu.vue";
-import WatchedTags from "@/components/WatchedTags.vue";
-import WatchedQuestions from "@/components/WatchedQuestions.vue";
-import RecentlyViewed from "@/components/RecentlyViewed.vue";
-import QuestionsService from "../services/QuestionsService";
-import RecentlyViewedService from "../services/RecentlyViewedService";
-import CommentsService from "../services/CommentsService";
-import WatchedQuestionsService from "../services/WatchedQuestionsService";
-import { mapState } from "vuex";
+  // @ is an alias to /src
+  import Navbar from "@/components/Navbar.vue";
+  import Footer from "@/components/Footer.vue";
+  import Menu from "@/components/Menu.vue";
+  import WatchedTags from "@/components/WatchedTags.vue";
+  import WatchedQuestions from "@/components/WatchedQuestions.vue";
+  import RecentlyViewed from "@/components/RecentlyViewed.vue";
+  import QuestionsService from "../services/QuestionsService";
+  import RecentlyViewedService from "../services/RecentlyViewedService";
+  import CommentsService from "../services/CommentsService";
+  import WatchedQuestionsService from "../services/WatchedQuestionsService";
+  import { mapState } from "vuex";
 
-export default {
-  name: "question",
-  components: {
-    Navbar,
-    Footer,
-    Menu,
-    WatchedTags,
-    WatchedQuestions,
-    RecentlyViewed
-  },
-  data: function() {
-    return {
-      questionId: this.$route.params.questionId,
-      question: null,
-      user: {},
-      isWatched: false,
-      comments: null,
-      description: "" // FOR ANSWER CREATION, USING V-MODEL
-    };
-  },
-  async mounted() {
-    const questionId = this.$route.params.questionId;
-    this.question = (await QuestionsService.getQuestionById(questionId)).data;
-    this.user = this.question.userId;
+  export default {
+    name: "question",
+    components: {
+      Navbar,
+      Footer,
+      Menu,
+      WatchedTags,
+      WatchedQuestions,
+      RecentlyViewed
+    },
+    data: function() {
+      return {
+        questionId: this.$route.params.questionId,
+        question: null,
+        user: {},
+        isWatched: false,
+        comments: null,
+        description: "" // FOR ANSWER CREATION, USING V-MODEL
+      };
+    },
+    async mounted() {
+      const questionId = this.$route.params.questionId;
+      this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      this.user = this.question.userId;
 
-    if (this.token) {
-      this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
-      RecentlyViewedService.postRecentlyViewed({
-        questionId: questionId
-      });
+      if (this.token) {
+        this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
+        RecentlyViewedService.postRecentlyViewed({
+          questionId: questionId
+        });
+      }
+
+    },
+    methods: {
+      async createComment() {
+        const questionId = this.$route.params.questionId;
+        await CommentsService.createComment(questionId, this.description);
+        this.$router.go();
+      },
+
+      async watchQuestion() {
+        const questionId = this.$route.params.questionId;
+        await WatchedQuestionsService.postWatchedQuestion(questionId);
+        this.isWatched = true;
+      },
+      async deleteWatchedQuestion() {
+        const questionId = this.$route.params.questionId;
+        await WatchedQuestionsService.deleteWatchedQuestion(questionId);
+        this.isWatched = false;
+      },
+      async upVoteQuestion() {
+        const questionId = this.$route.params.questionId;
+        await QuestionsService.upVoteQuestion(questionId);
+      },
+      async downVoteQuestion() {
+        const questionId = this.$route.params.questionId;
+        await QuestionsService.downVoteQuestion(questionId);
+      }
+
+    },
+    computed: {
+      ...mapState(["token", "user"])
     }
-
-
-    
-  },
-  methods: {
-    async createComment() {
-      const questionId = this.$route.params.questionId;
-      await CommentsService.createComment(questionId, this.description);
-      this.$router.go();
-    },
-
-    async watchQuestion() {
-      const questionId = this.$route.params.questionId;
-      await WatchedQuestionsService.postWatchedQuestion(questionId);
-      this.isWatched = true;
-    },
-    async deleteWatchedQuestion() {
-      const questionId = this.$route.params.questionId;
-      await WatchedQuestionsService.deleteWatchedQuestion(questionId);
-      this.isWatched = false;
-    },
-    async voteQuestionUp() {
-      const questionId = this.$route.params.questionId;
-    },
-    async voteQuestionDown() {
-      const questionId = this.$route.params.questionId;
-    }
-    
-  },
-  computed: {
-    ...mapState(["token"])
-  }
-};
+  };
 </script>

@@ -71,8 +71,13 @@ class QuestionController {
         else return res.status(200).send(result);
     }
 
-    static searchQuestion(req, res) {
-        const keyword = req.body.search;
+    static async returnByTitle(req, res) {
+        console.log(req.body.title)
+        const title = req.body.title;
+        let result = await questionSchema.find({ title: new RegExp(title, "i")}).populate("userId").lean();
+        if (result) return res.status(200).send(result);
+        else return res.status(404).send({message: "Não foram encontradas nenhumas perguntas"});
+        
     }
 
     static deleteQuestion(req, res) {
@@ -90,17 +95,17 @@ class QuestionController {
         });
     }
 
-
-    //Vote Question
-    static async voteQuestion(req, res) {
-
+    static async upVoteQuestion(req, res) {
+        
+        const userId = req.user._id;
+        
         var counterInc = 0;
         var voterType = null;
         var question = null;
 
+        console.log("upVotes")
 
         questionSchema.find({ "_id": req.params.id }, (err, result) => {
-
             //Receives up from frontend
             if (req.body.voteType == "up") {
                 console.log(result[0].upVotes)
@@ -108,16 +113,16 @@ class QuestionController {
 
                 for (var i = 0; i <= question.upVotes.length; i++) {
                     console.log(question)
-                    if (req.body.username == question.upVotes[i]) {
+                    if (userId == question.upVotes[i]) {
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
-                                "upVotes": req.body.username
+                                "upVotes": userId
                             }
                         }, (err, result) => {
                             console.log("Retirou username")
                         });
                     }
-                    else if ((i === question.upVotes.length - 1) && (req.body.username != question.upVotes[i])) {
+                    else if ((i === question.upVotes.length - 1) && (userId != question.upVotes[i])) {
                         voterType = "upVotes";
                         console.log("Adicionou username ao upVotes")
                     }
@@ -129,11 +134,11 @@ class QuestionController {
                 }
 
                 for (var i = 0; i < question.downVotes.length; i++) {
-                    if (req.body.username == question.downVotes[i]) {
+                    if (userId == question.downVotes[i]) {
                         voterType = "upVotes";
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
-                                "downVotes": req.body.username
+                                "downVotes": userId
                             }
                         }, (err, result) => {
                             counterInc = 2;
@@ -145,7 +150,7 @@ class QuestionController {
                 if (req.body.voteType != "") {
                     questionSchema.updateOne({ "_id": req.params.id }, {
                         $addToSet: {
-                            [voterType]: req.body.username
+                            [voterType]: userId
                         }
                     }, (err, result) => {
                         if (err) {
@@ -157,24 +162,39 @@ class QuestionController {
                     });
                 }
             }
+        })
+    }
+
+
+    //Vote Question
+    static async downVoteQuestion(req, res) {
+        
+        const userId = req.user._id;
+
+        var counterInc = 0;
+        var voterType = null;
+        var question = null;
+
+        console.log("downVotes")
+        questionSchema.find({ "_id": req.params.id }, (err, result) => {
 
             //Receives down from frontend
-            else if (req.body.voteType == "down") {
+            if (req.body.voteType == "down") {
                 console.log(result[0].downVotes)
                 question = result[0];
 
                 for (var i = 0; i <= question.downVotes.length; i++) {
                     console.log(question)
-                    if (req.body.username == question.downVotes[i]) {
+                    if (userId == question.downVotes[i]) {
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
-                                "downVotes": req.body.username
+                                "downVotes": userId
                             }
                         }, (err, result) => {
                             console.log("Retirou username")
                         });
                     }
-                    else if ((i === question.downVotes.length - 1) && (req.body.username != question.downVotes[i])) {
+                    else if ((i === question.downVotes.length - 1) && (userId != question.downVotes[i])) {
                         voterType = "downVotes";
                         console.log("Adicionou username ao downVotes")
                     }
@@ -186,11 +206,11 @@ class QuestionController {
                 }
 
                 for (var i = 0; i < question.upVotes.length; i++) {
-                    if (req.body.username == question.upVotes[i]) {
+                    if (userId == question.upVotes[i]) {
                         voterType = "downVotes";
                         questionSchema.updateOne({ "_id": req.params.id }, {
                             $pull: {
-                                "upVotes": req.body.username
+                                "upVotes": userId
                             }
                         }, (err, result) => {
                             console.log("Tirou do upVotes e pos no downVotes")
@@ -201,7 +221,7 @@ class QuestionController {
                 if (req.body.voteType != "") {
                     questionSchema.updateOne({ "_id": req.params.id }, {
                         $addToSet: {
-                            [voterType]: req.body.username
+                            [voterType]: userId
                         }
                     }, (err, result) => {
                         if (err) {
