@@ -16,7 +16,7 @@ router.get("/user/:username", UserController.returnUserProfile);
 
 router.put("/user/:username", UserController.editUser);
 
-router.post("/user/:username/profile-pic", isAuthenticated);
+router.put("/user/:username/profile-pic", isAuthenticated, UserController.editPic);
 
 
 module.exports = router;

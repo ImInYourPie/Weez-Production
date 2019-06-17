@@ -6,5 +6,11 @@ export default {
     },
     getComments (questionId) {
         return api().post(`/forum/question/${questionId}`)
+    },
+    upVoteComment(questionId, commentId){
+        return api().post(`/forum/question/${questionId}/comment/${commentId}/vote`, { voteType: "up"} )
+    },
+    downVoteComment(questionId, commentId){
+        return api().post(`/forum/question/${questionId}/comment/${commentId}/vote`, { voteType: "down"} )
     }
 }

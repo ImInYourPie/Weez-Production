@@ -33,9 +33,9 @@ router.post("/question/:id/comment", isAuthenticated, CommentsController.createC
 
 router.delete("/question/:id/comment/:commentId/delete", isAuthenticated, CommentsController.deleteComment); // deletes comment from db by id
 
-router.post("/question/:id/comment/:commentId/upVote", isAuthenticated, CommentsController.upVoteComment);
+router.post("/question/:id/comment/:commentId/vote", isAuthenticated, CommentsController.voteComment);
 
-router.post("/question/:id/comment/:commentId/downVote", isAuthenticated, CommentsController.downVoteComment);
+// router.post("/question/:id/comment/:commentId/downvote", isAuthenticated, CommentsController.downVoteComment);
 
 router.get('/users', UserController.returnUsers);
 

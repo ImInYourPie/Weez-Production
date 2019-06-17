@@ -56,7 +56,7 @@ class CommentController {
     }
 
 
-    static async upVoteComment(req, res) {
+    static async voteComment(req, res) {
         const userId = req.user._id;
         var counterInc = 0;
         var voterType = null;
@@ -72,7 +72,7 @@ class CommentController {
                 for (var i = 0; i <= comment.upVotes.length; i++) {
                     console.log(comment)
                     if (userId == comment.upVotes[i]) {
-                        commentSchema.updateOne({ "_id": req.params.id }, {
+                        commentSchema.updateOne({ "_id": req.params.commentId }, {
                             $pull: {
                                 "upVotes": userId
                             }
@@ -93,7 +93,7 @@ class CommentController {
                 for (var i = 0; i < comment.downVotes.length; i++) {
                     if (userId == comment.downVotes[i]) {
                         voterType = "upVotes";
-                        commentSchema.updateOne({ "_id": req.params.id }, {
+                        commentSchema.updateOne({ "_id": req.params.commentId }, {
                             $pull: {
                                 "downVotes": userId
                             }
@@ -105,7 +105,7 @@ class CommentController {
                 }
 
                 if (req.body.voteType != "") {
-                    commentSchema.updateOne({ "_id": req.params.id }, {
+                    commentSchema.updateOne({ "_id": req.params.commentId }, {
                         $addToSet: {
                             [voterType]: userId
                         }
@@ -128,6 +128,10 @@ class CommentController {
         var counterInc = 0;
         var voterType = null;
         var comment = null;
+        console.log("superino")
+        console.log("superino")
+        console.log(req.body.voteType)
+        console.log("superino")
 
         commentSchema.find({ "_id": req.params.commentId }, (err, result) => {
             //Receives down from frontend
@@ -138,7 +142,7 @@ class CommentController {
                 for (var i = 0; i <= comment.downVotes.length; i++) {
                     console.log(comment)
                     if (userId == comment.downVotes[i]) {
-                        commentSchema.updateOne({ "_id": req.params.id }, {
+                        commentSchema.updateOne({ "_id": req.params.commentId }, {
                             $pull: {
                                 "downVotes": userId
                             }
@@ -159,7 +163,7 @@ class CommentController {
                 for (var i = 0; i < comment.upVotes.length; i++) {
                     if (userId == comment.upVotes[i]) {
                         voterType = "downVotes";
-                        commentSchema.updateOne({ "_id": req.params.id }, {
+                        commentSchema.updateOne({ "_id": req.params.commentId }, {
                             $pull: {
                                 "upVotes": userId
                             }

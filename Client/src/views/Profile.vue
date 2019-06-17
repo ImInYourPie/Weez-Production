@@ -76,30 +76,15 @@
                 <div class="column is-one-third">
                   <template>
                     <section>
-                      <b-field>
-                        <b-upload v-model="dropedFile" name="file"  drag-drop>
-                          <section class="section">
-                            <div class="content has-text-centered">
-                              <p>
-                                <b-icon icon="upload" size="is-large"></b-icon>
-                              </p>
-                              <p>Carregar foto de perfil</p>
-                            </div>
-                          </section>
-                        </b-upload>
-                      </b-field>
-
-                      <div class="tags">
-                        <span v-if="dropedFile" class="tag is-primary">
-                          Apagar foto
-                          <button
-                            class="delete is-small"
-                            type="button"
-                            @click="deleteDropFile"
-                          ></button>
-                        </span>
+                      <form>
+                    <div class="field">
+                      <label class="label">Foto</label>
+                      <div class="control">
+                        <input class="input" v-model="photoUrl" type="url" placeholder="URL de foto">
                       </div>
-                      <button @click.prevent="updatePic" class="button is-primary">Submeter</button>
+                    </div>
+                    <button @click.prevent="updatePic" class="button is-primary">Submeter</button>
+                  </form>
                     </section>
                   </template>
                 </div>
@@ -153,7 +138,8 @@ export default {
       loading: false,
       username: null,
       dropedFile: null,
-      selectedFile: null
+      selectedFile: null,
+      photoUrl: ""
     };
   },
   async mounted() {
@@ -168,18 +154,12 @@ export default {
     }
   },
   methods: {
-    deleteDropFile() {
-      console.log(this.dropedFile.name);
-      this.dropedFile = null;
-    },
     async updatePic() {
       try {
-        
-        const fd = new FormData();
-        fd.append("image", this.dropedFile, this.dropedFile.name);
-        console.log(fd);
+        this.loading = true;
         const username = this.$route.params.username;
-        await ProfileService.updatePic(username, fd);
+        await ProfileService.updatePic(username, this.photoUrl);
+        this.user.profilePic = this.photoUrl;
         this.loading = false;
       } catch (error) {
         console.log(error);

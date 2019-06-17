@@ -9,6 +9,7 @@ import Profile from './views/Profile.vue'
 import AskQuestion from './views/AskQuestion.vue'
 import Ranking from './views/Ranking.vue'
 import QuestionPage from './views/QuestionPage.vue'
+import store from "./store"
 
 
 Vue.use(Router)
@@ -19,12 +20,26 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      beforeEnter: (to, from, next) => {
+        if(store.state.token){
+          next({path: '/forum' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      beforeEnter: (to, from, next) => {
+        if(store.state.token){
+          next({path: '/forum' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/forum/questions',

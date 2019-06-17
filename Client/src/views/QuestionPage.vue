@@ -99,32 +99,62 @@
                     <p class="is-size-5">Sé o primeiro a responder!</p>
                   </div>
                 <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
-                <div class="column is-full" v-for="comment in comments" :key="comment._id">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img
-                              :src="comment.user.profilePic"
-                              alt="Placeholder image"
-                            >
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">{{comment.user.username}}</p>
-                        </div>
-                      </div>
+                <div class="column is-full">
+                  <!--<div class="card">-->
+                  <!--  <div class="card-content">-->
+                  <!--    <div class="media">-->
+                  <!--      <div class="media-left">-->
+                  <!--        <figure class="image is-48x48">-->
+                  <!--          <img-->
+                  <!--            :src="comment.user.profilePic"-->
+                  <!--            alt="Placeholder image"-->
+                  <!--          >-->
+                  <!--        </figure>-->
+                  <!--      </div>-->
+                  <!--      <div class="media-content">-->
+                  <!--        <p class="title is-4">{{comment.user.username}}</p>-->
+                  <!--      </div>-->
+                  <!--    </div>-->
 
-                      <div class="content">
-                         {{comment.description}}
-                      </div>
-                    </div>
-                  </div>
+                  <!--    <div class="content">-->
+                  <!--       {{comment.description}}-->
+                  <!--    </div>-->
+                  <!--  </div>-->
+                  <!--</div>-->
+                  <article class="media" v-for="comment in comments" :key="comment._id">
+  <figure class="media-left">
+    <p class="image is-64x64">
+      <img :src="comment.user.profilePic">
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>{{comment.user.username}}</strong>&nbsp; <small> {{ comment.date | moment("calendar") }}</small>
+        <br>
+        {{comment.description}}
+       </p>
+    </div>
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <a class="level-item has-margin-right-10" @click.prevent="upVoteComment(comment._id)">
+          <span class="icon is-small"><i class="fas fa-arrow-circle-up"></i>&nbsp;{{comment.upVotes.length}}</span>
+        </a>
+        <a class="level-item has-margin-left-10" @click.prevent="downVoteComment(comment._id)">
+          <span class="icon is-small"><i class="fas fa-arrow-circle-down"></i>&nbsp;{{comment.downVotes.length}}</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+  <div class="media-right">
+    <!--<button class="delete"></button>-->
+  </div>
+</article>
                 </div>
+                
               </div>
             </div>
-            <div class="column is-4"></div>
+            <!--<div class="column is-4"></div>-->
           </div>
         </div>
         <div class="column is-3 right-column">
@@ -223,7 +253,19 @@
         await QuestionsService.downVoteQuestion(questionId);
         this.question = (await QuestionsService.getQuestionById(questionId)).data;
         this.comments = (await QuestionsService.getComments(questionId)).data;
-      }
+      },
+      async upVoteComment(commentId){
+        const questionId = this.$route.params.questionId;
+        await CommentsService.upVoteComment(questionId, commentId);
+        this.comments = (await QuestionsService.getComments(questionId)).data;
+      },
+       async downVoteComment(commentId){
+         this.loading = true;
+          const questionId = this.$route.params.questionId;
+          await CommentsService.downVoteComment(questionId, commentId);
+          this.comments = (await QuestionsService.getComments(questionId)).data;
+          this.loading = false;
+        }  
 
     },
     computed: {

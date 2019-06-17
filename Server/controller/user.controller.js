@@ -90,6 +90,14 @@ class UserController {
             }
         })
     }
+    
+    static async editPic(req, res){
+        const userId = req.user._id;
+        const url = req.body.url
+        console.log("ola")
+        await User.findOneAndUpdate({_id: userId}, {profilePic: url}, {new: true})
+        res.status(201).send({message: "Foto alterada com sucesso!"});
+    }
 
     static async getUserById(req, res) {
         let result = await User.findById({ _id: req.params.id }).lean();
