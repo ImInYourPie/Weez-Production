@@ -165,7 +165,7 @@
               >{{question.title}}</router-link>
             </div>
             <div class="column is-12">
-              <a v-for="tag in question.tags" :key="tag" class="has-margin-right-5">
+              <a @click.prevent="search = tag.name" v-for="tag in question.tags" :key="tag" class="has-margin-right-5">
                 <b-tag type="is-template">{{tag}}</b-tag>
               </a>
             </div>
@@ -217,7 +217,6 @@ import Footer from "@/components/Footer.vue";
 import WatchedTags from "@/components/WatchedTags.vue";
 import WatchedQuestions from "@/components/WatchedQuestions.vue";
 import RecentlyViewed from "@/components/RecentlyViewed.vue";
-// import axios from "axios";
 // import { mapState } from "vuex";
 import QuestionsService from "../services/QuestionsService";
 import _ from "lodash";

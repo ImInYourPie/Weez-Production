@@ -18,8 +18,8 @@ export default new Vuex.Store({
 
     user: null,
 
-    // USERS ARRAY
-    users: [],
+    // USERS ARRAY 
+    users: [], // FOR TESTING PURPOSES
 
     // NOTIFICATIONS ARRAY
     notifications: [],

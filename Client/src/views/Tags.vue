@@ -33,7 +33,13 @@
               <div class="level-item has-margin-left-10">
                 <div class="field">
                   <p class="control has-icons-right">
-                    <input class="input" v-model="search" type="text" placeholder="Procurar Tags..." style="min-width:300px;">
+                    <input
+                      class="input"
+                      v-model="search"
+                      type="text"
+                      placeholder="Procurar Tags..."
+                      style="min-width:300px;"
+                    >
                     <span class="icon is-small is-right">
                       <i class="fas fa-search"></i>
                     </span>
@@ -68,10 +74,16 @@
           <div class="columns is-multiline is-mobile">
             <div class="column is-3" v-for="tag in tags" :key="tag._id">
               <b-taglist attached size="is-medium">
-                    <b-tag type="is-primary" size="is-medium">{{tag.name}}</b-tag>
-                    <b-tag type="is-template" size="is-medium"><a></a></b-tag>
-                    <!-- <b-tag type="is-template" size="is-medium" v-if="isWatched(tag)"><a>Não Seguir</a></b-tag> -->
-                </b-taglist>
+                <a
+                  @click.prevent="searchByTag(tag.name)"
+                  type="is-primary"
+                  size="is-medium"
+                >{{tag.name}}</a>
+                <b-tag type="is-template" size="is-medium">
+                  <a></a>
+                </b-tag>
+                <!-- <b-tag type="is-template" size="is-medium" v-if="isWatched(tag)"><a>Não Seguir</a></b-tag> -->
+              </b-taglist>
             </div>
           </div>
           <br>
@@ -84,7 +96,7 @@
               rounded
               :per-page="perPage"
             ></b-pagination>
-          </section> -->
+          </section>-->
         </div>
         <div class="column is-3 right-column">
           <WatchedTags class="is-hidden-mobile"/>
@@ -138,7 +150,14 @@ export default {
   // },
 
   methods: {
-  
+    searchByTag(name) {
+      this.$router.push({
+        name: "forum",
+        query: {
+          search: name
+        }
+      });
+    }
   },
   watch: {
     search: _.debounce(async function(value) {
