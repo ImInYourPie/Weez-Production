@@ -8,9 +8,13 @@ export default {
             }
         })
     },
-
+    
     getQuestionById(questionId) {
         return api().get(`forum/question/${questionId}`)
+    },
+    
+    getComments(questionId) {
+        return api().get(`forum/question/${questionId}/comments`)
     },
 
     createQuestion(question) {

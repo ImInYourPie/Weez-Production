@@ -9,7 +9,7 @@ class CommentController {
     static createComment(req, res) {
         //Get inputs
         const description = req.body.description;
-        const { questionId } = req.params;
+        const questionId = req.params.id;
         const userId = req.user._id
 
 
@@ -31,11 +31,12 @@ class CommentController {
     }
 
 
-    static getComments(req, res) {
+    static async getComments(req, res) {
         // Get data
-        commentSchema.find().exec((err, comments) => {
-            res.status(200).send(comments);
-        })
+        let questionId = req.params.id;
+        let result = await commentSchema.find({question: questionId}).populate("user");
+        if(result) return res.status(200).send(result);
+        else return res.status(404).send({message: "Não existe comentários e eu tenho de mandar uma mensagem sh*t"})
     }
 
 

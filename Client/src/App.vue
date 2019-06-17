@@ -267,6 +267,14 @@ body {
 box-shadow: -1px 0px 10px 0px rgba(222,222,222,1);
 }
 
+.no-comments {
+  background-color: $primary !important;
+  color: $white !important;
+}
+
+$box-color: $white;
+$box-radius: none;
+
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

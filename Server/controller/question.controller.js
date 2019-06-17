@@ -128,7 +128,6 @@ class QuestionController {
                     }
                     else if (question.upVotes == "") {
                         voterType = "upVotes";
-                        counterInc = -1;
                         console.log("Adicionou username ao upVotes")
                     }
                 }
@@ -141,7 +140,6 @@ class QuestionController {
                                 "downVotes": userId
                             }
                         }, (err, result) => {
-                            counterInc = 2;
                             console.log("Tirou do downVotes e pos no upVotes")
                         });
                     }
@@ -200,7 +198,6 @@ class QuestionController {
                     }
                     else if (question.downVotes == "") {
                         voterType = "downVotes";
-                        counterInc = -1;
                         console.log("Adicionou username ao downVotes")
                     }
                 }

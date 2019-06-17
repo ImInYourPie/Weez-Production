@@ -1,4 +1,7 @@
+const path = require("path");
+
 const config = {
+    outputDir: path.resolve(__dirname, "../Server/public"),
     devServer: 
     {
         disableHostCheck: true,

@@ -17,7 +17,7 @@
                 </div>
               </div>
 
-              <div class="column is-hidden-mobile is-2 has-text-right">
+              <div class="column is-2 has-text-right">
                 <div class="subtitle" style="font-size:15px">
                   <span>Perguntado por:&nbsp;</span>
                   <router-link
@@ -50,13 +50,15 @@
             </div>
             <div class="column is-4"></div>
             <div class="column is-6">
-              <button  @click.prevent="upVoteQuestion" class="button" id="btnUp">
+              <button  @click.prevent="upVoteQuestion" class="button is-rounded" id="btnUp">
                 <i id="icon" 
-                class="fas fa-arrow-circle-up fa-2x"></i>{{question.upVotes.length}}
+                class="fas fa-arrow-circle-up fa-2x"></i>
               </button>
-              <button @click.prevent="downVoteQuestion" class="button" id="btnDown" >
+              <span class="has-margin-right-10 is-size-5">&nbsp;{{question.upVotes.length}}</span>
+              <button @click.prevent="downVoteQuestion" class="button is-rounded" id="btnDown" >
                 <i id="icon" class="fas fa-arrow-circle-down fa-2x"></i>
               </button>
+              <span class="is-size-5">&nbsp;{{question.downVotes.length}}</span>
             </div>
             <!--<div> Total: {{question.upVotes.length - question.downVotes.length}}</div>-->
             <hr id="hr">
@@ -67,6 +69,7 @@
                   class="textarea"
                   placeholder="Escreve aqui uma resposta..."
                 ></textarea>
+                <b-loading :is-full-page="isFullPage" :active.sync="loading" :can-cancel="false"></b-loading>
               </div>
               <div class="control" v-if="!token">
                 <textarea
@@ -88,62 +91,33 @@
               >Login</router-link>
             </form>
           </div>
+          <br>
           <div class="columns has-margin-left-5">
             <div class="column is-12">
-              <div class="columns">
-                <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
-                <div class="column">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img
-                              src="https://bulma.io/images/placeholders/96x96.png"
-                              alt="Placeholder image"
-                            >
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">Gajo Fixe</p>
-                          <p class="subtitle is-6">@SouDeGaia</p>
-                        </div>
-                      </div>
-
-                      <div class="content">
-                        Ah e tal isto é um comentário fixe e eu sou uma card feita com Bulma
-                        <a>@bulmaio</a>.
-                        <a href="#">#css</a>
-                        <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2019-6-6">11:09 PM - 6 June 2019</time>
-                      </div>
-                    </div>
+              <div class="columns is-multiline">
+                <div v-if="!comments.length" class="column is-full has-text-centered box no-comments">
+                    <p class="is-size-5">Sé o primeiro a responder!</p>
                   </div>
-                  <br>
+                <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
+                <div class="column is-full" v-for="comment in comments" :key="comment._id">
                   <div class="card">
                     <div class="card-content">
                       <div class="media">
                         <div class="media-left">
                           <figure class="image is-48x48">
                             <img
-                              src="https://bulma.io/images/placeholders/96x96.png"
+                              :src="comment.user.profilePic"
                               alt="Placeholder image"
                             >
                           </figure>
                         </div>
                         <div class="media-content">
-                          <p class="title is-4">Comentador Genérico</p>
-                          <p class="subtitle is-6">@CenasCoiso</p>
+                          <p class="title is-4">{{comment.user.username}}</p>
                         </div>
                       </div>
 
                       <div class="content">
-                        Olá eu juro que não sou um robô e gosto dessa pergunta mas não sei respondê-la
-                        <a>@iotech</a>.
-                        <a href="#">#Hashtag</a>
-                        <br>
-                        <time datetime="2019-6-6">11.24 PM - 8 June 2019</time>
+                         {{comment.description}}
                       </div>
                     </div>
                   </div>
@@ -160,6 +134,7 @@
         </div>
       </div>
     </div>
+    <br>
     <Footer/>
   </div>
 </template>
@@ -195,12 +170,15 @@
         user: {},
         isWatched: false,
         comments: null,
-        description: "" // FOR ANSWER CREATION, USING V-MODEL
+        description: "", // FOR ANSWER CREATION, USING V-MODEL
+        loading: false, 
+        isFullPage: false
       };
     },
     async mounted() {
       const questionId = this.$route.params.questionId;
       this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      this.comments = (await QuestionsService.getComments(questionId)).data;
       this.user = this.question.userId;
 
       if (this.token) {
@@ -213,9 +191,14 @@
     },
     methods: {
       async createComment() {
+        this.loading = true;
         const questionId = this.$route.params.questionId;
         await CommentsService.createComment(questionId, this.description);
-        this.$router.go();
+        this.description = "";
+        this.question = (await QuestionsService.getQuestionById(questionId)).data;
+        this.comments = (await QuestionsService.getComments(questionId)).data;
+        this.loading = false;
+        
       },
 
       async watchQuestion() {
@@ -231,10 +214,15 @@
       async upVoteQuestion() {
         const questionId = this.$route.params.questionId;
         await QuestionsService.upVoteQuestion(questionId);
+        this.question = (await QuestionsService.getQuestionById(questionId)).data;
+        this.comments = (await QuestionsService.getComments(questionId)).data;
+        
       },
       async downVoteQuestion() {
         const questionId = this.$route.params.questionId;
         await QuestionsService.downVoteQuestion(questionId);
+        this.question = (await QuestionsService.getQuestionById(questionId)).data;
+        this.comments = (await QuestionsService.getComments(questionId)).data;
       }
 
     },

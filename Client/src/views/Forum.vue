@@ -97,7 +97,7 @@
                   <nav class="level">
                     <div class="level-item has-text-centered">
                       <div>
-                        <p class="is-size-5">{{question.voteCount}}</p>
+                        <p class="is-size-5">{{question.upVotes.length - question.downVotes.length}}</p>
                         <p>
                           <b-icon icon="thumbs-up-down" type="is-template"></b-icon>
                         </p>
@@ -173,7 +173,7 @@
               <span class="is-size-7 is-template">Baked: {{ question.date | moment("calendar") }}</span>
               <span class="is-pulled-right">
                 <span class="is-size-6">
-                  {{question.voteCount}}
+                  {{question.upVotes.length - question.downVotes.length}}
                   <b-icon icon="thumbs-up-down" size="is-small" type="is-template"></b-icon>
                 </span>
                 &nbsp;
@@ -285,9 +285,9 @@ export default {
     },
     orderDownPopularity() {
       this.questions.sort(function(a, b) {
-        if (Date.parse(a.comments.length) < Date.parse(b.comments.length))
+        if (a.upVotes.length - a.downVotes.length < b.upVotes.length - b.downVotes.length)
           return 1;
-        if (Date.parse(a.comments.length) > Date.parse(b.comments.length))
+        if (a.upVotes.length - a.downVotes.length > b.upVotes.length - b.downVotes.length)
           return -1;
         else return 0;
       });
