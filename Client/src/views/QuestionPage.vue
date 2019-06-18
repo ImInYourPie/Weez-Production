@@ -22,7 +22,7 @@
                   <span>Perguntado por:&nbsp;</span>
                   <router-link
                     tag="a"
-                    v-model= "username"
+                    v-model="username"
                     class="is-size-6"
                     :to="{name: 'profile', params: {username: question.userId.username} }"
                   >{{question.userId.username }}</router-link>
@@ -50,12 +50,11 @@
             </div>
             <div class="column is-4"></div>
             <div class="column is-6">
-              <button  @click.prevent="upVoteQuestion" class="button is-rounded" id="btnUp">
-                <i id="icon" 
-                class="fas fa-arrow-circle-up fa-2x"></i>
+              <button @click.prevent="upVoteQuestion" class="button is-rounded" id="btnUp">
+                <i id="icon" class="fas fa-arrow-circle-up fa-2x"></i>
               </button>
               <span class="has-margin-right-10 is-size-5">&nbsp;{{question.upVotes.length}}</span>
-              <button @click.prevent="downVoteQuestion" class="button is-rounded" id="btnDown" >
+              <button @click.prevent="downVoteQuestion" class="button is-rounded" id="btnDown">
                 <i id="icon" class="fas fa-arrow-circle-down fa-2x"></i>
               </button>
               <span class="is-size-5">&nbsp;{{question.downVotes.length}}</span>
@@ -95,9 +94,12 @@
           <div class="columns has-margin-left-5">
             <div class="column is-12">
               <div class="columns is-multiline">
-                <div v-if="!comments.length" class="column is-full has-text-centered box no-comments">
-                    <p class="is-size-5">Sé o primeiro a responder!</p>
-                  </div>
+                <div
+                  v-if="!comments.length"
+                  class="column is-full has-text-centered box no-comments"
+                >
+                  <p class="is-size-5">Sé o primeiro a responder!</p>
+                </div>
                 <!-- <div class="column is-12"><p>{{question.description}}</p></div> -->
                 <div class="column is-full">
                   <!--<div class="card">-->
@@ -122,36 +124,48 @@
                   <!--  </div>-->
                   <!--</div>-->
                   <article class="media" v-for="comment in comments" :key="comment._id">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img :src="comment.user.profilePic">
-    </p>
-  </figure>
-  <div class="media-content">
-    <div class="content">
-      <p>
-        <strong>{{comment.user.username}}</strong>&nbsp; <small> {{ comment.date | moment("calendar") }}</small>
-        <br>
-        {{comment.description}}
-       </p>
-    </div>
-    <nav class="level is-mobile">
-      <div class="level-left">
-        <a class="level-item has-margin-right-10" @click.prevent="upVoteComment(comment._id)">
-          <span class="icon is-small"><i class="fas fa-arrow-circle-up"></i>&nbsp;{{comment.upVotes.length}}</span>
-        </a>
-        <a class="level-item has-margin-left-10" @click.prevent="downVoteComment(comment._id)">
-          <span class="icon is-small"><i class="fas fa-arrow-circle-down"></i>&nbsp;{{comment.downVotes.length}}</span>
-        </a>
-      </div>
-    </nav>
-  </div>
-  <div class="media-right">
-    <!--<button class="delete"></button>-->
-  </div>
-</article>
+                    <figure class="media-left">
+                      <p class="image is-64x64">
+                        <img :src="comment.user.profilePic">
+                      </p>
+                    </figure>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{{comment.user.username}}</strong>&nbsp;
+                          <small>{{ comment.date | moment("calendar") }}</small>
+                          <br>
+                          {{comment.description}}
+                        </p>
+                      </div>
+                      <nav class="level is-mobile">
+                        <div class="level-left">
+                          <a
+                            class="level-item has-margin-right-10"
+                            @click.prevent="upVoteComment(comment._id)"
+                          >
+                            <span class="icon is-small">
+                              <i class="fas fa-arrow-circle-up"></i>
+                              &nbsp;{{comment.upVotes.length}}
+                            </span>
+                          </a>
+                          <a
+                            class="level-item has-margin-left-10"
+                            @click.prevent="downVoteComment(comment._id)"
+                          >
+                            <span class="icon is-small">
+                              <i class="fas fa-arrow-circle-down"></i>
+                              &nbsp;{{comment.downVotes.length}}
+                            </span>
+                          </a>
+                        </div>
+                      </nav>
+                    </div>
+                    <div class="media-right">
+                      <!--<button class="delete"></button>-->
+                    </div>
+                  </article>
                 </div>
-                
               </div>
             </div>
             <!--<div class="column is-4"></div>-->
@@ -170,106 +184,104 @@
 </template>
 
 <script>
-  // @ is an alias to /src
-  import Navbar from "@/components/Navbar.vue";
-  import Footer from "@/components/Footer.vue";
-  import Menu from "@/components/Menu.vue";
-  import WatchedTags from "@/components/WatchedTags.vue";
-  import WatchedQuestions from "@/components/WatchedQuestions.vue";
-  import RecentlyViewed from "@/components/RecentlyViewed.vue";
-  import QuestionsService from "../services/QuestionsService";
-  import RecentlyViewedService from "../services/RecentlyViewedService";
-  import CommentsService from "../services/CommentsService";
-  import WatchedQuestionsService from "../services/WatchedQuestionsService";
-  import { mapState } from "vuex";
+// @ is an alias to /src
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
+import Menu from "@/components/Menu.vue";
+import WatchedTags from "@/components/WatchedTags.vue";
+import WatchedQuestions from "@/components/WatchedQuestions.vue";
+import RecentlyViewed from "@/components/RecentlyViewed.vue";
+import QuestionsService from "../services/QuestionsService";
+import RecentlyViewedService from "../services/RecentlyViewedService";
+import CommentsService from "../services/CommentsService";
+import WatchedQuestionsService from "../services/WatchedQuestionsService";
+import { mapState } from "vuex";
 
-  export default {
-    name: "question",
-    components: {
-      Navbar,
-      Footer,
-      Menu,
-      WatchedTags,
-      WatchedQuestions,
-      RecentlyViewed
-    },
-    data: function() {
-      return {
-        questionId: this.$route.params.questionId,
-        question: null,
-        user: {},
-        isWatched: false,
-        comments: null,
-        description: "", // FOR ANSWER CREATION, USING V-MODEL
-        loading: false, 
-        isFullPage: false
-      };
-    },
-    async mounted() {
+export default {
+  name: "question",
+  components: {
+    Navbar,
+    Footer,
+    Menu,
+    WatchedTags,
+    WatchedQuestions,
+    RecentlyViewed
+  },
+  data: function() {
+    return {
+      questionId: this.$route.params.questionId,
+      question: null,
+      user: {},
+      isWatched: false,
+      comments: null,
+      description: "", // FOR ANSWER CREATION, USING V-MODEL
+      loading: false,
+      isFullPage: false
+    };
+  },
+  async mounted() {
+    const questionId = this.$route.params.questionId;
+    this.question = (await QuestionsService.getQuestionById(questionId)).data;
+    this.comments = (await QuestionsService.getComments(questionId)).data;
+    this.user = this.question.userId;
+
+    if (this.token) {
+      this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(
+        questionId
+      )).data;
+      RecentlyViewedService.postRecentlyViewed({
+        questionId: questionId
+      });
+    }
+  },
+  methods: {
+    async createComment() {
+      this.loading = true;
       const questionId = this.$route.params.questionId;
+      await CommentsService.createComment(questionId, this.description);
+      this.description = "";
       this.question = (await QuestionsService.getQuestionById(questionId)).data;
       this.comments = (await QuestionsService.getComments(questionId)).data;
-      this.user = this.question.userId;
-
-      if (this.token) {
-        this.isWatched = (await WatchedQuestionsService.findWatchedQuestion(questionId)).data;
-        RecentlyViewedService.postRecentlyViewed({
-          questionId: questionId
-        });
-      }
-
+      this.loading = false;
     },
-    methods: {
-      async createComment() {
-        this.loading = true;
-        const questionId = this.$route.params.questionId;
-        await CommentsService.createComment(questionId, this.description);
-        this.description = "";
-        this.question = (await QuestionsService.getQuestionById(questionId)).data;
-        this.comments = (await QuestionsService.getComments(questionId)).data;
-        this.loading = false;
-        
-      },
 
-      async watchQuestion() {
-        const questionId = this.$route.params.questionId;
-        await WatchedQuestionsService.postWatchedQuestion(questionId);
-        this.isWatched = true;
-      },
-      async deleteWatchedQuestion() {
-        const questionId = this.$route.params.questionId;
-        await WatchedQuestionsService.deleteWatchedQuestion(questionId);
-        this.isWatched = false;
-      },
-      async upVoteQuestion() {
-        const questionId = this.$route.params.questionId;
-        await QuestionsService.upVoteQuestion(questionId);
-        this.question = (await QuestionsService.getQuestionById(questionId)).data;
-        this.comments = (await QuestionsService.getComments(questionId)).data;
-        
-      },
-      async downVoteQuestion() {
-        const questionId = this.$route.params.questionId;
-        await QuestionsService.downVoteQuestion(questionId);
-        this.question = (await QuestionsService.getQuestionById(questionId)).data;
-        this.comments = (await QuestionsService.getComments(questionId)).data;
-      },
-      async upVoteComment(commentId){
-        const questionId = this.$route.params.questionId;
-        await CommentsService.upVoteComment(questionId, commentId);
-        this.comments = (await QuestionsService.getComments(questionId)).data;
-      },
-       async downVoteComment(commentId){
-         this.loading = true;
-          const questionId = this.$route.params.questionId;
-          await CommentsService.downVoteComment(questionId, commentId);
-          this.comments = (await QuestionsService.getComments(questionId)).data;
-          this.loading = false;
-        }  
-
+    async watchQuestion() {
+      const questionId = this.$route.params.questionId;
+      await WatchedQuestionsService.postWatchedQuestion(questionId);
+      this.isWatched = true;
     },
-    computed: {
-      ...mapState(["token", "user"])
+    async deleteWatchedQuestion() {
+      const questionId = this.$route.params.questionId;
+      await WatchedQuestionsService.deleteWatchedQuestion(questionId);
+      this.isWatched = false;
+    },
+    async upVoteQuestion() {
+      const questionId = this.$route.params.questionId;
+      await QuestionsService.upVoteQuestion(questionId);
+      this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      this.comments = (await QuestionsService.getComments(questionId)).data;
+    },
+    async downVoteQuestion() {
+      const questionId = this.$route.params.questionId;
+      await QuestionsService.downVoteQuestion(questionId);
+      this.question = (await QuestionsService.getQuestionById(questionId)).data;
+      this.comments = (await QuestionsService.getComments(questionId)).data;
+    },
+    async upVoteComment(commentId) {
+      const questionId = this.$route.params.questionId;
+      await CommentsService.upVoteComment(questionId, commentId);
+      this.comments = (await QuestionsService.getComments(questionId)).data;
+    },
+    async downVoteComment(commentId) {
+      this.loading = true;
+      const questionId = this.$route.params.questionId;
+      await CommentsService.downVoteComment(questionId, commentId);
+      this.comments = (await QuestionsService.getComments(questionId)).data;
+      this.loading = false;
     }
-  };
+  },
+  computed: {
+    ...mapState(["token", "user"])
+  }
+};
 </script>
