@@ -3,11 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const expressValidator = require("express-validator");
 const flash = require('connect-flash');
-const session = require('express-session');
 const mongoose = require('mongoose');
 const cors = require("cors");
 const config = require("./config/database");
-require('dotenv').config();
+if(process.env.NODE_ENV !== "production") require('dotenv').config();
 
 mongoose.connect(config.database, { useNewUrlParser: true, useFindAndModify: false });
 
@@ -51,7 +50,7 @@ app.use("/profile", profile);
 app.use("/ranking", ranking);
 
 // Handle production build
-if(process.env.NODE_ENV === "production"){
+if (process.env.NODE_ENV === "production") {
     app.use(express.static(__dirname + '/public/'));
     app.get(/.*/, (req, res) => { res.sendFile(__dirname + '/public/index.html') });
 }
@@ -60,5 +59,5 @@ if(process.env.NODE_ENV === "production"){
 // PORT
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`https://weez-api-iminyourcode.c9users.io/`)
+    console.log(`Server listening on port ${port}`)
 });

@@ -135,9 +135,6 @@
       <p class="title is-2">The Podium</p>
       <Top/>
       <br>-->
-      <div>
-        <h1 v-for="user in users" :key="user._id">{{ user.username }}</h1>
-      </div>
     </div>
     <Footer/>
   </div>
