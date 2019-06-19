@@ -23,7 +23,6 @@ const questionSchema = new Schema({
     },
     tags: [{
         type: String,
-        required: true
     }],
     upVotes: [{
         type: String,

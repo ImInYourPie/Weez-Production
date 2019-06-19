@@ -9,7 +9,7 @@ class QuestionController {
         const title = req.body.title;
         const description = req.body.description;
         const tags = req.body.tags;
-        const userId = req.body.userId;
+        const userId = req.user._id;
 
         let errors = false
         console.log(tags)
@@ -26,7 +26,9 @@ class QuestionController {
                 userId: userId
 
             });
-
+            console.log("ola")
+            console.log("ola")
+            console.log("ola")
             for (let i = 0; i < tags.length; i++) {
                 newQuestion.tags.push(tags[i].name)
             }

@@ -15,7 +15,7 @@ router.get("/", QuestionController.getQuestions); // returns questions from db
 
 router.get("/ask", [TagsController.getTags, QuestionController.getQuestions]); // return tags and questions from db
 
-router.post('/ask', TagsPolicy.addTag, QuestionController.createQuestion); // validates new tags and saves them on db, then posts new question on db
+router.post('/ask', isAuthenticated, QuestionController.createQuestion); // validates new tags and saves them on db, then posts new question on db
 
 router.post("/ask/wizard", QuestionController.returnByTitle); // returns questions after searching by title
 
