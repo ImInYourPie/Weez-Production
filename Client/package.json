@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "buefy": "^0.7.1",
+    "buefy": "^0.7.2",
     "bulma-extensions": "^4.0.1",
     "bulma-helpers": "^0.3.8",
     "lodash": "^4.17.11",
